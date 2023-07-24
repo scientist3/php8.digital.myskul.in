@@ -1,0 +1,22 @@
+bg-black
+bg-gray-dark
+bg-gray
+bg-light
+-------------
+bg-indigo
+bg-navy
+bg-purple
+bg-fuchsia
+bg-pink
+bg-maroon
+bg-orange
+bg-lime
+bg-teal
+bg-olive
+bg--------------
+bg-primary / bg-blue
+bg-secondary
+bg-success / bg-green
+bg-info / bg-cyan
+bg-warning / bg-yellow
+bg-danger / bg-red

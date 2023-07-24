@@ -11,7 +11,8 @@
 		"source": "https://github.com/bcit-ci/CodeIgniter"
 	},
 	"require": {
-		"php": ">=5.3.7"
+		"php": ">=5.3.7",
+		"almasaeed2010/adminlte": "~3.2"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
@@ -29,7 +30,7 @@
 		]
 	},
 	"require-dev": {
-		"mikey179/vfsstream": "1.6.*",
+		// "mikey179/vfsstream": "1.6.*",
 		"phpunit/phpunit": "4.* || 5.* || 9.*"
 	}
 }
