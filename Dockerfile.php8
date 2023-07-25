@@ -1,5 +1,5 @@
 # Use the official PHP image with the desired PHP version
-FROM php:7.4-apache
+FROM php:8.0-apache
 
 # Set the working directory to /var/www/html
 WORKDIR /var/www/html
@@ -11,7 +11,7 @@ COPY . /var/www/html
 RUN docker-php-ext-install mysqli
 
 # Install Xdebug 2.x extension (compatible with PHP 7.x)
-RUN pecl install xdebug-2.9.8 \
+RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
 
 # Set Xdebug configuration options
