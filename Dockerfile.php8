@@ -5,10 +5,15 @@ FROM php:8.0-apache
 WORKDIR /var/www/html
 
 # Copy the CodeIgniter project files into the container
-COPY . /var/www/html
+# COPY . /var/www/html
 
-# Install required PHP extensions
-RUN docker-php-ext-install mysqli
+# Install necessary PHP extensions for PHP 8.x
+RUN docker-php-ext-install pdo pdo_mysql mysqli
+# Install nano text editor
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    nano \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Xdebug 2.x extension (compatible with PHP 7.x)
 RUN pecl install xdebug \
