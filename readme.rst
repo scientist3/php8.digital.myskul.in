@@ -38,7 +38,7 @@ issues, as well as missing features.
 ************
 Installation
 ************
-
+[ChatGptHelp](https://chat.openai.com/share/e187fc37-ff78-4f14-adf3-225af6b9d772)
 Please see the `installation section <https://codeigniter.com/userguide3/installation/index.html>`_
 of the CodeIgniter User Guide.
 
