@@ -40,6 +40,7 @@ Installation
 ************
 [ChatGptHelp](https://chat.openai.com/share/e187fc37-ff78-4f14-adf3-225af6b9d772)
 Just run these two commands 
+0) docker-compose down
 1) docker-compose build
 2) docker-compose up -d
 
@@ -54,6 +55,14 @@ docker tag php8_image scientist33/php8_image:latest
 
 docker push scientist33/php7_image:latest
 docker push scientist33/php8_image:latest
+
+
+.. docker build -t my_nginx_reverse_proxy -f Dockerfile.nginx .
+.. docker run -d -p 80:80 --name my_nginx_proxy my_nginx_reverse_proxy
+.. docker rm my_nginx_proxy
+
+.. docker run -d -p 80:80 --name my_nginx_proxy my_nginx_reverse_proxy
+.. docker rename my_nginx_proxy new_name
 
 Please see the `installation section <https://codeigniter.com/userguide3/installation/index.html>`_
 of the CodeIgniter User Guide.
