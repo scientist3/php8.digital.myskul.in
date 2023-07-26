@@ -1,0 +1,4 @@
+# Settings apply across all Linux distros running on WSL 2
+[wsl2]
+memory=2GB 
+processors=1
