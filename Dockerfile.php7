@@ -5,7 +5,11 @@ FROM php:7.4-apache
 WORKDIR /var/www/html
 
 # Copy the CodeIgniter project files into the container
-# COPY . /var/www/html
+COPY . /var/www/html
+
+# Create sessions directory and set permissions
+# Create the sessions directory if it doesn't exist
+RUN if [ ! -d "/var/www/html/application/sessions" ]; then mkdir -m 0777 /var/www/html/application/sessions; fi
 
 # Install necessary PHP extensions for PHP 7.x
 RUN docker-php-ext-install pdo pdo_mysql mysqli

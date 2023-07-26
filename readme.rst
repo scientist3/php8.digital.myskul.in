@@ -43,6 +43,9 @@ Just run these two commands
 0) docker-compose down
 1) docker-compose build
 2) docker-compose up -d
+docker-compose down
+docker-compose build
+docker-compose up -d
 
 docker exec -it 3cb97b4c9d7e17135a4ee144c4b9e0ebd1e6a3bf80587b177acce0103e526996 ls -ld /var/www/html/application/sessions
 
