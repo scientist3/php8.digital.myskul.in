@@ -10,6 +10,8 @@ COPY . /var/www/html
 # Create the sessions directory if it doesn't exist
 RUN if [ ! -d "/var/www/html/application/sessions" ]; then mkdir -m 0777 /var/www/html/application/sessions; fi
 
+RUN chown -R www-data:www-data /var/www \
+    && chmod 755 /var/www
 # Install necessary PHP extensions for PHP 8.x
 RUN docker-php-ext-install pdo pdo_mysql mysqli
 # Install nano text editor

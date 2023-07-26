@@ -4,12 +4,19 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.php7
+    env_file: .env
     container_name: php7_app
     ports:
       - "8080:80"
+    environment:
+      XDEBUG_MODE: "develop, debug, profile"
+      XDEBUG_CONFIG: client_host=host.docker.internal
     volumes:
-      - ./:/var/www/html
+      # - ./:/var/www/html
       - my_session_data:/var/www/html/application/sessions
+      - C:\php8.digital.myskul.in:/var/www/html/php8.digital.myskul.in
+      - ./custom_apache.conf:/etc/apache2/sites-available/000-default.conf
+      - ./php.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     networks:
       - my_network
 
@@ -17,12 +24,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.php8
+    env_file: .env
     container_name: php8_app
     ports:
       - "8081:80"
     volumes:
-      - ./:/var/www/html   # Mount your codebase into the container
+      # - ./:/var/www/html   # Mount your codebase into the container
       - my_session_data:/var/www/html/application/sessions
+      - C:\php8.digital.myskul.in:/var/www/html/php8.digital.myskul.in
+      - ./custom_apache.conf:/etc/apache2/sites-available/000-default.conf
     networks:
       - my_network
 
