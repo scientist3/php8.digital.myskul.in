@@ -43,6 +43,11 @@ Just run these two commands
 1) docker-compose build
 2) docker-compose up -d
 
+docker exec -it 3cb97b4c9d7e17135a4ee144c4b9e0ebd1e6a3bf80587b177acce0103e526996 ls -ld /var/www/html/application/sessions
+
+docker exec -it 3cb97b4c9d7e17135a4ee144c4b9e0ebd1e6a3bf80587b177acce0103e526996 chown www-data:www-data /var/www/html/application/sessions
+
+docker exec -it 3cb97b4c9d7e17135a4ee144c4b9e0ebd1e6a3bf80587b177acce0103e526996 chmod 755 /var/www/html/application/sessions
 
 docker tag php7_image scientist33/php7_image:latest
 docker tag php8_image scientist33/php8_image:latest
