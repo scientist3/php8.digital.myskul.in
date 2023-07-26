@@ -9,6 +9,7 @@ services:
       - "8080:80"
     volumes:
       - ./:/var/www/html
+      - my_session_data:/var/www/html/application/sessions
     networks:
       - my_network
 
@@ -21,6 +22,7 @@ services:
       - "8081:80"
     volumes:
       - ./:/var/www/html   # Mount your codebase into the container
+      - my_session_data:/var/www/html/application/sessions
     networks:
       - my_network
 
@@ -39,3 +41,5 @@ services:
 
 networks:
   my_network:
+volumes:
+  my_session_data:  # Define the Docker volume for session data
