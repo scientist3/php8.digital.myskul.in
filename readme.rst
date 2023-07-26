@@ -42,6 +42,14 @@ Installation
 Just run these two commands 
 1) docker-compose build
 2) docker-compose up -d
+
+
+docker tag php7_image scientist33/php7_image:latest
+docker tag php8_image scientist33/php8_image:latest
+
+docker push scientist33/php7_image:latest
+docker push scientist33/php8_image:latest
+
 Please see the `installation section <https://codeigniter.com/userguide3/installation/index.html>`_
 of the CodeIgniter User Guide.
 
