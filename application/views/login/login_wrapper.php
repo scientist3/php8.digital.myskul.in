@@ -15,6 +15,7 @@ $settings = $this->db->select("*,site_align")
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
 	<title>
+		<?php echo phpversion(); ?>:
 		<?= display('login') ?> -
 		<?php echo (!empty($title) ? $title : null) ?>
 	</title>
@@ -38,7 +39,7 @@ $settings = $this->db->select("*,site_align")
 	<!-- /.login-box -->
 	<div class="login-box">
 		<div class="login-logo">
-			<a href="<?php echo base_url(); ?>"><?php echo phpversion(); ?>: <b>REP</b>V2</a>
+			<a href="<?php echo base_url(); ?>"><b>REP</b>V2</a>
 		</div>
 		<!-- /.login-logo -->
 		<div class="card">
