@@ -15,7 +15,7 @@ services:
     volumes:
       # - ./:/var/www/html
       - digital_myskul_in_session_data:/var/www/html/application/sessions
-      - C:\php8.digital.myskul.in:/var/www/html/php8.digital.myskul.in
+      # - C:\php8.digital.myskul.in:/var/www/html/php8.digital.myskul.in
       - C:\xampp8\htdocs\php8.digital.myskul.in:/var/www/html/php8.digital.myskul.in
       - ./custom_apache.conf:/etc/apache2/sites-available/000-default.conf
       - ./php.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
@@ -26,7 +26,7 @@ services:
     # build:
     #   context: .
     #   dockerfile: Dockerfile.php8
-    image: scientist33/digital_myskul_in_php_7  # Use the PHP 7 image from Docker Hub
+    image: scientist33/digital_myskul_in_php_8  # Use the PHP 7 image from Docker Hub
     env_file: .env
     container_name: digital_myskul_in_8
     ports:
@@ -34,7 +34,7 @@ services:
     volumes:
       # - ./:/var/www/html   # Mount your codebase into the container
       - digital_myskul_in_session_data:/var/www/html/application/sessions
-      - C:\php8.digital.myskul.in:/var/www/html/php8.digital.myskul.in
+      # - C:\php8.digital.myskul.in:/var/www/html/php8.digital.myskul.in
       - C:\xampp8\htdocs\php8.digital.myskul.in:/var/www/html/php8.digital.myskul.in
       - ./custom_apache.conf:/etc/apache2/sites-available/000-default.conf
     networks:
