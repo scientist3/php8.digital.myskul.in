@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile.php7
     env_file: .env
-    container_name: php7_app
+    container_name: digital_myskul_in_7
     ports:
       - "8080:80"
     environment:
@@ -25,7 +25,7 @@ services:
       context: .
       dockerfile: Dockerfile.php8
     env_file: .env
-    container_name: php8_app
+    container_name: digital_myskul_in_8
     ports:
       - "8081:80"
     volumes:

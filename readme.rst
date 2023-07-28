@@ -40,6 +40,11 @@ Installation
 ************
 [ChatGptHelp](https://chat.openai.com/share/e187fc37-ff78-4f14-adf3-225af6b9d772)
 Just run these two commands 
+Pull Images and run this instead of below commands
+docker run -d --name digital_myskul_in_7 -p 8080:80 scientist33/digital_myskul_in_php_7
+docker run -d --name digital_myskul_in_8 -p 8081:80 scientist33/digital_myskul_in_php_8
+
+
 0) docker-compose down
 1) docker-compose build
 2) docker-compose up -d
