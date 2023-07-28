@@ -97,6 +97,26 @@ if (!function_exists('getDistrictListAsArray')) {
 		return $district_list;
 	}
 }
+
+/**
+ * Helper function to check if a given variable is an array with a certain length.
+ *
+ * @param mixed $arrmixValues The variable to check.
+ * @param int $intCount The expected length of the array.
+ * @param bool $boolCheckForEquality If true, the array length must be exactly equal to $intCount.
+ * @return bool Returns true if the variable is an array with the expected length, false otherwise.
+ */
+if (!function_exists('valArr')) {
+	function valArr($arrmixValues, $intCount = 1, $boolCheckForEquality = false)
+	{
+		$boolIsValid = (is_array($arrmixValues) && $intCount <= count($arrmixValues)) ? true : false;
+		if ($boolCheckForEquality && $boolIsValid) {
+			$boolIsValid = ($intCount == count($arrmixValues)) ? true : false;
+		}
+
+		return $boolIsValid;
+	}
+}
 // $autoload['helper'] =  array('language_helper');
 
 /*display a language*/

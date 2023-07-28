@@ -1,11 +1,12 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
+require(APPPATH . 'controllers/OrganisationController.php');
 
-class Userlog extends CI_Controller
+class Userlog extends OrganisationController
 {
 	private $user_id;
-	private $objUserService;
-	private $data;
+	// private $objUserService;
+	// protected $data;
 
 
 	public function __construct()

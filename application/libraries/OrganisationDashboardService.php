@@ -1,7 +1,7 @@
 
 <?php
 
-class OrgnisatonDashboardService
+class OrganisationDashboardService
 {
 	private $CI; // CodeIgniter instance
 	private $user_id;

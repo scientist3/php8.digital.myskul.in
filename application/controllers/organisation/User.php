@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User extends CI_Controller {
+class User extends OrganisationController {
 	 private $org_id;
     private $cluster_id;
     private $user_id;
