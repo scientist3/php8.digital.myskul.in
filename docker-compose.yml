@@ -9,16 +9,16 @@ services:
     container_name: digital_myskul_in_7
     ports:
       - "8080:80"
-    environment:
-      XDEBUG_MODE: "develop, debug, profile"
-      XDEBUG_CONFIG: client_host=host.docker.internal
+    # environment:
+      # XDEBUG_MODE: "develop, debug, profile"
+      # XDEBUG_CONFIG: client_host=host.docker.internal
     volumes:
       # - ./:/var/www/html
       - digital_myskul_in_session_data:/var/www/html/application/sessions
       # - C:\php8.digital.myskul.in:/var/www/html/php8.digital.myskul.in
       - C:\xampp8\htdocs\php8.digital.myskul.in:/var/www/html/php8.digital.myskul.in
       - ./custom_apache.conf:/etc/apache2/sites-available/000-default.conf
-      - ./php.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      # - ./php.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     networks:
       - digital_myskul_in_network
 
@@ -31,6 +31,9 @@ services:
     container_name: digital_myskul_in_8
     ports:
       - "8081:80"
+    # environment:
+      # XDEBUG_MODE: "develop, debug, profile"
+      # XDEBUG_CONFIG: client_host=host.docker.internal
     volumes:
       # - ./:/var/www/html   # Mount your codebase into the container
       - digital_myskul_in_session_data:/var/www/html/application/sessions
