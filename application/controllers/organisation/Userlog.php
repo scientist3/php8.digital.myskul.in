@@ -5,37 +5,11 @@ require(APPPATH . 'controllers/OrganisationController.php');
 class Userlog extends OrganisationController
 {
 	private $user_id;
-	// private $objUserService;
-	// protected $data;
-
 
 	public function __construct()
 	{
 		parent::__construct();
-		// Load UserService
-		$this->load->library('UserService');
-		// Load Models
-		$this->load->model(
-			array(
-				'organisation/user1_model',
-				'dashboard_model',
-			)
-		);
-
-		// Autenticate User
-		if (
-			$this->session->userdata('isLogIn') == false
-			|| $this->session->userdata('user_role') != Userrole::ORGANISATION
-		) {
-			redirect('login');
-		}
-
-		$this->user_id								= $this->session->userdata('user_id');
-		$this->objUserService					= new $this->userservice();
-		$this->data['organisation'] 	= $this->objUserService->fetchOrganisationHeadDetailsByUserId($this->user_id);
-		$this->data['user_role_list'] = $this->objUserService->getUserRoleListAsArray();
 		$this->data['designation'] 		= $this->objUserService->getUserRoleBasicAsDesignationListAsArray();
-		$this->data['district_list']	= $this->objUserService->getDistrictListAsArray();
 	}
 
 	public function index()
@@ -47,6 +21,10 @@ class Userlog extends OrganisationController
 		$this->data['pdfFileName'] 				= 'Attendence Report of Organisation - ' . $this->data['organisation']['org_name'];
 
 		/* ----------------------------------------------  */
+		var_dump($this->formData);
+		var_dump($this->input->post());
+		die();
+
 		$this->data['cluster_id']			= $this->input->post('cluster_id');
 		$this->data['center_id']			= $this->input->post('center_id');
 		$this->data['user_role']			= !empty($this->input->post('user_role')) ? $this->input->post('user_role') : '4';

@@ -5,6 +5,7 @@ class UserService
 	private $CI; // CodeIgniter instance
 	// private $objCenter;
 	private $user_id;
+	public $objUser;
 
 	public function __construct()
 	{
@@ -65,7 +66,7 @@ class UserService
 	public function fetchOrganisationHeadDetailsByUserId($userId)
 	{
 		$result = $this->CI->organisation_model->read_orgheads_org($userId);
-
+		$data = [];
 		if ($result instanceof stdClass) {
 			$data['org_id'] 				= $result->org_id;
 			$data['org_name'] 			= $result->org_name;
@@ -190,6 +191,14 @@ class UserService
 
 		return $usersData;
 	}
+
+	// Section CProfile
+	public function getUserObject()
+	{
+		$this->objUser = new User();
+		$this->objUser->setValues($this->CI->input->post(), true);
+		return $this->objUser;
+	}
 }
 class User
 {
@@ -204,6 +213,7 @@ class User
 	private $email;
 	private $password;
 	private $picture;
+	private $old_picture;
 	private $district;
 	private $block;
 	private $village;
@@ -235,6 +245,7 @@ class User
 		'email' => NULL,
 		'password' => NULL,
 		'picture' => NULL,
+		'old_picture' => NULL,
 		'district' => NULL,
 		'block' => NULL,
 		'village' => NULL,
@@ -260,8 +271,60 @@ class User
 	public function __construct()
 	{
 		// You can set initial values here if needed
-	}
 
+	}
+	public function setValues($arrValues, $allowDifferentialUpdate = true)
+	{
+		if (true == valArr($arrValues)) {
+			if (false == $allowDifferentialUpdate) {
+				$arrValues = mergeIntersectArray($this->_REQUEST_FORM_STUDENT, $arrValues);
+			} else {
+				if (false == valArr($arrValues) || false == valArr($this->_REQUEST_FORM_STUDENT)) {
+					$arrValues = [];
+				}
+				$arrValues = array_intersect_key($arrValues, $this->_REQUEST_FORM_STUDENT);
+			}
+		}
+
+		// End here as of now
+		if (isset($arrValues['user_id'])) $this->setUserId(trim($arrValues['user_id']));
+		if (isset($arrValues['firstname'])) $this->setFirstname(trim($arrValues['firstname']));
+		if (isset($arrValues['user_role'])) $this->setUserRole(trim($arrValues['user_role']));
+		if (isset($arrValues['org_idd'])) $this->setOrgIdd(trim($arrValues['org_idd']));
+		if (isset($arrValues['cluster_idd'])) $this->setClusterIdd(trim($arrValues['cluster_idd']));
+		if (isset($arrValues['center_id'])) $this->setCenterId(trim($arrValues['center_id']));
+		if (isset($arrValues['mobile'])) $this->setMobile(trim($arrValues['mobile']));
+		if (isset($arrValues['email'])) $this->setEmail(trim($arrValues['email']));
+		if (isset($arrValues['password'])) $this->setPassword(md5($arrValues['password']));
+
+		if (isset($arrValues['old_picture'])) $this->setOldPicture(trim($arrValues['old_picture']));
+
+		if (isset($arrValues['picture'])) $this->setPicture(trim($arrValues['picture']));
+
+		if (isset($arrValues['district'])) $this->setDistrict(trim($arrValues['district']));
+		if (isset($arrValues['block'])) $this->setBlock(trim($arrValues['block']));
+		if (isset($arrValues['village'])) $this->setVillage(trim($arrValues['village']));
+		if (isset($arrValues['school_type'])) $this->setSchoolType(trim($arrValues['school_type']));
+		if (isset($arrValues['school_level'])) $this->setSchoolLevel(trim($arrValues['school_level']));
+		if (isset($arrValues['school_name'])) $this->setSchoolName(trim($arrValues['school_name']));
+		if (isset($arrValues['sex'])) $this->setSex(trim($arrValues['sex']));
+		if (isset($arrValues['age'])) $this->setAge(trim($arrValues['age']));
+		if (isset($arrValues['class'])) $this->setClass(trim($arrValues['class']));
+		if (isset($arrValues['school_status'])) $this->setSchoolStatus(trim($arrValues['school_status']));
+		if (isset($arrValues['father_name'])) $this->setFatherName(trim($arrValues['father_name']));
+		if (isset($arrValues['father_occup'])) $this->setFatherOccup(trim($arrValues['father_occup']));
+		if (isset($arrValues['mother_name'])) $this->setMotherName(trim($arrValues['mother_name']));
+		if (isset($arrValues['mother_occup'])) $this->setMotherOccup(trim($arrValues['mother_occup']));
+		if (isset($arrValues['socail_status'])) $this->setSocialStatus(trim($arrValues['socail_status']));
+		if (isset($arrValues['remarks'])) $this->setRemarks(trim($arrValues['remarks']));
+		if (isset($arrValues['created_by'])) $this->setCreatedBy(trim($arrValues['created_by']));
+		if (isset($arrValues['create_date'])) $this->setCreateDate(trim($arrValues['create_date']));
+		if (isset($arrValues['update_date'])) $this->setUpdateDate(trim($arrValues['update_date']));
+		if (isset($arrValues['status'])) $this->setStatus(trim($arrValues['status']));
+
+
+		// Add other setters for each property...
+	}
 	// Getters
 	public function getUserId()
 	{
@@ -310,9 +373,12 @@ class User
 
 	public function getPicture()
 	{
-		return $this->picture;
+		return $this->picture ?? $this->old_picture;
 	}
-
+	public function getOldPicture()
+	{
+		return $this->old_picture;
+	}
 	public function getDistrict()
 	{
 		return $this->district;
@@ -463,6 +529,10 @@ class User
 	{
 		$this->picture = $picture;
 	}
+	public function setOldPicture($picture)
+	{
+		$this->old_picture = $picture;
+	}
 
 	public function setDistrict($district)
 	{
@@ -600,53 +670,14 @@ class User
 			'status' => $this->getStatus()
 		);
 	}
-
-	public function setValues($arrValues, $allowDifferentialUpdate = true, $boolDirectSet = false)
+	public function toArraySetOnlyValues(): array
 	{
-		if (true == valArr($arrValues)) {
-			if (false == $allowDifferentialUpdate) {
-				$arrValues = mergeIntersectArray($this->_REQUEST_FORM_STUDENT, $arrValues);
-			} else {
-				if (false == valArr($arrValues) || false == valArr($this->_REQUEST_FORM_STUDENT)) {
-					$arrValues = [];
-				}
-				$arrValues = array_intersect_key($arrValues, $this->_REQUEST_FORM_STUDENT);
-			}
-		}
+		$toArray = $this->toArray();
+		$filteredArray = array_filter($toArray, function ($value) {
+			return $value !== null && $value !== '';
+		});
 
-		if (isset($arrValues['user_id'])) $this->setUserId(trim($arrValues['user_id']));
-		if (isset($arrValues['firstname'])) $this->setFirstname(trim($arrValues['firstname']));
-		if (isset($arrValues['user_role'])) $this->setUserRole(trim($arrValues['user_role']));
-		if (isset($arrValues['org_idd'])) $this->setOrgIdd(trim($arrValues['org_idd']));
-		if (isset($arrValues['cluster_idd'])) $this->setClusterIdd(trim($arrValues['cluster_idd']));
-		if (isset($arrValues['center_id'])) $this->setCenterId(trim($arrValues['center_id']));
-		if (isset($arrValues['mobile'])) $this->setMobile(trim($arrValues['mobile']));
-		if (isset($arrValues['email'])) $this->setEmail(trim($arrValues['email']));
-		if (isset($arrValues['password'])) $this->setPassword(trim($arrValues['password']));
-		if (isset($arrValues['picture'])) $this->setPicture(trim($arrValues['picture']));
-		if (isset($arrValues['district'])) $this->setDistrict(trim($arrValues['district']));
-		if (isset($arrValues['block'])) $this->setBlock(trim($arrValues['block']));
-		if (isset($arrValues['village'])) $this->setVillage(trim($arrValues['village']));
-		if (isset($arrValues['school_type'])) $this->setSchoolType(trim($arrValues['school_type']));
-		if (isset($arrValues['school_level'])) $this->setSchoolLevel(trim($arrValues['school_level']));
-		if (isset($arrValues['school_name'])) $this->setSchoolName(trim($arrValues['school_name']));
-		if (isset($arrValues['sex'])) $this->setSex(trim($arrValues['sex']));
-		if (isset($arrValues['age'])) $this->setAge(trim($arrValues['age']));
-		if (isset($arrValues['class'])) $this->setClass(trim($arrValues['class']));
-		if (isset($arrValues['school_status'])) $this->setSchoolStatus(trim($arrValues['school_status']));
-		if (isset($arrValues['father_name'])) $this->setFatherName(trim($arrValues['father_name']));
-		if (isset($arrValues['father_occup'])) $this->setFatherOccup(trim($arrValues['father_occup']));
-		if (isset($arrValues['mother_name'])) $this->setMotherName(trim($arrValues['mother_name']));
-		if (isset($arrValues['mother_occup'])) $this->setMotherOccup(trim($arrValues['mother_occup']));
-		if (isset($arrValues['socail_status'])) $this->setSocialStatus(trim($arrValues['socail_status']));
-		if (isset($arrValues['remarks'])) $this->setRemarks(trim($arrValues['remarks']));
-		if (isset($arrValues['created_by'])) $this->setCreatedBy(trim($arrValues['created_by']));
-		if (isset($arrValues['create_date'])) $this->setCreateDate(trim($arrValues['create_date']));
-		if (isset($arrValues['update_date'])) $this->setUpdateDate(trim($arrValues['update_date']));
-		if (isset($arrValues['status'])) $this->setStatus(trim($arrValues['status']));
-
-
-		// Add other setters for each property...
+		return $filteredArray;
 	}
 }
 
