@@ -44,6 +44,7 @@ Pull Images and run this instead of below commands
 docker run -d --name digital_myskul_in_7 -p 8080:80 scientist33/digital_myskul_in_php_7
 docker run -d --name digital_myskul_in_8 -p 8081:80 scientist33/digital_myskul_in_php_8
 
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
 
 0) docker-compose down
 1) docker-compose build
@@ -63,14 +64,19 @@ docker tag php8_image scientist33/php8_image:latest
 
 docker push scientist33/php7_image:latest
 docker push scientist33/php8_image:latest
-
-
+.. To Rebuild the Images and to use in the pull, Docker-compose uses these images so any modification with Dockerfile.php7 and 8 will only work if their images are build.
+.. docker build -t scientist33/digital_myskul_in_php_7 -f Dockerfile.php7 .
+.. docker build -t scientist33/digital_myskul_in_php_8 -f Dockerfile.php8 .
+.. docker build -t scientist33/nginx_reverse_proxy -f Dockerfile.nginx .
 .. docker build -t my_nginx_reverse_proxy -f Dockerfile.nginx .
 .. docker run -d -p 80:80 --name my_nginx_proxy my_nginx_reverse_proxy
 .. docker rm my_nginx_proxy
 
 .. docker run -d -p 80:80 --name my_nginx_proxy my_nginx_reverse_proxy
 .. docker rename my_nginx_proxy new_name
+
+To check xdebug is configured correclty
+.. docker-compose exec php8 php -i | grep xdebug
 
 Please see the `installation section <https://codeigniter.com/userguide3/installation/index.html>`_
 of the CodeIgniter User Guide.

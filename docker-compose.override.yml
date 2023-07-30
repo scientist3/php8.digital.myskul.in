@@ -1,0 +1,30 @@
+version: '3'
+services:
+  php7:
+    ports:
+      - "8080:80"
+    environment:
+      XDEBUG_MODE: "develop, debug, profile"
+      XDEBUG_CONFIG: client_host=host.docker.internal
+    volumes:
+      - ./:/var/www/html
+      # - C:\php8.digital.myskul.in:/var/www/html/php8.digital.myskul.in
+      # - C:\xampp8\htdocs\php8.digital.myskul.in:/var/www/html/php8.digital.myskul.in
+      - ./custom_apache.conf:/etc/apache2/sites-available/000-default.conf
+      - ./php.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    
+  php8:
+    ports:
+      - "8081:80"
+    environment:
+      XDEBUG_MODE: "develop, debug, profile"
+      XDEBUG_CONFIG: client_host=host.docker.internal
+    volumes:
+      - ./:/var/www/html   # Mount your codebase into the container
+      # - C:\php8.digital.myskul.in:/var/www/html/php8.digital.myskul.in
+      # - C:\xampp8\htdocs\php8.digital.myskul.in:/var/www/html/php8.digital.myskul.in
+      - ./custom_apache.conf:/etc/apache2/sites-available/000-default.conf
+      - ./php.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    extra_hosts:
+      - "php8.digital.myskul.in:127.0.0.1"
+    

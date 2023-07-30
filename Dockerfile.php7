@@ -2,7 +2,7 @@
 FROM php:7.4-apache
 
 # Set the working directory to /var/www/html
-WORKDIR /var/www/html
+WORKDIR /var/www/html/
 
 # Copy the CodeIgniter project files into the container
 COPY . /var/www/html
