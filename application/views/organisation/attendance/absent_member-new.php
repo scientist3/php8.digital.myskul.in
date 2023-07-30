@@ -16,41 +16,43 @@
 						<div class="col-sm-3">
 							<div class="form-group">
 								<label><?php echo display('designation'); ?></label> <small class="req"> *</small>
-								<?php echo form_dropdown('user_role', $designation, $user_role/*$this->session->userdata('site_id') */, 'class="form-control select2bs4" id="user_role" '); ?>
+								<?php echo form_dropdown('user_role', $designation, $filter->user_role, 'class="form-control select2bs4-OLD" id="user_role" '); ?>
 								<span class="text-danger"><?php echo form_error('user_role'); ?></span>
 							</div>
 						</div>
 						<div class="col-sm-3">
 							<div class="form-group">
 								<label><?php echo display('cluster'); ?></label> <small class="req"> *</small>
-								<?php echo form_dropdown('cluster_id', $cluster_list, $cluster_id/*$this->session->userdata('site_id') */, 'class="form-control select2bs4" id="cluster_id" '); ?>
+								<?php echo form_dropdown('cluster_id', $cluster_list, $filter->cluster_id, 'class="form-control select2bs4-OLD" id="cluster_id" '); ?>
 								<span class="text-danger"><?php echo form_error('cluster_id'); ?></span>
 							</div>
 						</div>
 						<div class="col-sm-3">
 							<div class="form-group">
 								<label><?php echo display('center'); ?></label> <small class="req"> *</small>
-								<?php echo form_dropdown('center_id', $center_list, $center_id/*$this->session->userdata('site_id') */, 'class="form-control" id="center_id" '); ?>
+								<?php echo form_dropdown('center_id', $center_list, $filter->center_id, 'class="form-control select2bs4-OLD" id="center_id" '); ?>
 								<span class="text-danger"><?php echo form_error('center_id'); ?></span>
 							</div>
 						</div>
 						<div class="col-sm-3">
 							<div class="form-group">
 								<label><?php echo display('date'); ?></label> <small class="req"> *</small>
-								<input name="date" class="form-control" type="date" placeholder="<?php echo display('date') ?>" id="date" value="<?php echo $date ?>">
+								<input name="date" class="form-control" type="date" placeholder="<?php echo display('date') ?>" id="date" value="<?php echo $filter->date ?>">
 								<span class="text-danger"><?php echo form_error('center_id'); ?></span>
 							</div>
 						</div>
 						<div class="col-sm-12">
 							<div class="form-group">
-								<button type="submit" name="search" value="search_filter" class="btn btn-primary btn-sm pull-right checkbox-toggle"><i class="fa fa-search"></i> <?php echo display('search'); ?></button>
+								<button type="submit" name="search" value="search_filter" class="btn btn-primary float-right checkbox-toggle"><i class="fa fa-search"></i> <?php echo display('search'); ?></button>
 							</div>
 						</div>
+
 					</div>
 				</form>
 			</div>
 		</div>
-
+	</div>
+	<div class="col-sm-12">
 		<div class="card card-outline card-info">
 			<div class="card-header">
 				<h3 class="card-title"><i class="fa fa-list"></i> <?php echo $title; ?></h3>
@@ -104,6 +106,7 @@
 				type: 'POST', // Use 'POST' or 'GET' based on your server implementation
 				data: function(d) {
 					// Add any additional parameters for filtering (if needed)
+					d.check = "A";
 					d.cluster_id = $('#cluster_id').val();
 					d.center_id = $('#center_id').val();
 					d.user_role = $('#user_role').val();
@@ -134,14 +137,14 @@
 					data: 'log.login_time',
 					title: 'Log in',
 					render: function(data, type, row) {
-						return "<?php echo isset($log->login_time) ? date('h:m a', strtotime($log->login_time)) : 'N/A'; ?>";
+						return (data !== null) ? data : 'N/A';
 					}
 				},
 				{
 					data: 'log.logout_time',
 					title: 'Log out',
 					render: function(data, type, row) {
-						return "<?php echo isset($log->logout_time) ? date('h:m a', strtotime($log->logout_time)) : 'N/A'; ?>";
+						return (data !== null) ? data : 'N/A';
 					}
 				},
 				{
@@ -157,7 +160,7 @@
 					title: 'Actions',
 					render: function(data, type, row) {
 						// Customize the content of the cell
-						var viewLink = '<?php echo base_url("dashboard_org/userlog/view/") ?>' + data;
+						var viewLink = '<?php echo base_url("organisation/cattendance/view/") ?>' + data;
 						return '<a href="' + viewLink + '" class="btn btn-xs btn-success"><i class="fa fa-eye"></i></a>';
 					}
 				}
@@ -252,7 +255,15 @@
 		});
 		// Call the function to initialize DataTable on page load
 		initializeDataTable();
+		$('#user_role, #cluster_id, #center_id, #date').on('change', function() {
+			event.preventDefault(); // Prevent form submission
 
+			// Clear the table before reinitializing
+			$('#userTable').DataTable().clear().destroy();
+
+			// Call the function to initialize DataTable with the new search data
+			initializeDataTable();
+		});
 		// Handle the form submission to reinitialize DataTable with new search data
 		$('#user_search_form').on('submit', function(event) {
 			event.preventDefault(); // Prevent form submission

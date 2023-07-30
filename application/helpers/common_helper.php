@@ -117,6 +117,34 @@ if (!function_exists('valArr')) {
 		return $boolIsValid;
 	}
 }
+
+/**
+ * Merge two arrays and keep only the keys that exist in the master array.
+ *
+ * @param array $arrmixMaster The master array.
+ * @param array $arrmixCompare The array to be merged with the master array.
+ * @return array Returns the merged array with only the keys from the master array.
+ */
+if (!function_exists('mergeIntersectArray')) {
+	function mergeIntersectArray($arrmixMaster, $arrmixCompare)
+	{
+		if (!valArr($arrmixMaster) || !valArr($arrmixCompare)) {
+			return [];
+		}
+
+		$arrmixResult = array_merge($arrmixMaster, $arrmixCompare);
+
+		if (valArr($arrmixResult)) {
+			foreach ($arrmixResult as $strKey => $strValue) {
+				if (!array_key_exists($strKey, $arrmixMaster)) {
+					unset($arrmixResult[$strKey]);
+				}
+			}
+		}
+
+		return $arrmixResult;
+	}
+}
 // $autoload['helper'] =  array('language_helper');
 
 /*display a language*/

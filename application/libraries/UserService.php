@@ -5,6 +5,8 @@ class UserService
 	private $CI; // CodeIgniter instance
 	// private $objCenter;
 	private $user_id;
+	public $objUser;
+	public $objAttendanceFilter;
 
 	public function __construct()
 	{
@@ -65,7 +67,7 @@ class UserService
 	public function fetchOrganisationHeadDetailsByUserId($userId)
 	{
 		$result = $this->CI->organisation_model->read_orgheads_org($userId);
-
+		$data = [];
 		if ($result instanceof stdClass) {
 			$data['org_id'] 				= $result->org_id;
 			$data['org_name'] 			= $result->org_name;
@@ -75,43 +77,20 @@ class UserService
 		return is_array($data) ? $data : [];
 	}
 
-	public function fetchClustersByOrgIdAsList($orgId)
-	{
-		return $this->CI->OrgCluster->read_clusters_of_org_as_list($orgId);
-	}
 
-	public function fetchCentersByClusterIdAsList($arrClusterIds)
-	{
-		return $this->CI->center1_model->read_centers_of_cluster_as_list($arrClusterIds);
-	}
-
-	public function fetchUserAttendenceByOrgIdByClusterIdByCenterByUserRoleByDateByUserId($orgId, $clusterId, $centerId, $userRole, $date, $userId)
+	public function fetchUserAttendanceByFilter($objAttendanceFilter)
 	{
 		return
-			$this->CI->user1_model->get_users(
-				$orgId,
-				$clusterId,
-				$centerId,
-				(($userRole == 'all') ? null : $userRole),
-				$date,
-				$userId
+			$this->CI->user1_model->getFilteredUserTotalCount(
+				$objAttendanceFilter->getOrganisationId(),
+				$objAttendanceFilter->getClusterId(),
+				$objAttendanceFilter->getCenterId(),
+				(($objAttendanceFilter->getUserRole() == 'all') ? null : $objAttendanceFilter->getUserRole()),
+				$objAttendanceFilter->getDate(),
+				$objAttendanceFilter->getUserId()
 			);
 	}
 
-	public function countUsersByFilters($orgId, $clusterId, $centerId, $userRole, $date, $userId)
-	{
-		// Call the model method to get the count of users
-		$totalCount = $this->CI->user1_model->count_users(
-			$orgId,
-			$clusterId,
-			$centerId,
-			(($userRole == 'all') ? null : $userRole),
-			$date,
-			$userId
-		);
-
-		return $totalCount;
-	}
 
 	public function fetchUsersByFiltersWithPagination(
 		$orgId,
@@ -134,27 +113,17 @@ class UserService
 			$itemsPerPage,
 			$offset
 		);
+		// get_users_with_pagination($orgId, $clusterId, $centerId, $userRole, $date, $userId, $itemsPerPage, $offset, $order_by = 'firstname', $sort_order = 'asc', $search = null)
 
 		return $usersData;
 	}
 
-	public function fetchUserAbsenteesByOrgIdByClusterIdByCenterByUserRoleByDateByUserId($orgId, $clusterId, $centerId, $userRole, $date, $userId)
-	{
-		return
-			$this->CI->user1_model->get_absent_users(
-				$orgId,
-				$clusterId,
-				$centerId,
-				(($userRole == 'all') ? null : $userRole),
-				$date,
-				$userId
-			);
-	}
+
 
 	public function countAbsenteesUsersByFilters($orgId, $clusterId, $centerId, $userRole, $date, $userId)
 	{
 		// Call the model method to get the count of users
-		$totalCount = $this->CI->user1_model->count_users(
+		$totalCount = $this->CI->user1_model->getFilteredUserTotalCount(
 			$orgId,
 			$clusterId,
 			$centerId,
@@ -190,6 +159,195 @@ class UserService
 
 		return $usersData;
 	}
+
+	/* --------------------------- Start Section CProfile Controller --------------------------- */
+	public function getUserObject()
+	{
+		$this->objUser = new User();
+		$this->objUser->setValues($this->CI->input->post(), true);
+		$picture = $this->uploadPicture();
+		if (!empty($picture)) {
+			$this->objUser->setPicture($picture);
+		}
+		return $this->objUser;
+	}
+
+	public function saveProfile($postData)
+	{
+		if ($this->CI->form_validation->run() === true) {
+
+			// Update the user profile
+			if ($this->CI->user_model->update($postData)) {
+				// Set success message
+				$this->CI->session->set_flashdata('message', display('update_successfully'));
+
+				// Update session data if the profile being updated is the current user's
+				if ($postData['user_id'] == $this->CI->session->userdata('user_id')) {
+					$this->CI->session->set_userdata([
+						'picture' => $postData['picture'],
+						'fullname' => $postData['firstname'] . ' ' . $postData['lastname']
+					]);
+				}
+
+				// Redirect to the profile page
+				redirect('organisation/cprofile/');
+			} else {
+				// Set exception message
+				$this->CI->session->set_flashdata('exception', display('please_try_again'));
+			}
+		}
+	}
+
+	public function email_check($email, $userId)
+	{
+		$emailExists = $this->CI->db->select('email')
+			->where('email', $email)
+			->where_not_in('user_id', $userId)
+			->get('student')
+			->num_rows();
+
+		if ($emailExists > 0) {
+			$this->CI->form_validation->set_message('email_check', 'The {field} field must contain a unique value.');
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	public function validateProfileForm()
+	{
+		$this->CI->form_validation->set_rules('firstname', display('first_name'), 'required|max_length[50]');
+		// Add other form validation rules here.
+		$this->CI->form_validation->set_rules('email', display('email'), 'trim|required|max_length[50]|valid_email|callback_email_check[' . $this->user_id	 . ']');
+		$this->CI->form_validation->set_rules('password', display('password'), 'trim|required|max_length[32]|md5');
+		$this->CI->form_validation->set_rules('phone', display('phone'), 'trim|max_length[20]');
+		$this->CI->form_validation->set_rules('mobile', display('mobile'), 'trim|required|max_length[20]');
+		$this->CI->form_validation->set_rules('blood_group', display('blood_group'), 'trim|max_length[10]');
+		$this->CI->form_validation->set_rules(
+			'sex',
+			display('sex'),
+			'trim|required|max_length[10]'
+		);
+		$this->CI->form_validation->set_rules('date_of_birth', display('date_of_birth'), 'trim|max_length[10]');
+		$this->CI->form_validation->set_rules('status', display('status'), 'trim|required');
+
+		// Set custom error delimiters for form validation errors
+		$this->CI->form_validation->set_error_delimiters('<p class="text-sm mb-0">', '</p>');
+	}
+
+	public function uploadPicture($path = "uploads/organisation/profilepic/", $fieldname = 'picture'): ?string
+	{
+		//picture upload
+		$picture = $this->CI->fileupload->do_upload(
+			$path,
+			$fieldname
+		);
+		// if picture is uploaded then resize the picture
+		if ($picture !== false && $picture != null) {
+			$this->CI->fileupload->do_resize(
+				$picture,
+				200,
+				200
+			);
+		}
+		//if picture is not uploaded
+		if ($picture === false) {
+			$this->session->set_flashdata('exception', display('invalid_picture'));
+			return null;
+		}
+		return $picture;
+	}
+	/* ----------- END Section CProfile -------------- */
+	/* -------- Start Section CAttendance ------------ */
+	public function getAttendanceObject()
+	{
+		$this->objAttendanceFilter = new AttendanceFilter();
+		$this->objAttendanceFilter->setValues($this->CI->input->post());
+		return $this->objAttendanceFilter;
+	}
+
+	//  USED FUNCTION IN ATTENDANCE >> index/Absent >>
+	public function fetchClustersByOrgIdAsList($orgId)
+	{
+		return $this->CI->OrgCluster->read_clusters_of_org_as_list($orgId);
+	}
+
+	//  USED FUNCTION IN ATTENDANCE >> index/Absent >>
+	public function fetchCentersByClusterIdAsList($arrClusterIds)
+	{
+		return $this->CI->center1_model->read_centers_of_cluster_as_list($arrClusterIds);
+	}
+
+	//  USED FUNCTION IN ATTENDANCE >> API >> ORGANISATION >> usersListWithParemsAsJson
+	public function fetchUsersWithPaginationAndCountByFilters($orgId, $clusterId, $centerId, $userRole, $date, $selfId, $itemsPerPage, $page, $orderBy, $sortOrder, $searchValue, $check = "P")
+	{
+		// Call the model method to get the count of users with filters
+		$totalCount = $this->CI->user1_model->getFilteredUserTotalCount(
+			$orgId,
+			$clusterId,
+			$centerId,
+			(($userRole == 'all') ? null : $userRole),
+			$selfId,
+			$searchValue, // Add search value to the count query
+			$check
+		);
+		// Call the model method to get the paginated users and the total count
+		// Fetch users data with pagination and filters
+		$users = $this->CI->user1_model->getUsersWithPaginationAndLogs(
+			$orgId,
+			$clusterId,
+			$centerId,
+			(($userRole == 'all') ? null : $userRole),
+			$date,
+			$selfId,
+			$orderBy,
+			$sortOrder,
+			$searchValue,
+			$itemsPerPage,
+			$page,
+			$check
+		);
+
+		// Calculate the total count from the paginated result
+		// $totalCount = count($users);
+
+		return array($users, $totalCount);
+	}
+
+	//  USED FUNCTION IN CATTENDANCE >> View
+	public function getAbsenteeFilter()
+	{
+		$this->objAbsenteeFilter = new AbsenteeFilter();
+		$this->objAbsenteeFilter->setValues($this->CI->input->post());
+		return $this->objAbsenteeFilter;
+	}
+
+	//  USED FUNCTION IN CATTENDANCE >> View
+	public function getUserLogsByAbsenteeFilter(AbsenteeFilter $objAbsenteeFilter)
+	{
+		// Implementation goes here
+		return $this->CI->user1_model->getUserLogsByDateRange(
+			$objAbsenteeFilter->getUserId(),
+			$objAbsenteeFilter->getStartDate(),
+			$objAbsenteeFilter->getEndDate()
+		);
+	}
+
+	//  USED FUNCTION IN CATTENDANCE >> Absentee
+	public function fetchUserAbsenteesByOrgIdByClusterIdByCenterByUserRoleByDateByUserId($orgId, $clusterId, $centerId, $userRole, $date, $userId)
+	{
+		return
+			$this->CI->user1_model->get_absent_users(
+				$orgId,
+				$clusterId,
+				$centerId,
+				(($userRole == 'all') ? null : $userRole),
+				$date,
+				$userId
+			);
+	}
+
+	/* ---------------- END Section CAttendance ---------------- */
 }
 class User
 {
@@ -204,6 +362,7 @@ class User
 	private $email;
 	private $password;
 	private $picture;
+	private $old_picture;
 	private $district;
 	private $block;
 	private $village;
@@ -235,6 +394,7 @@ class User
 		'email' => NULL,
 		'password' => NULL,
 		'picture' => NULL,
+		'old_picture' => NULL,
 		'district' => NULL,
 		'block' => NULL,
 		'village' => NULL,
@@ -260,8 +420,60 @@ class User
 	public function __construct()
 	{
 		// You can set initial values here if needed
-	}
 
+	}
+	public function setValues($arrValues, $allowDifferentialUpdate = true)
+	{
+		if (true == valArr($arrValues)) {
+			if (false == $allowDifferentialUpdate) {
+				$arrValues = mergeIntersectArray($this->_REQUEST_FORM_STUDENT, $arrValues);
+			} else {
+				if (false == valArr($arrValues) || false == valArr($this->_REQUEST_FORM_STUDENT)) {
+					$arrValues = [];
+				}
+				$arrValues = array_intersect_key($arrValues, $this->_REQUEST_FORM_STUDENT);
+			}
+		}
+
+		// End here as of now
+		if (isset($arrValues['user_id'])) $this->setUserId(trim($arrValues['user_id']));
+		if (isset($arrValues['firstname'])) $this->setFirstname(trim($arrValues['firstname']));
+		if (isset($arrValues['user_role'])) $this->setUserRole(trim($arrValues['user_role']));
+		if (isset($arrValues['org_idd'])) $this->setOrgIdd(trim($arrValues['org_idd']));
+		if (isset($arrValues['cluster_idd'])) $this->setClusterIdd(trim($arrValues['cluster_idd']));
+		if (isset($arrValues['center_id'])) $this->setCenterId(trim($arrValues['center_id']));
+		if (isset($arrValues['mobile'])) $this->setMobile(trim($arrValues['mobile']));
+		if (isset($arrValues['email'])) $this->setEmail(trim($arrValues['email']));
+		if (isset($arrValues['password'])) $this->setPassword(md5($arrValues['password']));
+
+		if (isset($arrValues['old_picture'])) $this->setOldPicture(trim($arrValues['old_picture']));
+
+		if (isset($arrValues['picture'])) $this->setPicture(trim($arrValues['picture']));
+
+		if (isset($arrValues['district'])) $this->setDistrict(trim($arrValues['district']));
+		if (isset($arrValues['block'])) $this->setBlock(trim($arrValues['block']));
+		if (isset($arrValues['village'])) $this->setVillage(trim($arrValues['village']));
+		if (isset($arrValues['school_type'])) $this->setSchoolType(trim($arrValues['school_type']));
+		if (isset($arrValues['school_level'])) $this->setSchoolLevel(trim($arrValues['school_level']));
+		if (isset($arrValues['school_name'])) $this->setSchoolName(trim($arrValues['school_name']));
+		if (isset($arrValues['sex'])) $this->setSex(trim($arrValues['sex']));
+		if (isset($arrValues['age'])) $this->setAge(trim($arrValues['age']));
+		if (isset($arrValues['class'])) $this->setClass(trim($arrValues['class']));
+		if (isset($arrValues['school_status'])) $this->setSchoolStatus(trim($arrValues['school_status']));
+		if (isset($arrValues['father_name'])) $this->setFatherName(trim($arrValues['father_name']));
+		if (isset($arrValues['father_occup'])) $this->setFatherOccup(trim($arrValues['father_occup']));
+		if (isset($arrValues['mother_name'])) $this->setMotherName(trim($arrValues['mother_name']));
+		if (isset($arrValues['mother_occup'])) $this->setMotherOccup(trim($arrValues['mother_occup']));
+		if (isset($arrValues['socail_status'])) $this->setSocialStatus(trim($arrValues['socail_status']));
+		if (isset($arrValues['remarks'])) $this->setRemarks(trim($arrValues['remarks']));
+		if (isset($arrValues['created_by'])) $this->setCreatedBy(trim($arrValues['created_by']));
+		if (isset($arrValues['create_date'])) $this->setCreateDate(trim($arrValues['create_date']));
+		if (isset($arrValues['update_date'])) $this->setUpdateDate(trim($arrValues['update_date']));
+		if (isset($arrValues['status'])) $this->setStatus(trim($arrValues['status']));
+
+
+		// Add other setters for each property...
+	}
 	// Getters
 	public function getUserId()
 	{
@@ -310,9 +522,12 @@ class User
 
 	public function getPicture()
 	{
-		return $this->picture;
+		return $this->picture ?? $this->old_picture;
 	}
-
+	public function getOldPicture()
+	{
+		return $this->old_picture;
+	}
 	public function getDistrict()
 	{
 		return $this->district;
@@ -463,6 +678,10 @@ class User
 	{
 		$this->picture = $picture;
 	}
+	public function setOldPicture($picture)
+	{
+		$this->old_picture = $picture;
+	}
 
 	public function setDistrict($district)
 	{
@@ -600,63 +819,231 @@ class User
 			'status' => $this->getStatus()
 		);
 	}
-
-	public function setValues($arrValues, $allowDifferentialUpdate = true, $boolDirectSet = false)
+	public function toArraySetOnlyValues(): array
 	{
-		if (true == valArr($arrValues)) {
-			if (false == $allowDifferentialUpdate) {
-				$arrValues = mergeIntersectArray($this->_REQUEST_FORM_STUDENT, $arrValues);
-			} else {
-				if (false == valArr($arrValues) || false == valArr($this->_REQUEST_FORM_STUDENT)) {
-					$arrValues = [];
-				}
-				$arrValues = array_intersect_key($arrValues, $this->_REQUEST_FORM_STUDENT);
-			}
-		}
+		$toArray = $this->toArray();
+		$filteredArray = array_filter($toArray, function ($value) {
+			return $value !== null && $value !== '';
+		});
 
-		if (isset($arrValues['user_id'])) $this->setUserId(trim($arrValues['user_id']));
-		if (isset($arrValues['firstname'])) $this->setFirstname(trim($arrValues['firstname']));
-		if (isset($arrValues['user_role'])) $this->setUserRole(trim($arrValues['user_role']));
-		if (isset($arrValues['org_idd'])) $this->setOrgIdd(trim($arrValues['org_idd']));
-		if (isset($arrValues['cluster_idd'])) $this->setClusterIdd(trim($arrValues['cluster_idd']));
-		if (isset($arrValues['center_id'])) $this->setCenterId(trim($arrValues['center_id']));
-		if (isset($arrValues['mobile'])) $this->setMobile(trim($arrValues['mobile']));
-		if (isset($arrValues['email'])) $this->setEmail(trim($arrValues['email']));
-		if (isset($arrValues['password'])) $this->setPassword(trim($arrValues['password']));
-		if (isset($arrValues['picture'])) $this->setPicture(trim($arrValues['picture']));
-		if (isset($arrValues['district'])) $this->setDistrict(trim($arrValues['district']));
-		if (isset($arrValues['block'])) $this->setBlock(trim($arrValues['block']));
-		if (isset($arrValues['village'])) $this->setVillage(trim($arrValues['village']));
-		if (isset($arrValues['school_type'])) $this->setSchoolType(trim($arrValues['school_type']));
-		if (isset($arrValues['school_level'])) $this->setSchoolLevel(trim($arrValues['school_level']));
-		if (isset($arrValues['school_name'])) $this->setSchoolName(trim($arrValues['school_name']));
-		if (isset($arrValues['sex'])) $this->setSex(trim($arrValues['sex']));
-		if (isset($arrValues['age'])) $this->setAge(trim($arrValues['age']));
-		if (isset($arrValues['class'])) $this->setClass(trim($arrValues['class']));
-		if (isset($arrValues['school_status'])) $this->setSchoolStatus(trim($arrValues['school_status']));
-		if (isset($arrValues['father_name'])) $this->setFatherName(trim($arrValues['father_name']));
-		if (isset($arrValues['father_occup'])) $this->setFatherOccup(trim($arrValues['father_occup']));
-		if (isset($arrValues['mother_name'])) $this->setMotherName(trim($arrValues['mother_name']));
-		if (isset($arrValues['mother_occup'])) $this->setMotherOccup(trim($arrValues['mother_occup']));
-		if (isset($arrValues['socail_status'])) $this->setSocialStatus(trim($arrValues['socail_status']));
-		if (isset($arrValues['remarks'])) $this->setRemarks(trim($arrValues['remarks']));
-		if (isset($arrValues['created_by'])) $this->setCreatedBy(trim($arrValues['created_by']));
-		if (isset($arrValues['create_date'])) $this->setCreateDate(trim($arrValues['create_date']));
-		if (isset($arrValues['update_date'])) $this->setUpdateDate(trim($arrValues['update_date']));
-		if (isset($arrValues['status'])) $this->setStatus(trim($arrValues['status']));
-
-
-		// Add other setters for each property...
+		return $filteredArray;
 	}
 }
 
-// // Usage example:
-// $user = new User();
-// $user->setUserId(1);
-// $user->setFirstname('John');
-// $user->setLastname('Doe');
-// $user->setEmail('john@example.com');
+class AttendanceFilter
+{
+	private $organisation_id;
+	private $cluster_id;
+	private $center_id;
+	private $user_role;
+	private $user_id;
+	private $date;
 
-// // Get the user data as an array
-// $userData = $user->toArray();
-// print_r($userData);
+	public function getOrganisationId()
+	{
+		return $this->organisation_id;
+	}
+
+	public function setOrganisationId($organisation_id)
+	{
+		$this->organisation_id = $organisation_id;
+	}
+
+	public function getClusterId()
+	{
+		return $this->cluster_id;
+	}
+
+	public function setClusterId($cluster_id)
+	{
+		$this->cluster_id = $cluster_id;
+	}
+
+	public function getCenterId()
+	{
+		return $this->center_id;
+	}
+
+	public function setCenterId($center_id)
+	{
+		$this->center_id = $center_id;
+	}
+
+	public function getUserRole()
+	{
+		return $this->user_role ?? '4';
+	}
+
+	public function setUserRole($user_role)
+	{
+		$this->user_role = !empty($user_role) ? $user_role : '4';
+	}
+
+	public function getDate()
+	{
+		return $this->date ?? date('Y-m-d');
+	}
+
+	public function setDate($date)
+	{
+		$this->date = !empty($date) ? $date : date('Y-m-d');
+	}
+
+	public function getUserId()
+	{
+		return $this->user_id;
+	}
+
+	public function setUserId($user_id)
+	{
+		$this->user_id = $user_id;
+	}
+
+	public function toArray()
+	{
+		return array(
+			'organisation_id' => $this->getOrganisationId(),
+			'cluster_id' => $this->getClusterId(),
+			'center_id' => $this->getCenterId(),
+			'user_role' => $this->getUserRole(),
+			'date' => $this->getDate(),
+			'user_id' => $this->getUserId(),
+		);
+	}
+
+	public function toArraySetOnlyValues()
+	{
+		$result = array();
+		if ($this->getOrganisationId() !== null) {
+			$result['organisation_id'] = $this->getOrganisationId();
+		}
+		if ($this->getClusterId() !== null) {
+			$result['cluster_id'] = $this->getClusterId();
+		}
+		if ($this->getCenterId() !== null) {
+			$result['center_id'] = $this->getCenterId();
+		}
+		if ($this->getUserRole() !== null) {
+			$result['user_role'] = $this->getUserRole();
+		}
+		if ($this->getDate() !== null) {
+			$result['date'] = $this->getDate();
+		}
+		if ($this->getUserId() !== null) {
+			$result['user_id'] = $this->getUserId();
+		}
+		return $result;
+	}
+
+	public function setValues($data)
+	{
+		if (is_array($data)) {
+			if (isset($data['org_id'])) {
+				$this->setOrganisationId($data['org_id']);
+			}
+			if (isset($data['cluster_id'])) {
+				$this->setClusterId($data['cluster_id']);
+			}
+			if (isset($data['center_id'])) {
+				$this->setCenterId($data['center_id']);
+			}
+			if (isset($data['user_role'])) {
+				$this->setUserRole($data['user_role']);
+			}
+			if (isset($data['date'])) {
+				$this->setDate($data['date']);
+			}
+			if (isset($data['user_id'])) {
+				$this->setUserId($data['user_id']);
+			}
+		}
+	}
+}
+
+class AbsenteeFilter
+{
+	private $userId;
+	private $startDate;
+	private $endDate;
+
+	// Constructor
+	public function __construct()
+	{
+		// $this->startDate = $startDate;
+		// $this->endDate = $endDate;
+	}
+
+	// Getter for UserId
+	public function getUserId(): string
+	{
+		return $this->userId;
+	}
+
+	// Setter for UserId
+	public function setUserId($UserId): void
+	{
+		$this->userId = $UserId;
+	}
+	// Getter for startDate
+	public function getStartDate(): string
+	{
+		return !empty($this->startDate) ? $this->startDate : date('Y-m-d', strtotime($this->startDate . '-3 days'));
+	}
+
+	// Setter for startDate
+	public function setStartDate(string $startDate): void
+	{
+		$this->startDate = $startDate;
+	}
+
+	// Getter for endDate
+	public function getEndDate(): string
+	{
+		return !empty($this->endDate) ? $this->endDate : date('Y-m-d');
+	}
+
+	// Setter for endDate
+	public function setEndDate(string $endDate): void
+	{
+		$this->endDate = $endDate;
+	}
+
+	// Set multiple properties at once using an associative array
+	public function setValues($data): void
+	{
+		if (is_array($data)) {
+			if (isset($data['start_date'])) {
+				$this->setStartDate($data['start_date']);
+			}
+			if (isset($data['end_date'])) {
+				$this->setEndDate($data['end_date']);
+			}
+
+			if (isset($data['user_id'])) {
+				$this->setUserId($data['user_id']);
+			}
+			// Add more properties if needed
+		}
+	}
+	// Convert all properties to an associative array
+	// Convert all properties to an associative array
+	public function toArray(): array
+	{
+		return [
+			'userId' => $this->getUserId(),
+			'startDate' => $this->getStartDate(),
+			'endDate' => $this->getEndDate(),
+		];
+	}
+
+	// Convert to an associative array, excluding properties with null or empty string values
+	public function toArraySetOnlyValues(): array
+	{
+		$toArray = $this->toArray();
+		$filteredArray = array_filter($toArray, function ($value) {
+			return $value !== null && $value !== '';
+		});
+
+		return $filteredArray;
+	}
+}

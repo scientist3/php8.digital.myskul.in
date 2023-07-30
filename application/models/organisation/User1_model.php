@@ -5,7 +5,7 @@ class User1_model extends CI_Model
 
 	private $table = "student";
 	private $user_log_tbl = "user_log";
-
+	// Not used
 	public function get_users($org_id = null, $cluster_id = null, $center_id = null, $user_role = null, $date = null, $self_id = null)
 	{
 		$this->db->select('user_id,firstname,user_role,org_idd,cluster_idd,center_id,picture');
@@ -61,6 +61,9 @@ class User1_model extends CI_Model
 		// return $this->db->get_compiled_select();	
 	}
 
+
+
+
 	public function get_absent_users($org_id = null, $cluster_id = null, $center_id = null, $user_role = null, $date = null, $self_id = null)
 	{
 		$users = $this->get_users($org_id, $cluster_id, $center_id, $user_role, $date, $self_id);
@@ -75,67 +78,11 @@ class User1_model extends CI_Model
 		//return $users;
 	}
 
-	public function user_log_from_to_date($user_id, $start_date, $end_date)
-	{
-		$user_data = $this->db->select('student.user_id,firstname,student.user_role,org_idd,cluster_idd,center_id,picture')
-			->from($this->table)
-			->where($this->table . '.user_id', $user_id)
-			->get()->row();
 
-		$user_log  = $this->db->select('student.user_id,firstname,student.user_role,org_idd,cluster_idd,center_id,picture,date,login_time,logout_time')
-			->from($this->user_log_tbl)
-			->where($this->user_log_tbl . '.user_id', $user_id)
-			->where($this->user_log_tbl . '.date >="' . date('Y-m-d', strtotime($start_date)) . '"')
-			->where($this->user_log_tbl . '.date <="' . date('Y-m-d', strtotime($end_date)) . '"')
-			->join('student', 'student.user_id=' . $this->user_log_tbl . '.user_id')
-			->get()->result();
-		//$user_log =(object) $user_log1;
-		//print_r($user_log);
-
-		//echo $start_date.'<br>';
-		$list = [];
-		for ($day = $start_date; $day <= $end_date; $day = date('Y-m-d', strtotime($day . '+1 day'))) {
-			$log = (object)[
-				'date' => $day,
-				'login_time' => null,
-				'logout_time' => null
-			];
-			foreach ($user_log as $key => $user) {
-				if ($user->date == $day) {
-					$log = (object)[
-						'date' 			=> $day,
-						'login_time' 	=> $user->login_time,
-						'logout_time' 	=> $user->logout_time
-					];
-					break;
-				}
-			}
-
-			$list[] = (object)[
-				'user_id' 		=> $user_data->user_id,
-				'firstname' 	=> $user_data->firstname,
-				'user_role' 	=> $user_data->user_role,
-				'org_idd' 		=> $user_data->org_idd,
-				'cluster_idd' 	=> $user_data->cluster_idd,
-				'center_id' 	=> $user_data->center_id,
-				'picture' 		=> $user_data->picture,
-				'log'			=> $log
-			];
-
-			//echo $day.'<br>';
-			//for
-
-		}
-		//print_r($list);
-
-		//die();
-
-		return $list;
-	}
 
 	public function user_absentee_log_from_to_date($user_id, $start_date, $end_date)
 	{
-		$users = $this->user_log_from_to_date($user_id, $start_date, $end_date);
+		$users = $this->getUserLogsByDateRange($user_id, $start_date, $end_date);
 		//echo "<pre>"; print_r($users); echo "</pre>";
 
 		$list = [];
@@ -251,19 +198,36 @@ class User1_model extends CI_Model
 		return $count;
 	}
 
-	// Used In UserService
-	public function count_users($orgId, $clusterId, $centerId, $userRole, $date, $userId)
+	//  USED FUNCTION IN ATTENDANCE >> API >> ORGANISATION >> USER-SERVICE >> get_users_with_pagination
+	public function getFilteredUserTotalCount($orgId, $clusterId, $centerId, $userRole, $userId, $searchValue, $check = "P")
 	{
-		// Construct your SQL query to count the users based on the provided filters
-		// For example:
+		// Construct your SQL query to count the users based on the provided filters and search value
 		$this->db->select('COUNT(*) as total_count');
 		$this->db->from($this->table);
-		// $this->db->where('org_idd', $orgId);
 		$this->db->where_not_in($this->table . '.user_id', $userId);
-		($orgId != null) ? $this->db->where('org_idd', $orgId) : null;
-		($clusterId != null) ? $this->db->where('cluster_idd', $clusterId) : null;
-		($centerId != null) ? $this->db->where('center_id', $centerId) :  null;
-		($userRole != null) ? $this->db->where('user_role', $userRole) : null;
+
+		// Apply searchValue to each field that needs to be searched
+		if (!empty($searchValue)) {
+			$this->db->group_start();
+			$this->db->like('firstname', $searchValue);
+			// Add more fields here if needed
+			$this->db->group_end();
+		}
+
+		// Apply other filters
+		if ($orgId != null) {
+			$this->db->where('org_idd', $orgId);
+		}
+		if ($clusterId != null) {
+			$this->db->where('cluster_idd', $clusterId);
+		}
+		if ($centerId != null) {
+			$this->db->where('center_id', $centerId);
+		}
+		if ($userRole != null) {
+			$this->db->where('user_role', $userRole);
+		}
+
 		// Execute the query and get the result
 		$result = $this->db->get()->row();
 
@@ -275,29 +239,109 @@ class User1_model extends CI_Model
 		// If no result, return 0 (no users found)
 		return 0;
 	}
-	// Used In UserService 
-	public function get_users_with_pagination($orgId, $clusterId, $centerId, $userRole, $date, $userId, $itemsPerPage, $offset)
-	{
-		// Construct your base query to fetch users' data
+
+	//  USED FUNCTION IN ATTENDANCE >> API >> ORGANISATION >> USER-SERVICE >> fetchUsersWithPaginationAndCountByFilters
+	public function getUsersWithPaginationAndLogs(
+		$orgId = null,
+		$clusterId = null,
+		$centerId = null,
+		$userRole = null,
+		$date = null,
+		$selfId = null,
+		$orderBy = null,
+		$sortOrder = 'asc',
+		$searchValue = null,
+		$itemsPerPage = 7,
+		$page = 1,
+		$check = "P"
+	) {
 		$this->db->select('user_id, firstname, user_role, org_idd, cluster_idd, center_id, picture');
 		$this->db->from($this->table);
-		$this->db->where_not_in($this->table . '.user_id', $userId);
-		($orgId != null) ? $this->db->where('org_idd', $orgId) : null;
-		($clusterId != null) ? $this->db->where('cluster_idd', $clusterId) : null;
-		($centerId != null) ? $this->db->where('center_id', $centerId) :  null;
-		($userRole != null) ? $this->db->where('user_role', $userRole) : null;
 
-		// Apply pagination
-		$this->db->limit($itemsPerPage, $offset);
+		if (!empty($selfId)) {
+			$this->db->where_not_in($this->table . '.user_id', $selfId);
+		}
 
-		// Fetch users' data from the base query
+		if (!empty($orgId)) {
+			$this->db->where('org_idd', $orgId);
+		}
+
+		if (!empty($clusterId)) {
+			$this->db->where('cluster_idd', $clusterId);
+		}
+
+		if (!empty($centerId)) {
+			$this->db->where('center_id', $centerId);
+		}
+
+		if (!empty($userRole)) {
+			$this->db->where('user_role', $userRole);
+		}
+
+		// Support for searching
+		if (!empty($search)) {
+			$this->db->like('firstname', $search);
+		}
+
+		// Support for ordering and sorting
+		if (!empty($orderBy)) {
+			$this->db->order_by($orderBy, $sortOrder);
+		}
+
+		if (!empty($searchValue)) {
+			$this->db->group_start();
+			$this->db->like('firstname', $searchValue);
+			$this->db->group_end();
+		}
+		// Pagination
+		if ($itemsPerPage != -1) {
+			$offset = ($page - 1) * $itemsPerPage;
+			$this->db->limit($itemsPerPage, $offset);
+		}
+
 		$users = $this->db->get()->result();
 
-		// Fetch user log data for the specified date
+		$rekey_users = array();
+		foreach ($users as $user) {
+			$rekey_users[$user->user_id] = $user;
+		}
+		$users = $rekey_users;
+		// Fetch user logs for the specified date
+		$user_log = $this->getUserLogsByDate($date);
+
+		// Combine user logs with users' data
+		foreach ($users as &$user) {
+			$user_id = $user->user_id;
+			$log = isset($user_log[$user_id]) ? $user_log[$user_id] : (object) [
+				'id' => null,
+				'date' => $date,
+				'login_time' => null,
+				'logout_time' => null
+			];
+			// Check the value of $check variable to include/exclude users	
+			if ($check == "P" || ($check == "A" && empty($log->id))) {
+				$user->log = $log;
+				$resultUsers[] = $user;
+			} else {
+				unset($users[$user_id]);
+			}
+		}
+
+		$rekey_users = array();
+		foreach ($users as $user) {
+			$rekey_users[] = $user;
+		}
+		$users = $rekey_users;
+		return $users;
+	}
+	//  USED FUNCTION IN ATTENDANCE >> API >> ORGANISATION >> USER-SERVICE >> get_users_with_pagination
+	private function getUserLogsByDate($date)
+	{
 		$user_log = $this->db->select('*')
 			->from($this->user_log_tbl)
-			->where($this->user_log_tbl . '.date', date('Y-m-d', strtotime($date)))
-			->get()->result();
+			->where('DATE(' . $this->user_log_tbl . '.date) =', $date)
+			->get()
+			->result();
 
 		// Create an associative array to hold user logs for easy lookup
 		$user_logs_by_user_id = array();
@@ -305,18 +349,63 @@ class User1_model extends CI_Model
 			$user_logs_by_user_id[$log->user_id] = $log;
 		}
 
-		// Combine user logs with users' data
-		foreach ($users as &$user) {
-			$user_id = $user->user_id;
-			$log = isset($user_logs_by_user_id[$user_id]) ? $user_logs_by_user_id[$user_id] : (object)[
-				'id'   => null,
-				'date' => $date,
+		return $user_logs_by_user_id;
+	}
+	// USED FUNCTION IN ATTENDANCE >> VIEW >> USERSERVICE >> getUserLogsByAbsenteeFilter
+	public function getUserLogsByDateRange($user_id, $start_date, $end_date)
+	{
+
+		$user_data = $this->db->select($this->table . '.user_id, firstname, ' . $this->table . '.user_role, org_idd, cluster_idd, center_id, picture')
+			->from($this->table)
+			->where($this->table . '.user_id', $user_id)
+			->get()
+			->row();
+
+		$user_logs = $this->db->select($this->table . '.user_id, firstname, ' . $this->table . '.user_role, org_idd, cluster_idd, center_id, picture, date, login_time, logout_time')
+			->from($this->user_log_tbl)
+			->where($this->user_log_tbl . '.user_id', $user_id)
+			->where($this->user_log_tbl . '.date >=', $start_date)
+			->where($this->user_log_tbl . '.date <=', $end_date)
+			->join('student', 'student.user_id=' . $this->user_log_tbl . '.user_id', 'right')
+			->get()
+			->result();
+
+		$list = [];
+		$date_range = [];
+		for ($day = strtotime($start_date); $day <= strtotime($end_date); $day = strtotime('+1 day', $day)) {
+			$date_range[] = date('Y-m-d', $day);
+		}
+
+		foreach ($date_range as $day) {
+			$log = (object)[
+				'date' => $day,
 				'login_time' => null,
 				'logout_time' => null
 			];
-			$user->log = $log;
+
+			foreach ($user_logs as $user) {
+				if ($user->date == $day) {
+					$log = (object)[
+						'date' => $day,
+						'login_time' => $user->login_time,
+						'logout_time' => $user->logout_time
+					];
+					break;
+				}
+			}
+
+			$list[] = (object)[
+				'user_id' => $user_data->user_id,
+				'firstname' => $user_data->firstname,
+				'user_role' => $user_data->user_role,
+				'org_idd' => $user_data->org_idd,
+				'cluster_idd' => $user_data->cluster_idd,
+				'center_id' => $user_data->center_id,
+				'picture' => $user_data->picture,
+				'log' => $log
+			];
 		}
 
-		return $users;
+		return $list;
 	}
 }

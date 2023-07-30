@@ -51,67 +51,56 @@
 						</p>
 					</a>
 				</li>
-				<li class="nav-item d-anone">
-					<a href="#" class="nav-link">
+				<!-- Add/List/Statistics Cluster -->
+				<li class="nav-item <?php echo $cluster_menu ?? null; ?>">
+					<a href="#" class="nav-link <?php echo isset($cluster_menu) ? 'active' : null; ?>">
 						<i class="nav-icon fas fa-chart-pie"></i>
 						<p>
-							Charts
+							Cluster
 							<i class="right fas fa-angle-left"></i>
 						</p>
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a href="<?php echo base_url('../new.digital.myskul.in/vendor/almasaeed2010/adminlte/pages/charts/'); ?>charts/chartjs.html" class="nav-link">
+							<a href="<?php echo base_url("organisation/cluster/index") ?>" class="nav-link <?php echo $cluster_add_list_option ?? null; ?>">
 								<i class="far fa-circle nav-icon"></i>
-								<p>ChartJS</p>
+								<p><?php echo display('add_list_cluster'); ?></p>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="<?php echo base_url('vendor/almasaeed2010/adminlte/pages/charts/'); ?>charts/flot.html" class="nav-link">
+							<a href="<?php echo base_url('organisation/cluster/statistics'); ?>" class="nav-link <?php echo $cluster_statistics_option ?? null; ?>">
 								<i class="far fa-circle nav-icon"></i>
-								<p>Flot</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="<?php echo base_url('vendor/almasaeed2010/adminlte/pages/charts/'); ?>charts/inline.html" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>Inline</p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="<?php echo base_url('vendor/almasaeed2010/adminlte/pages/charts/'); ?>charts/uplot.html" class="nav-link">
-								<i class="far fa-circle nav-icon"></i>
-								<p>uPlot</p>
+								<p><?php echo display('cluster_statistics'); ?></p>
 							</a>
 						</li>
 					</ul>
 				</li>
-				<!-- Attendence Report -->
-				<li class="nav-item <?php echo $attendence_menu ?? null; ?>">
-					<a href="#" class="nav-link <?php echo isset($attendence_menu) ? 'active' : null; ?>">
+				<!-- Attendance Report -->
+				<li class="nav-item <?php echo $attendance_menu ?? null; ?>">
+					<a href="#" class="nav-link <?php echo isset($attendance_menu) ? 'active' : null; ?>">
 						<i class="nav-icon fas fa-tree"></i>
 						<p>
-							Attendance Report
+							<?php echo display('attendance_report'); ?>
 							<i class="fas fa-angle-left right"></i>
 						</p>
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a href="<?php echo base_url("organisation/userlog/index") ?>" class="nav-link <?php echo $attendence_by_rcc ?? null; ?>">
+							<a href="<?php echo base_url("organisation/cattendance/index") ?>" class="nav-link <?php echo $attendance_by_rcc ?? null; ?>">
 								<i class="far fa-circle nav-icon"></i>
 								<p>Attendance By R/C/C</p>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="<?php echo base_url("organisation/userlog/absent") ?>" class="nav-link <?php echo $absentees_report ?? null; ?>">
+							<a href="<?php echo base_url("organisation/cattendance/absent") ?>" class="nav-link <?php echo $absentees_report ?? null; ?>">
 								<i class="far fa-circle nav-icon"></i>
 								<p>Absentee</p>
 							</a>
 						</li>
 					</ul>
 				</li>
-				<li class="nav-item menu-open">
-					<a href="#" class="nav-link active">
+				<li class="nav-item">
+					<a href="#" class="nav-link">
 						<i class="nav-icon fas fa-edit"></i>
 						<p>
 							Forms

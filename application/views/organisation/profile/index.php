@@ -1,4 +1,6 @@
-<?php $picture = $this->session->userdata('picture'); ?>
+<!-- <?php $picture = $this->session->userdata('picture'); ?> -->
+<?php $picture = $user->picture; ?>
+
 <div class="row">
 	<!-- Left Side -->
 	<div class="col-md-3">
@@ -162,7 +164,7 @@
 					</div>
 					<!-- /.tab-pane -->
 					<div class="active tab-pane" id="settings">
-						<?php echo form_open_multipart('organisation/dashboard/form/', 'class="form-horizontal" id="js-profile-form"') ?>
+						<?php echo form_open_multipart('organisation/cprofile/saveProfile/', 'class="form-horizontal" id="js-profile-form"') ?>
 						<?php echo form_hidden('user_id', $user->user_id) ?>
 						<!-- First Name -->
 						<div class="form-group row">

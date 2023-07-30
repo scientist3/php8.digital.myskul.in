@@ -1,4 +1,3 @@
-
 <?php
 
 class OrganisationDashboardService
@@ -41,4 +40,5 @@ class OrganisationDashboardService
 		$data['total_std_absentee']		= $this->CI->OrgUser->total_std_absentee_today($OrgId, $this->user_id);
 		return (object) $data;
 	}
+	// public
 }
