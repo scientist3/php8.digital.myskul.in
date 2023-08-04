@@ -258,7 +258,7 @@ class UserService
 		return $picture;
 	}
 	/* ----------- END Section CProfile -------------- */
-	/* -------- Start Section CAttendance ------------ */
+	/* ********************* Start Section CAttendance ******************* */
 	public function getAttendanceObject()
 	{
 		$this->objAttendanceFilter = new AttendanceFilter();
@@ -267,6 +267,7 @@ class UserService
 	}
 
 	//  USED FUNCTION IN ATTENDANCE >> index/Absent >>
+	//  USED FUNCTION IN CCLUSTER >> CREATE >>
 	public function fetchClustersByOrgIdAsList($orgId)
 	{
 		return $this->CI->OrgCluster->read_clusters_of_org_as_list($orgId);
@@ -348,6 +349,18 @@ class UserService
 	}
 
 	/* ---------------- END Section CAttendance ---------------- */
+
+	/**
+	 * Get a list of users serving as coordinators (user_role = 3) for a specific organization or all organizations.
+	 *
+	 * @param int|null $org_id The organization ID. Pass null to get users from all organizations.
+	 * @return array An associative array of user IDs as keys and their corresponding first names as values.
+	 */
+	public function getCoordinatorList($org_id = null)
+	{
+		return $this->CI->user_model->getCoordinatorList($org_id);
+	}
+	
 }
 class User
 {

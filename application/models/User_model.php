@@ -99,8 +99,6 @@ class User_model extends CI_Model
 				->get()
 				->result();
 			return $d2;
-
-
 		}
 	}
 
@@ -352,31 +350,26 @@ class User_model extends CI_Model
 		}
 		return $list;
 	}
-
-	public function read_as_list_cor($org_id = null)
+	// USED IN USER SERVIVE
+	public function getCoordinatorList($org_id = null)
 	{
-		if ($org_id == null) {
-			$result = $this->db->select("*")
-				->from($this->table)
-				->where('user_role', '3')
-				->order_by('firstname', 'asc')
-				->get()
-				->result();
-		} else {
-			$result = $this->db->select("*")
-				->from($this->table)
-				->where('user_role', '3')
-				->where('org_idd', $org_id)
-				->order_by('firstname', 'asc')
-				->get()
-				->result();
+		$this->db->select("user_id, firstname");
+		$this->db->from($this->table);
+		$this->db->where('user_role', '3');
+
+		if ($org_id !== null) {
+			$this->db->where('org_idd', $org_id);
 		}
 
-		$list[''] = display('select_user');
+		$this->db->order_by('firstname', 'asc');
+		$result = $this->db->get()->result();
+
+		$coordinatorList = ['' => display('select_user')];
 		foreach ($result as $row) {
-			$list[$row->user_id] = $row->firstname;
+			$coordinatorList[$row->user_id] = $row->firstname;
 		}
-		return $list;
+
+		return $coordinatorList;
 	}
 
 	public function read_as_list_ani($org_id = null)

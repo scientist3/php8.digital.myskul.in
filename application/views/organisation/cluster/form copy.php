@@ -1,60 +1,58 @@
 <div class="row">
-	<!--  Add Cluster -->
-	<div class="col-sm-12 col-md-4">
+	<!--  form area -->
+	<div class="col-md-4">
 		<?php echo form_open_multipart('organisation/ccluster/create', 'class="form-inner"') ?>
-		<?php echo form_hidden('cluster_id', $input->cluster_id); ?>
+		<?php echo form_hidden('cluster_id', $input->clusterId); ?>
 		<div class="card card-outline card-info">
 
-			<div class="card-header">
-				<h3 class="card-title">
-					<i class="fa fa-<?php echo isset($show_add_button) ? 'edit' : 'plus'; ?>"></i>
-					<?php echo $left_subtitle; ?>
-				</h3>
+			<div class="card-header ">
+				<h3 class="card-title"><i class="fa fa-search"></i> <?php echo display('select_criteria'); ?></h3>
+				<!-- <div class="btn-group">
+					<a class="btn btn-primary" href="< ?php echo base_url("dashboard_org/cluster") ?>"> <i class="fa fa-list"></i> < ?php echo display('list_cluster') ?> </a>
+				</div> -->
 			</div>
 
 			<div class="card-body">
 				<div class="row">
 					<div class="col-sm-12">
+
 						<div class="form-group">
-							<label for="cluster_name">
-								<?php echo display('cluster'); ?>
-							</label> <small class="text-danger"> *</small>
-							<input name="cluster_name" class="form-control form-control-sm" type="text" placeholder="<?php echo display('cluster') ?>" id="cluster_name" value="<?php echo $input->cluster_name; ?>" data-toggle="tooltip" title="<?php echo display('cluster'); ?>">
-							<?php // echo form_error('cluster_name', '<span class="text-danger text-xs p-1">', '</span>'); 
-							?>
+							<label><?php echo display('cluster'); ?></label> <small class="req"> *</small>
+							<div class="col-xs-9">
+								<input name="cluster_name" type="text" class="form-control" id="cluster_name" placeholder="<?php echo display('cluster') ?>" value="<?php echo $input->clusterName ?>">
+							</div>
+						</div>
+
+						<!-- <div class="form-group row">
+                                <label for="cluster_org_id" class="col-xs-3 col-form-label"><?php echo display('org') ?> <i class="text-danger">*</i></label>
+                                <div class="col-xs-9">
+                                    <?php echo form_dropdown('cluster_org_id', $org_list, $cluster->cluster_org_id, 'class="form-control" id="cluster_org_id" readonly'); ?>
+                                </div>
+                            </div> -->
+
+						<div class="form-group ">
+							<label><?php echo display('coodinator'); ?></label> <small class="req"> *</small>
+							<div class="col-xs-9">
+								<?php echo form_dropdown('cluster_head_id', $coodinator_list, $input->clusterHeadId, 'class="form-control" id="cluster_head_id" '); ?>
+							</div>
 						</div>
 					</div>
-
-					<div class="col-sm-12">
-						<div class="form-group">
-							<label for="cluster_head_id">
-								<?php echo display('coodinator'); ?>
-							</label> <small class="text-danger"> *</small>
-							<?php echo form_dropdown('cluster_head_id', $coodinator_list, $input->cluster_head_id, 'class="form-control" id="cluster_head_id" '); ?>
-							<?php // echo form_error('cluster_head_id', '<span class="text-danger text-xs p-1">', '</span>'); 
-							?>
-						</div>
-					</div>
-
 				</div>
 			</div>
 			<div class="card-footer">
 				<div class="float-right">
-					<a href="<?php echo base_url('/'); ?>organisation/ccluster/create" class="btn btn-danger <?php echo (isset($show_cancel_btn) && $show_cancel_btn) ? '' : 'd-none'; ?>"><?php echo display('Cancel') ?></a>
+					<button type="reset" class="btn btn-info "><?php echo display('reset') ?></button>
 					<button tyep="submit" class="btn  btn-primary"><?php echo display('save') ?></button>
 				</div>
 			</div>
 		</div>
 		<?php echo form_close() ?>
 	</div>
-	<!-- List Cluster -->
-	<div class="col-sm-12 col-md-8">
+	<!-- List Clusters -->
+	<div class="col-md-8">
 		<div class="card card-outline card-info">
 			<div class="card-header">
-				<h3 class="card-title">
-					<i class="fa fa-list"></i>
-					<?php echo $right_subtitle; ?>
-				</h3>
+				<h3 class="card-title"><i class="fa fa-list"></i> <?php echo $title; ?></h3>
 			</div>
 
 			<?php //echo "<pre>"; print_r($clusters[0]); echo "</pre>"; 
@@ -62,45 +60,24 @@
 			<div class="card-body">
 				<table class="datatable_cluster table table-striped table-bordered table-hover">
 					<thead>
-						<tr>
-							<th>
-								<?php echo display('serial') ?>
-							</th>
-							<th>
-								<?php echo display('cluster') ?>
-							</th>
-							<th>
-								<?php echo display('org') ?>
-							</th>
-							<th>
-								<?php echo display('coodinator') ?>
-							</th>
-							<th>
-								<?php echo display('action') ?>
-							</th>
-						</tr>
+						<th><?php echo display('serial') ?></th>
+						<th><?php echo display('cluster') ?></th>
+						<th><?php echo display('org') ?></th>
+						<th><?php echo display('coodinator') ?></th>
+						<th><?php echo display('action') ?></th>
 					</thead>
 					<tbody>
 						<?php if (!empty($clusters)) { ?>
 							<?php $sl = 1; ?>
 							<?php foreach ($clusters as $cluster) { ?>
 								<tr>
-									<td>
-										<?php echo $sl; ?>
-									</td>
-									<td>
-										<?php echo $cluster->cluster_name; ?>
-									</td>
-									<td>
-										<?php echo $cluster->org_name; ?>
-									</td>
-									<td>
-										<?php echo $cluster->firstname; ?>
-									</td>
-
+									<td><?php echo $sl; ?></td>
+									<td><?php echo $cluster->cluster_name; ?></td>
+									<td><?php echo $cluster->org_name; ?></td>
+									<td><?php echo $cluster->firstname; ?></td>
 									<td class="center" width="80">
-										<a href="<?php echo base_url("organisation/ccluster/edit/$cluster->cluster_id") ?>" class="btn btn-xs btn-success"><i class="fa fa-edit"></i></a>
-										<a href="<?php echo base_url("organisation/ccluster/delete/$cluster->cluster_id") ?>" class="btn btn-xs btn-danger" onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i class="fa fa-trash"></i></a>
+										<a href="<?php echo base_url("dashboard_org/cluster/edit/$cluster->cluster_id") ?>" class="btn btn-xs btn-success"><i class="fa fa-edit"></i></a>
+										<a href="<?php echo base_url("dashboard_org/cluster/delete/$cluster->cluster_id") ?>" class="btn btn-xs btn-danger" onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i class="fa fa-trash"></i></a>
 									</td>
 								</tr>
 								<?php $sl++; ?>
@@ -111,6 +88,7 @@
 			</div>
 		</div>
 	</div>
+
 </div>
 
 <!-- jQuery -->

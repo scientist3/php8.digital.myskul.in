@@ -56,19 +56,19 @@
 					<a href="#" class="nav-link <?php echo isset($cluster_menu) ? 'active' : null; ?>">
 						<i class="nav-icon fas fa-chart-pie"></i>
 						<p>
-							Cluster
+							<?php echo display('cluster'); ?>
 							<i class="right fas fa-angle-left"></i>
 						</p>
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
-							<a href="<?php echo base_url("organisation/cluster/index") ?>" class="nav-link <?php echo $cluster_add_list_option ?? null; ?>">
+							<a href="<?php echo base_url("organisation/ccluster/index") ?>" class="nav-link <?php echo $cluster_add_list_option ?? null; ?>">
 								<i class="far fa-circle nav-icon"></i>
 								<p><?php echo display('add_list_cluster'); ?></p>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="<?php echo base_url('organisation/cluster/statistics'); ?>" class="nav-link <?php echo $cluster_statistics_option ?? null; ?>">
+							<a href="<?php echo base_url('organisation/ccluster/statistics'); ?>" class="nav-link <?php echo $cluster_statistics_option ?? null; ?>">
 								<i class="far fa-circle nav-icon"></i>
 								<p><?php echo display('cluster_statistics'); ?></p>
 							</a>
