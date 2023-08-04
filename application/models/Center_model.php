@@ -10,6 +10,18 @@ class Center_model extends CI_Model
 		return $this->db->insert($this->table, $data);
 	}
 
+	// USED IN CLUSTER CONTROLLER
+	public function fetchCountByCenterId($centerId)
+	{
+		$this->db->select("COUNT(student.user_id) as student_count")
+			->from('student')
+			->where('FIND_IN_SET(' . $centerId . ', student.center_id) > 0');
+
+		$query = $this->db->get();
+		$result = $query->row();
+
+		return ($result !== null) ? $result->student_count : 0;
+	}
 	public function read($org_id = null, $cluster_id = null)
 	{
 		// center_id	center_name	center_head_id	center_cluster_id

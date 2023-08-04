@@ -1,5 +1,5 @@
 <div class="row">
-    <!--  table area -->
+    <!--  Add Intervention Center -->
     <div class="col-sm-12">
         <div class="panel panel-default thumbnail">
             <div class="panel-heading">

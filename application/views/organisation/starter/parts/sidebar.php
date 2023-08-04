@@ -51,30 +51,6 @@
 						</p>
 					</a>
 				</li>
-				<!-- Add/List/Statistics Cluster -->
-				<li class="nav-item <?php echo $cluster_menu ?? null; ?>">
-					<a href="#" class="nav-link <?php echo isset($cluster_menu) ? 'active' : null; ?>">
-						<i class="nav-icon fas fa-chart-pie"></i>
-						<p>
-							<?php echo display('cluster'); ?>
-							<i class="right fas fa-angle-left"></i>
-						</p>
-					</a>
-					<ul class="nav nav-treeview">
-						<li class="nav-item">
-							<a href="<?php echo base_url("organisation/ccluster/index") ?>" class="nav-link <?php echo $cluster_add_list_option ?? null; ?>">
-								<i class="far fa-circle nav-icon"></i>
-								<p><?php echo display('add_list_cluster'); ?></p>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a href="<?php echo base_url('organisation/ccluster/statistics'); ?>" class="nav-link <?php echo $cluster_statistics_option ?? null; ?>">
-								<i class="far fa-circle nav-icon"></i>
-								<p><?php echo display('cluster_statistics'); ?></p>
-							</a>
-						</li>
-					</ul>
-				</li>
 				<!-- Attendance Report -->
 				<li class="nav-item <?php echo $attendance_menu ?? null; ?>">
 					<a href="#" class="nav-link <?php echo isset($attendance_menu) ? 'active' : null; ?>">
@@ -99,6 +75,50 @@
 						</li>
 					</ul>
 				</li>
+				<!-- Add/List/Statistics Cluster -->
+				<li class="nav-item <?php echo $cluster_menu ?? null; ?>">
+					<a href="#" class="nav-link <?php echo isset($cluster_menu) ? 'active' : null; ?>">
+						<i class="nav-icon fas fa-chart-pie"></i>
+						<p>
+							<?php echo display('cluster'); ?>
+							<i class="right fas fa-angle-left"></i>
+						</p>
+					</a>
+					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a href="<?php echo base_url("organisation/ccluster/index") ?>" class="nav-link <?php echo $cluster_add_list_option ?? null; ?>">
+								<i class="far fa-circle nav-icon"></i>
+								<p><?php echo display('add_list_cluster'); ?></p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="<?php echo base_url('organisation/ccluster/statistics'); ?>" class="nav-link <?php echo $cluster_statistics_option ?? null; ?>">
+								<i class="far fa-circle nav-icon"></i>
+								<p><?php echo display('cluster_statistics'); ?></p>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<!-- Add/List/Statistics Center -->
+				<li class="nav-item <?php echo $center_menu ?? null; ?>">
+					<a href="#" class="nav-link <?php echo isset($center_menu) ? 'active' : null; ?>">
+						<i class="nav-icon fas fa-chart-pie"></i>
+						<p>
+							<?php echo display('center'); ?>
+							<i class="right fas fa-angle-left"></i>
+						</p>
+					</a>
+					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a href="<?php echo base_url("organisation/ccenter/index") ?>" class="nav-link <?php echo $center_add_list_option ?? null; ?>">
+								<i class="far fa-circle nav-icon"></i>
+								<p><?php echo display('add_list_center'); ?></p>
+							</a>
+						</li>
+
+					</ul>
+				</li>
+
 				<li class="nav-item">
 					<a href="#" class="nav-link">
 						<i class="nav-icon fas fa-edit"></i>
