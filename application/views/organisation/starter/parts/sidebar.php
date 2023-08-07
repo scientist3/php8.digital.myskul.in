@@ -45,10 +45,7 @@
 				<li class="nav-item">
 					<a href="<?php echo base_url('organisation/dashboard/index') ?>" class="nav-link <?php echo $dashboard ?? null; ?>">
 						<i class="nav-icon fas fa-tachometer-alt"></i>
-						<p>
-							Dashboard
-							<!-- <i class="right fas fa-angle-left"></i> -->
-						</p>
+						<p> Dashboard </p>
 					</a>
 				</li>
 				<!-- Attendance Report -->
@@ -113,6 +110,32 @@
 							<a href="<?php echo base_url("organisation/ccenter/index") ?>" class="nav-link <?php echo $center_add_list_option ?? null; ?>">
 								<i class="far fa-circle nav-icon"></i>
 								<p><?php echo display('add_list_center'); ?></p>
+							</a>
+						</li>
+
+					</ul>
+				</li>
+
+				<!-- Add/List/Statistics Center -->
+				<li class="nav-item <?php echo $material_menu ?? null; ?>">
+					<a href="#" class="nav-link <?php echo isset($material_menu) ? 'active' : null; ?>">
+						<i class="nav-icon fa fa-book"></i>
+						<p>
+							<?php echo display('study_material'); ?>
+							<i class="right fas fa-angle-left"></i>
+						</p>
+					</a>
+					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a href="<?php echo base_url("organisation/cmaterial/create") ?>" class="nav-link <?php echo $material_add_option ?? null; ?>">
+								<i class="far fa-circle nav-icon"></i>
+								<p><?php echo display('add_material'); ?></p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="<?php echo base_url("organisation/cmaterial/index") ?>" class="nav-link <?php echo $material_view_option ?? null; ?>">
+								<i class="far fa-circle nav-icon"></i>
+								<p><?php echo display('view_material'); ?></p>
 							</a>
 						</li>
 

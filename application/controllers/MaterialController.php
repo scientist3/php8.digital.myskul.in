@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class CenterController extends CI_Controller
+class MaterialController extends CI_Controller
 {
 	public $userId;
 	public $data = array();
@@ -153,5 +153,104 @@ class CenterController extends CI_Controller
 			#set exception message
 			$this->session->set_flashdata('exception', display('please_try_again'));
 		}
+	}
+}
+
+class Cluster
+{
+	private $cluster_id;
+	private $cluster_name;
+	private $cluster_org_id;
+	private $cluster_head_id;
+
+	// Getter and Setter for clusterId
+	public function getClusterId()
+	{
+		return $this->cluster_id;
+	}
+
+	public function setClusterId($clusterId)
+	{
+		$this->cluster_id = $clusterId;
+	}
+
+	// Getter and Setter for clusterName
+	public function getClusterName()
+	{
+		return $this->cluster_name;
+	}
+
+	public function setClusterName($clusterName)
+	{
+		$this->cluster_name = $clusterName;
+	}
+
+	// Getter and Setter for clusterOrgId
+	public function getClusterOrgId()
+	{
+		return $this->cluster_org_id;
+	}
+
+	public function setClusterOrgId($clusterOrgId)
+	{
+		$this->cluster_org_id = $clusterOrgId;
+	}
+
+	// Getter and Setter for clusterHeadId
+	public function getClusterHeadId()
+	{
+		return $this->cluster_head_id;
+	}
+
+	public function setClusterHeadId($clusterHeadId)
+	{
+		$this->cluster_head_id = $clusterHeadId;
+	}
+
+	// Set values from an associative array
+	public function setValues($data)
+	{
+		if (is_array($data)) {
+			if (isset($data['cluster_id'])) {
+				$this->setClusterId($data['cluster_id']);
+			}
+			if (isset($data['cluster_name'])) {
+				$this->setClusterName($data['cluster_name']);
+			}
+			if (isset($data['cluster_org_id'])) {
+				$this->setClusterOrgId($data['cluster_org_id']);
+			}
+			if (isset($data['cluster_head_id'])) {
+				$this->setClusterHeadId($data['cluster_head_id']);
+			}
+		}
+	}
+
+	// Convert object properties to an associative array using getter methods
+	public function toArray()
+	{
+		$data = [
+			'cluster_id' 			=> $this->getClusterId(),
+			'cluster_name' 		=> $this->getClusterName(),
+			'cluster_org_id' 	=> $this->getClusterOrgId(),
+			'cluster_head_id' => $this->getClusterHeadId(),
+		];
+
+		return $data;
+	}
+
+	// Convert only set values to an associative array
+	public function toArraySetValuesOnly()
+	{
+		$data = [];
+		$properties = get_object_vars($this);
+
+		foreach ($properties as $key => $value) {
+			if ($value !== null) {
+				$data[$key] = $value;
+			}
+		}
+
+		return $data;
 	}
 }
