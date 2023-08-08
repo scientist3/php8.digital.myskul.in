@@ -94,16 +94,16 @@ class CMaterial extends MaterialController
 	public function create()
 	{
 
-		$this->data['title'] = display('add_material');
-		$this->data['PageTitle']								= 'Add Study Material';
-		$this->data['material_menu']						= 'menu-open';
-		$this->data['material_add_option']			= 'active';
+		$this->data['title'] 								= display('add_material');
+		$this->data['PageTitle']						= 'Add Study Material';
+		$this->data['material_menu']				= 'menu-open';
+		$this->data['material_add_option']	= 'active';
 
-		$this->data['district_list'] = getDistrictListAsArray();
+		$this->data['district_list'] 				= getDistrictListAsArray();
 		//$this->data['user_role_list'] = $this->dashboard_model->get_user_roles();
 		#-------------------------------------------------#
 		# Fetch Cluster List
-		$this->data['cluster_list'] = $this->cluster_model->read_as_list_by_org($this->organisation->org_id);
+		$this->data['cluster_list'] 				= $this->cluster_model->read_as_list_by_org($this->organisation->org_id);
 		// print_r($this->data['cluster_list']); die();
 		# Fetch Center List
 		#-------------------------------------------------#
@@ -160,7 +160,7 @@ class CMaterial extends MaterialController
 					#set exception message
 					$this->session->set_flashdata('exception', display('please_try_again'));
 				}
-				redirect('organisation/material');
+				redirect('organisation/cmaterial');
 			} else { // Update
 				if ($this->material_model->update($postData)) {
 					#set success message
@@ -169,7 +169,7 @@ class CMaterial extends MaterialController
 					#set exception message
 					$this->session->set_flashdata('exception', display('please_try_again'));
 				}
-				redirect('organisation/material/edit/' . $postData['mat_id']);
+				redirect('organisation/cmaterial/edit/' . $postData['mat_id']);
 			}
 		} else {
 			$this->data['content'] = $this->load->view('organisation/material/upload', $this->data, true);

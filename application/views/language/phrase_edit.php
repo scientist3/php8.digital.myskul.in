@@ -38,8 +38,8 @@
 								<tr class="<?= (empty($value->$language) ? "bg-danger" : null) ?>">
 
 									<td><?= $sl++ ?></td>
-									<td><input type="text" name="phrase[]" value="<?= $value->phrase ?>" class="form-control" readonly></td>
-									<td><input type="text" name="lang[]" value="<?= $value->$language ?>" class="form-control"></td>
+									<td><input type="text" name="phrase[]" value="<?= $value->phrase ?>" class="form-control form-control-sm" readonly></td>
+									<td><input type="text" name="lang[]" value="<?= $value->$language ?>" class="form-control form-control-sm"></td>
 								</tr>
 							<?php } ?>
 						<?php } ?>

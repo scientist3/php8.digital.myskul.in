@@ -9,8 +9,6 @@
 
 	<div class="card-body">
 		<div class="row">
-
-
 			<!-- phrase -->
 			<div class="col-sm-12">
 				<table class="table table-striped">
@@ -20,7 +18,7 @@
 								<?= form_open('language/addPhrase', ' class="form-inline" ') ?>
 								<div class="form-group">
 									<label class="sr-only" for="addphrase"> Phrase Name</label>
-									<input name="phrase[]" type="text" class="form-control" id="addphrase" placeholder="Phrase Name">
+									<input name="phrase[]" type="text" class="form-control form-control-sm" id="addphrase" placeholder="Phrase Name">
 								</div>
 
 								<button type="submit" class="btn btn-primary">Save</button>

@@ -54,7 +54,7 @@ class Language extends CI_Controller
 
 			$i = 1;
 			foreach ($fields as $field) {
-				if ($i++ > 2)
+				if ($i++ > 2 and $field->name != 'order_by')
 					$result[$field->name] = ucfirst($field->name);
 			}
 

@@ -5,7 +5,7 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '192.168.1.6',
+	'hostname' => '192.168.1.2',
 	'username' => 'root',
 	'password' => '',
 	'database' => 'rep_db',
