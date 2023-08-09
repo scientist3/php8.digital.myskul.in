@@ -18,7 +18,7 @@ class Language extends CI_Controller
 			'userrole_model' => 'UserRole',
 		));
 		if (
-			$this->session->userdata('isLogIn') == false
+			$this->session->userdata('isRepLogIn') == false
 			/*|| $this->session->userdata('user_role') != 1 */
 		)
 			redirect('login');

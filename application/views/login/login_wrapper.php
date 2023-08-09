@@ -85,7 +85,7 @@ $settings = $this->db->select("*,site_align")
 					</div>
 				</div>
 				<div class="input-group mb-3">
-					<?php echo form_dropdown('user_role', $user_role_list, 1 /*$user->user_role*/, 'class="form-control select2bs4" id="user_role" '); ?>
+					<?php echo form_dropdown('user_role', $user_role_list, ($this->session->has_userdata('user_role') ? $this->session->userdata('user_role') : 2), 'class="form-control select2bs4" id="user_role" '); ?>
 				</div>
 				<div class="row justify-content-end">
 					<!-- <div class="col-8">

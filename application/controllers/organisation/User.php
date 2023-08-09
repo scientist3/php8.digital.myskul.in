@@ -18,7 +18,7 @@ class User extends OrganisationController
 			'organisation_model',
 
 		));
-		if ($this->session->userdata('isLogIn') == false || $this->session->userdata('user_role') != 3)
+		if ($this->session->userdata('isRepLogIn') == false || $this->session->userdata('user_role') != 3)
 			redirect('login');
 		$this->org_id       = $this->session->userdata('org_id');
 		$this->cluster_id   = $this->session->userdata('cluster_id');

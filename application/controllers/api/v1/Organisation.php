@@ -14,7 +14,7 @@ class Organisation extends CI_Controller
 		$this->load->library('UserService');
 
 		// Authentication
-		if (!$this->session->userdata('isLogIn') || $this->session->userdata('user_role') != 2) {
+		if (!$this->session->userdata('isRepLogIn') || $this->session->userdata('user_role') != 2) {
 			$response = array(
 				'success' => false,
 				'message' => "Unauthorized Access"

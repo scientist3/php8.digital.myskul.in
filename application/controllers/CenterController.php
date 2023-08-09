@@ -31,7 +31,7 @@ class CenterController extends CI_Controller
 	{
 		// Authenticate User
 		if (
-			$this->session->userdata('isLogIn') == false
+			$this->session->userdata('isRepLogIn') == false
 			|| $this->session->userdata('user_role') != Userrole::ORGANISATION
 		) {
 			redirect('login');

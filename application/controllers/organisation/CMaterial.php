@@ -21,7 +21,7 @@ class CMaterial extends MaterialController
 			'center_model',
 			'material_model'
 		));
-		if ($this->session->userdata('isLogIn') == false ||  $this->session->userdata('user_role') != 2)
+		if ($this->session->userdata('isRepLogIn') == false ||  $this->session->userdata('user_role') != 2)
 			redirect('login');
 		$this->load->library("pagination");
 		$this->user_id = $user_id = $this->session->userdata('user_id');

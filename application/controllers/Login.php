@@ -6,6 +6,7 @@ class Login extends CI_Controller
 	private $data;
 	private $postData;
 	private $objUserService;
+	private $user_role;
 
 
 	public function __construct()
@@ -22,6 +23,7 @@ class Login extends CI_Controller
 
 		$this->objUserService	= new $this->userservice();
 		$this->data['user_role_list'] = $this->objUserService->getUserRoleListAsArray();
+		$this->user_role = $this->session->userdata('user_role');
 	}
 	public function index()
 	{
@@ -30,7 +32,7 @@ class Login extends CI_Controller
 	public function login()
 	{
 
-		if ($this->session->userdata('isLogIn'))
+		if ($this->session->userdata('isRepLogIn'))
 			$this->redirectTo($this->session->userdata('user_role'));
 
 		$this->validation();
@@ -38,6 +40,7 @@ class Login extends CI_Controller
 		$this->loadInputData();
 
 		if (true === $this->validate()) {
+			$this->user_role = $this->postData['user_role'];
 			$this->redirectTo($this->postData['user_role']);
 		} else {
 			//$this->data['user_role_list'] = $this->userrole_model->read_basic_as_list();
@@ -94,7 +97,7 @@ class Login extends CI_Controller
 				}
 				//print_r($check_user->row());die;
 				$this->session->set_userdata([
-					'isLogIn' => true,
+					'isRepLogIn' => true,
 					'user_id' => (($this->postData['user_role'] == 10) ? $check_user->row()->id : $check_user->row()->user_id),
 					'patient_id' => (($this->postData['user_role'] == 10) ? $check_user->row()->patient_id : null),
 					'email' => $check_user->row()->email,
@@ -168,6 +171,7 @@ class Login extends CI_Controller
 	{
 		$this->save_logout_time();
 		$this->session->sess_destroy();
+		$this->session->set_userdata(['user_role', $this->user_role]);
 		redirect('login');
 	}
 }

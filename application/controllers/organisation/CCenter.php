@@ -22,7 +22,7 @@ class CCenter extends CenterController
 			)
 		);
 
-		if ($this->session->userdata('isLogIn') == false || $this->session->userdata('user_role') != 2) {
+		if ($this->session->userdata('isRepLogIn') == false || $this->session->userdata('user_role') != 2) {
 			redirect('login');
 		}
 
