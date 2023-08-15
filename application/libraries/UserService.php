@@ -360,7 +360,43 @@ class UserService
 	{
 		return $this->CI->user_model->getCoordinatorList($org_id);
 	}
-	
+
+	/* ---------------- START Section CSTUDENT ---------------- */
+
+//  USED FUNCTION IN ATTENDANCE >> API >> ORGANISATION >> usersListWithParemsAsJson
+		public function fetchStudentWithPaginationAndCountByFilters($orgId, $clusterId, $centerId, $userRole, $date, $selfId, $itemsPerPage, $page, $orderBy, $sortOrder, $searchValue)
+		{
+			// Call the model method to get the count of users with filters
+			$totalCount = $this->CI->user1_model->getFilteredUserTotalCount(
+				$orgId,
+				$clusterId,
+				$centerId,
+				(($userRole == 'all') ? null : $userRole),
+				$selfId,
+				$searchValue // Add search value to the count query
+			);
+			// Call the model method to get the paginated users and the total count
+			// Fetch users data with pagination and filters
+			$users = $this->CI->user1_model->getUsersWithPagination(
+				$orgId,
+				$clusterId,
+				$centerId,
+				(($userRole == 'all') ? null : $userRole),
+				$date,
+				$selfId,
+				$orderBy,
+				$sortOrder,
+				$searchValue,
+				$itemsPerPage,
+				$page
+			);
+
+			// Calculate the total count from the paginated result
+			// $totalCount = count($users);
+
+			return array($users, $totalCount);
+		}
+
 }
 class User
 {

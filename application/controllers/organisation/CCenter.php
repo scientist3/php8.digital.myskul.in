@@ -79,7 +79,7 @@ class CCenter extends CenterController
 				if ($this->center_model->create($postData)) {
 
 					#set success message
-					$this->session->set_flashdata('message', $response . display('save_successfully'));
+					$this->session->set_flashdata('message',  display('save_successfully'));
 				} else {
 					#set exception message
 					$this->session->set_flashdata('exception', display('please_try_again'));

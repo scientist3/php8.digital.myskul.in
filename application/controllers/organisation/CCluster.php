@@ -29,7 +29,7 @@ class CCluster extends ClusterController
 
 		$this->data['input'] 										= (object) $this->objCluster->toArray();
 
-		$this->data['cluster_list'] 						= $this->getUserService()->fetchClustersByOrgIdAsList($this->data['organisation']['org_id']);
+		$this->data['cluster_list'] 						= $this->getUserService()->fetchClustersByOrgIdAsList($this->getOrgId());
 
 
 		#-------------------------------# create an Organisation
@@ -75,7 +75,7 @@ class CCluster extends ClusterController
 		$this->data['cluster_statistics_option']	= 'active';
 
 
-		$this->data['clusters'] = $this->fetchClusterDetailsWithCentersWithCounts($this->data['organisation']['org_id']);
+		$this->data['clusters'] = $this->fetchClusterDetailsWithCentersWithCounts($this->getOrgId());
 		$this->data['center_list'] = $this->fetchInterventionAreasDetailsWithStudentCountByClusterId($this->uri->segment(4) ?? current($this->data['clusters'])->cluster_id);
 
 		$this->data['is_centers'] = false;

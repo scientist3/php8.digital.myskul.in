@@ -82,6 +82,15 @@ class Userrole
 			self::STUDENT => 'Student'
 		);
 	}
+	public static function getCASRoleNamesAsArray()
+	{
+		return array(
+			" " => 'Select User Role',
+			self::CLUSTER_COORDINATOR => 'Cluster Coordinator',
+			self::ANIMATOR => 'Animator',
+			self::STUDENT => 'Student'
+		);
+	}
 
 	// public static function getStatus($type)
 	// {

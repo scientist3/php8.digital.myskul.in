@@ -53,6 +53,7 @@ $route['default_controller'] 		= 'login';
 $route['404_override'] 					= 'fourzerofour';
 $route['translate_uri_dashes'] 	= FALSE;
 // User Defined Routes
-$route['login']						= 'login/login';
+$route['login']						= 'login/index';
+$route['login/index']			= 'login/index';
 $route['logout']					= 'login/logout';
 $route['developer']				= 'login/developer';

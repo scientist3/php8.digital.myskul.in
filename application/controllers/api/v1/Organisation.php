@@ -31,57 +31,6 @@ class Organisation extends CI_Controller
 		$this->data['organisation'] = $this->objUserService->fetchOrganisationHeadDetailsByUserId($this->user_id);
 	}
 
-	// public function usersListAsJson()
-	// {
-	// 	// Get the page number from the request, default to 1 if not provided
-	// 	$page = $this->input->post('page') ? (int) $this->input->post('page') : 1;
-	// 	$itemsPerPage = 10; // Number of records per page
-
-	// 	// Other filters (you can update these based on your requirements)
-	// 	$this->data['cluster_id'] = $this->input->post('cluster_id');
-	// 	$this->data['center_id'] = $this->input->post('center_id');
-	// 	$this->data['user_role'] = !empty($this->input->post('user_role')) ? $this->input->post('user_role') : '4';
-	// 	$this->data['date'] = !empty($this->input->post('date')) ? $this->input->post('date') : date('Y-m-d');
-
-	// 	// Fetch total count of users (you need to implement the method in UserService)
-	// 	$totalCount = $this->objUserService->countUsersByFilters(
-	// 		$this->data['organisation']['org_id'],
-	// 		$this->data['cluster_id'],
-	// 		$this->data['center_id'],
-	// 		$this->data['user_role'],
-	// 		$this->data['date'],
-	// 		$this->user_id
-	// 	);
-
-	// 	// Calculate the offset for pagination
-	// 	$offset = ($page - 1) * $itemsPerPage;
-
-	// 	// Fetch users data with pagination (you need to implement the method in UserService)
-	// 	$this->data['users'] = $this->objUserService->fetchUsersByFiltersWithPagination(
-	// 		$this->data['organisation']['org_id'],
-	// 		$this->data['cluster_id'],
-	// 		$this->data['center_id'],
-	// 		$this->data['user_role'],
-	// 		$this->data['date'],
-	// 		$this->user_id,
-	// 		$itemsPerPage,
-	// 		$offset
-	// 	);
-
-	// 	// Construct the JSON response with pagination details
-	// 	$response = array(
-	// 		'draw' => $this->input->post('draw'), // Required for DataTables to function properly
-	// 		'recordsTotal' => $totalCount,
-	// 		'recordsFiltered' => $totalCount, // In this case, it's the same as 'recordsTotal'
-	// 		'data' => $this->data['users'] // The actual data to be displayed in the DataTable
-	// 	);
-
-	// 	// Output the JSON response
-	// 	$this->output
-	// 		->set_content_type('application/json')
-	// 		->set_output(json_encode($response));
-	// }
-
 	private function extractPaginationParameters()
 	{
 		$page = (int)$this->input->post('page') ?: 1;
@@ -140,13 +89,13 @@ class Organisation extends CI_Controller
 			$sortOrder,
 			$searchValue,
 			$check
-		) = $this->extractPaginationParameters();
+			) = $this->extractPaginationParameters();
 
 
 		// Fetch users data with pagination and total count (you need to implement the method in UserService)
 
 		list($users, $totalCount) = $this->objUserService->fetchUsersWithPaginationAndCountByFilters(
-			$this->data['organisation']['org_id'],
+			$this->getOrgId(),
 			$clusterId,
 			$centerId,
 			$userRole,
@@ -173,4 +122,52 @@ class Organisation extends CI_Controller
 			->set_content_type('application/json')
 			->set_output(json_encode($response));
 	}
+	public function studentListWithParemsAsJson()
+	{
+		// Extract pagination parameters using the function
+		list(
+			$clusterId,
+			$centerId,
+			$userRole,
+			$date,
+			$page,
+			$itemsPerPage,
+			$orderBy,
+			$sortOrder,
+			$searchValue,
+			$check
+			) = $this->extractPaginationParameters();
+
+
+		// Fetch users data with pagination and total count (you need to implement the method in UserService)
+
+		list($users, $totalCount) = $this->objUserService->fetchStudentWithPaginationAndCountByFilters(
+			$this->getOrgId(),
+			$clusterId,
+			$centerId,
+			$userRole,
+			$date,
+			$this->user_id,
+			$itemsPerPage,
+			$page,
+			$orderBy,
+			$sortOrder,
+			$searchValue,
+			$check
+		);
+
+		// Construct the JSON response with pagination details
+		$response = array(
+			'draw' => intval($this->input->post('draw')), // Current draw counter
+			'recordsTotal' => $totalCount,
+			'recordsFiltered' => $totalCount,
+			'data' => $users // The paginated user data to be displayed in the DataTable
+		);
+
+		// Output the JSON response
+		$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($response));
+	}
+
 }

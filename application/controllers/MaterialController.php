@@ -46,10 +46,10 @@ class MaterialController extends CI_Controller
 		// Load Data for Views
 		$this->data['organisation']		= $this->objUserService->fetchOrganisationHeadDetailsByUserId($this->userId);
 		$this->data['user_role_list']	= $this->objUserService->getUserRoleListAsArray();
-		$_POST['cluster_org_id'] 			= $this->data['organisation']['org_id'];
+		$_POST['cluster_org_id'] 			= $this->getOrgId();
 
-		$this->data['coodinator_list'] 					= $this->getUserService()->getCoordinatorList($this->data['organisation']['org_id']);
-		$this->data['clusters'] 								= $this->fetchClusterList($this->data['organisation']['org_id']);
+		$this->data['coodinator_list'] 					= $this->getUserService()->getCoordinatorList($this->getOrgId());
+		$this->data['clusters'] 								= $this->fetchClusterList($this->getOrgId());
 	}
 
 	public function getUserService()

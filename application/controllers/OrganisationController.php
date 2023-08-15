@@ -52,7 +52,7 @@ class OrganisationController extends CI_Controller
 		$this->data['organisation']		= $this->objUserService->fetchOrganisationHeadDetailsByUserId($this->getUserId());
 		$this->data['user_role_list']	= $this->objUserService->getUserRoleListAsArray();
 
-		// $this->data['org_details'] 		= $this->objOrgDasboardService->fetchTotalOfClusterCenterAnimatorSuByOrgId($this->data['organisation']['org_id']);
+		// $this->data['org_details'] 		= $this->objOrgDasboardService->fetchTotalOfClusterCenterAnimatorSuByOrgId($this->getOrgId());
 	}
 
 	//  TODO: Use in Service or prepare data only
@@ -99,6 +99,9 @@ class OrganisationController extends CI_Controller
 	/* --------------------- Section CAttendance Controller ----------------------- */
 
 	// Getters
+	public function getOrgId(){
+		return $this->data['organisation']['org_id'];
+}
 	public function getUserId()
 	{
 		return $this->userId;

@@ -18,7 +18,7 @@ class User extends OrganisationController
 			'organisation_model',
 
 		));
-		if ($this->session->userdata('isRepLogIn') == false || $this->session->userdata('user_role') != 3)
+		if ($this->session->userdata('isLogIn') == false || $this->session->userdata('user_role') != 3)
 			redirect('login');
 		$this->org_id       = $this->session->userdata('org_id');
 		$this->cluster_id   = $this->session->userdata('cluster_id');
@@ -27,7 +27,7 @@ class User extends OrganisationController
 
 	#-------------------- Member -------------------#
 
-	public function members($value = '')
+	public function members($value = ''): void
 	{
 		$data['title'] 			= display('list_user');
 		/*---------- Read Center List And District List ----------*/
@@ -39,7 +39,7 @@ class User extends OrganisationController
 		$this->load->view('dashboard_cor/layout/main_wrapper_lte', $data);
 	}
 
-	public function create_member($value = '')
+	public function create_member($value = ''): void
 	{
 		$data['title'] = display('add_member');
 		$data['user_role_list'] = $this->dashboard_model->get_user_roles();
@@ -62,17 +62,6 @@ class User extends OrganisationController
 		$this->form_validation->set_rules('age', 		display('age'),			'numeric');
 		// $this->form_validation->set_rules('user_role',	display('user_role'),	'required');
 		$this->form_validation->set_rules('sex', 		display('sex'),			'required');
-		//$this->form_validation->set_rules('cluster_idd',display('cluster_name'),'required');
-		//$this->form_validation->set_rules('password', 		display('password'),	'required|max_length[32]|md5');
-		//$this->form_validation->set_rules('district', 		display('district'),	'required');
-		//$this->form_validation->set_rules('block', 			display('block'),		'alpha');
-		//$this->form_validation->set_rules('village', 		display('village'),		'alpha');
-		//$this->form_validation->set_rules('school_type', 	display('school_type'),	'alpha');
-		//$this->form_validation->set_rules('school_level', 	display('school_level'),'max_length[13]');
-		//$this->form_validation->set_rules('school_name', 	display('school_name'),	'max_length[13]');
-		//$this->form_validation->set_rules('sex', 			display('sex'),			'required|max_length[10]');
-		//$this->form_validation->set_rules('address', 		display('address'),		'required|max_length[255]');
-		//$this->form_validation->set_rules('status', 		display('status'),		'required');
 
 		//picture upload
 		$picture = $this->fileupload->do_upload(
@@ -112,18 +101,7 @@ class User extends OrganisationController
 				'create_date' 	=> date('Y-m-d'),
 				'update_date' 	=> '', //$this->input->post('update_date'),
 				'status'       	=> 1 //$this->input->post('status')
-				/*'school_type'	=> $this->input->post('school_type'),
-				'school_level'	=> $this->input->post('school_level'),
-				'school_name'	=> $this->input->post('school_name'),
-				'class'			=> $this->input->post('class'),
-				'school_status'	=> $this->input->post('school_status'),
-				'father_name'	=> $this->input->post('father_name'),
-				'father_occup'	=> $this->input->post('father_occup'),
-				'mother_name'	=> $this->input->post('mother_name'),
-				'mother_occup'	=> $this->input->post('mother_occup'),
-				'center_id'		=> $this->input->post('center_id'),
-				'remarks'		=> $this->input->post('remarks'),
-				'socail_status'	=> $this->input->post('socail_status'),*/
+
 			]; // update patient
 		} else {
 			$data['student'] = (object)$postData = [
@@ -146,18 +124,6 @@ class User extends OrganisationController
 				'create_date' 	=> date('Y-m-d'),
 				'update_date' 	=> '', //$this->input->post('update_date'),
 				'status'       	=> 1 //$this->input->post('status')
-				/*'school_type'	=> $this->input->post('school_type'),
-				'school_level'	=> $this->input->post('school_level'),
-				'school_name'	=> $this->input->post('school_name'),
-				'class'			=> $this->input->post('class'),
-				'school_status'	=> $this->input->post('school_status'),
-				'father_name'	=> $this->input->post('father_name'),
-				'father_occup'	=> $this->input->post('father_occup'),
-				'mother_name'	=> $this->input->post('mother_name'),
-				'mother_occup'	=> $this->input->post('mother_occup'),
-				'center_id'		=> $this->input->post('center_id'),
-				'remarks'		=> $this->input->post('remarks'),
-				'socail_status'	=> $this->input->post('socail_status'),*/
 			];
 		}
 		#-------------------------------#
@@ -170,7 +136,7 @@ class User extends OrganisationController
 					$numb=$postData['phone'];
 					$response =$this->sms_model->send_sms($numb,'Welcome to Valley Diagnostic Centre. Your userid and password has been generated. Your userid='.$user.' and password= <YourPhoneNumber>.');*/
 					#set success message
-					$this->session->set_flashdata('message', $response . display('save_successfully'));
+					$this->session->set_flashdata('message',  display('save_successfully'));
 				} else {
 					#set exception message
 					$this->session->set_flashdata('exception', display('please_try_again'));
@@ -187,7 +153,7 @@ class User extends OrganisationController
 				redirect('dashboard_cor/user/user_edit/' . $postData['user_id']);
 			}
 		} else {
-			$data['content'] = $this->load->view('dashboard_cor/user/member_form', $data, true);
+			$data['content'] = $this->load->view('organisation/user/member_form', $data, true);
 			$this->load->view('dashboard_cor/layout/main_wrapper_lte', $data);
 		}
 	}
@@ -391,7 +357,7 @@ class User extends OrganisationController
 					$numb=$postData['phone'];
 					$response =$this->sms_model->send_sms($numb,'Welcome to Valley Diagnostic Centre. Your userid and password has been generated. Your userid='.$user.' and password= <YourPhoneNumber>.');*/
 					#set success message
-					$this->session->set_flashdata('message', $response . display('save_successfully'));
+					$this->session->set_flashdata('message', display('save_successfully'));
 				} else {
 					#set exception message
 					$this->session->set_flashdata('exception', display('please_try_again'));

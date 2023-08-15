@@ -408,4 +408,72 @@ class User1_model extends CI_Model
 
 		return $list;
 	}
+
+	//  USED FUNCTION IN CSTUDENT >> API >> ORGANISATION >> USER-SERVICE >> fetchUsersWithPaginationAndCountByFilters
+	public function getUsersWithPagination(
+		$orgId = null,
+		$clusterId = null,
+		$centerId = null,
+		$userRole = null,
+		$date = null,
+		$selfId = null,
+		$orderBy = null,
+		$sortOrder = 'asc',
+		$searchValue = null,
+		$itemsPerPage = 7,
+		$page = 1
+	): array
+	{
+		$this->db->select('user_id, student.org_idd, student.cluster_idd, age, block, student.center_id, class, cluster_idd, create_date, created_by, district, email,
+            father_name, father_occup, firstname, mobile, mother_name, mother_occup, org_idd, 
+            picture, remarks, school_level, school_name, school_status, school_type, sex, socail_status,
+            status, update_date, user_role, village,center.center_name, org_name,cluster_name');
+		$this->db->from($this->table);
+		$this->db->join('organisation', 'organisation.org_id=student.org_idd', 'left');
+		$this->db->join('cluster', 'cluster.cluster_id=student.cluster_idd', 'left');
+		$this->db->join('center', 'center.center_id=student.center_id', 'left');
+		if (!empty($selfId)) {
+			$this->db->where_not_in($this->table . '.user_id', $selfId);
+		}
+
+		if (!empty($orgId)) {
+			$this->db->where('org_idd', $orgId);
+		}
+
+		if (!empty($clusterId)) {
+			$this->db->where($this->table.'.cluster_idd', $clusterId);
+		}
+
+		if (!empty($centerId)) {
+			$this->db->where($this->table.'.center_id', $centerId);
+		}
+
+		if (!empty($userRole)) {
+			$this->db->where($this->table.'.user_role', $userRole);
+		}
+
+		// Support for searching
+		if (!empty($search)) {
+			$this->db->like('firstname', $search);
+		}
+
+		// Support for ordering and sorting
+		if (!empty($orderBy)) {
+			$this->db->order_by($orderBy, $sortOrder);
+		}
+
+		if (!empty($searchValue)) {
+			$this->db->group_start();
+			$this->db->like('firstname', $searchValue);
+			$this->db->group_end();
+		}
+		// Pagination
+		if ($itemsPerPage != -1) {
+			$offset = ($page - 1) * $itemsPerPage;
+			$this->db->limit($itemsPerPage, $offset);
+		}
+		//echo $this->db->get_compiled_select();
+		$users = $this->db->get()->result();
+		return $users;
+	}
 }
