@@ -115,19 +115,6 @@ class Message_model extends CI_Model {
 	} 
 	
 	public function sent_of_patient($user_id,$receiver_id){
-		
-		// return $this->db->select("message.*, 
-		// 		student.firstname as sender_name")
-		// 	->from("message")
-		// 	->join('student', 'student.user_id = message.sender_id')
-		// 	->where('message.receiver_id', $user_id)
-		// 	->where('message.sender_id', $sender_id)
-		// 	->where_not_in('message.receiver_status', 2)
-		// 	->order_by('message.id','desc')
-		// 	->order_by('message.datetime','desc')
-		// 	->get()
-		// 	->result();
-
 		return $this->db->select("message.*, 
 				student.firstname as receiver_name")
 			->from("message")
@@ -142,18 +129,6 @@ class Message_model extends CI_Model {
 	}
 	
 	public function sent_groupby_patient($user_id){
-		/*return $this->db->select("message.*, 
-				student.firstname as sender_name")
-			->from("message")
-			->join('student', 'student.user_id = message.sender_id')
-			->where('message.receiver_id', $user_id)
-			->where_not_in('message.receiver_status', 2)
-			->order_by('message.id','desc')
-			->order_by('message.datetime','desc')
-			->group_by('student.user_id')
-			->get()
-			->result(); */
-
 		return $this->db->select("message.*, 
 				student.firstname as receiver_name")
 			->from("message")
@@ -182,18 +157,6 @@ class Message_model extends CI_Model {
 	} 
  
 	public function sent_information($id = null, $user_id = null) {
-		/*
-		return $this->db->select("message.*, 
-				student.firstname as sender_name")
-			->from("message")
-			->join('student', 'student.user_id = message.sender_id')
-			->where('message.receiver_id', $receiver_id)
-			->where('message.id', $id)
-			//->where_not_in('message.receiver_status', 2)
-			//->order_by('message.id','desc')
-			//->order_by('message.receiver_status','asc')
-			->get()
-			->row(); */
 		return $this->db->select("message.*, 
 				student.firstname as receiver_name")
 			->from("message")
@@ -301,7 +264,29 @@ class Message_model extends CI_Model {
 			return false;
 		}
 	}
-	
+
+	public function getReceivedEmails($receiverUserId)
+	{
+		$this->db->select('m.*, s_sender.firstname AS sender_firstname, s_receiver.firstname AS receiver_firstname');
+		$this->db->from('message AS m');
+		$this->db->join('student AS s_sender', 'm.sender_id = s_sender.user_id', 'left');
+		$this->db->join('student AS s_receiver', 'm.receiver_id = s_receiver.user_id', 'left');
+		$this->db->where('m.receiver_id', $receiverUserId);
+		$this->db->order_by('m.datetime', 'desc');
+
+		return $this->db->get()->result();
+	}
+	public function getSentEmails($senderid)
+	{
+		$this->db->select('m.*, s_sender.firstname AS sender_firstname, s_receiver.firstname AS receiver_firstname');
+		$this->db->from('message AS m');
+		$this->db->join('student AS s_sender', 'm.sender_id = s_sender.user_id', 'left');
+		$this->db->join('student AS s_receiver', 'm.receiver_id = s_receiver.user_id', 'left');
+		$this->db->where('m.sender_id', $senderid);
+		$this->db->order_by('m.datetime', 'desc');
+
+		return $this->db->get()->result();
+	}
 }
 
 

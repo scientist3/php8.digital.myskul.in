@@ -26,7 +26,7 @@ class CAttendance extends OrganisationController
 		$this->objAttendanceFilter 				= $this->getObjUserService()->getAttendanceObject();
 		$this->data['filter'] 						= $this->objAttendanceFilter->toArray();
 
-		$this->data['cluster_list'] 			= $this->getObjUserService()->fetchClustersByOrgIdAsList($this->data['organisation']['org_id']);
+		$this->data['cluster_list'] 			= $this->getObjUserService()->fetchClustersByOrgIdAsList($this->getOrgId());
 		$this->data['center_list'] 				= $this->getObjUserService()->fetchCentersByClusterIdAsList($this->data['cluster_list']);
 
 		$this->data['content'] 						= $this->load->view('organisation/attendance/member-new', $this->data, true);
@@ -60,11 +60,11 @@ class CAttendance extends OrganisationController
 		$this->data['absentees_report']	= 'active';
 		$this->data['pdfFileName'] 			= 'Absentees Report of Organisation - ' . $this->data['organisation']['org_name'];
 
-		$_POST['org_id']								= $this->data['organisation']['org_id'];
+		$_POST['org_id']								= $this->getOrgId();
 		$this->objAttendanceFilter 			= $this->getObjUserService()->getAttendanceObject();
 		$this->data['filter'] 					= (object) $this->objAttendanceFilter->toArray();
 
-		$this->data['cluster_list'] 			= $this->getObjUserService()->fetchClustersByOrgIdAsList($this->data['organisation']['org_id']);
+		$this->data['cluster_list'] 			= $this->getObjUserService()->fetchClustersByOrgIdAsList($this->getOrgId());
 
 		$this->data['center_list'] = $this->getObjUserService()->fetchCentersByClusterIdAsList($this->data['cluster_list']);
 

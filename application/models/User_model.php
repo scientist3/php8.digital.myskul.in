@@ -277,7 +277,7 @@ class User_model extends CI_Model
 					->where('user_role', $user_role)
 					->where_not_in('user_id', $self_user_id)
 					->where('org_idd', $org_id)
-					->where('cluster_idd', $cluster_id)
+					//->where('cluster_idd', $cluster_id)
 					->order_by('fullname', 'asc')
 					->get();
 			}

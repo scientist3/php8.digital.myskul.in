@@ -145,6 +145,8 @@ if (!function_exists('mergeIntersectArray')) {
 		return $arrmixResult;
 	}
 }
+
+
 // $autoload['helper'] =  array('language_helper');
 
 /*display a language*/

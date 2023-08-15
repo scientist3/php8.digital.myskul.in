@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 require(APPPATH . 'controllers/MaterialController.php');
+
 class CMaterial extends MaterialController
 {
-
 	private $organisation;
 	private $user_id;
 
@@ -21,89 +21,61 @@ class CMaterial extends MaterialController
 			'center_model',
 			'material_model'
 		));
-		if ($this->session->userdata('isRepLogIn') == false ||  $this->session->userdata('user_role') != 2)
+		if ($this->session->userdata('isRepLogIn') == false || $this->session->userdata('user_role') != 2)
 			redirect('login');
 		$this->load->library("pagination");
 		$this->user_id = $user_id = $this->session->userdata('user_id');
 		$this->organisation = $this->organisation_model->read_orgheads_org($user_id);
 	}
+
 	public function index()
 	{
-		$this->data['title'] 										= "Study Material";
-		$this->data['PageTitle']								= 'View Study Material';
-		$this->data['material_menu']						= 'menu-open';
-		$this->data['material_view_option']			= 'active';
+		$this->data['title'] = "Study Material";
+		$this->data['PageTitle'] = 'View Study Material';
+		$this->data['material_menu'] = 'menu-open';
+		$this->data['material_view_option'] = 'active';
 		// $this->data['user_role_list'] = $this->dashboard_model->get_user_roles();
 		#------------------------------------------------#
-		$this->data['materials']  = $this->material_model->read_for_org($this->organisation->org_id);
+		$this->data['materials'] = $this->material_model->read_for_org($this->organisation->org_id);
 		//print_r($this->data['materials']);
 		// print_r($this->organisation);
 		// print_r($this->user_id);
 
 		// die();
-		$this->data['content']  = $this->load->view('organisation/material/list', $this->data, true);
+		$this->data['content'] = $this->load->view('organisation/material/list', $this->data, true);
 		$this->load->view('organisation/starter/starter_layout', $this->data);
 	}
-	/*
-	public function timeline_view()
+
+	public function view($mat_id = ''): void
 	{
-		$this->data['title']="Material";
-		$this->data['user_role_list']=$this->dashboard_model->get_user_roles();
-		#------------------------------------------------#
-		$config = array();
-        $config["base_url"] = base_url() . "material/timeline_view";
-        $config["total_rows"] = $this->material_model->count();
-        $config["per_page"] = 4;
-        $config["uri_segment"] = 3;
-        $config["prev_link"] = "Previous";
-        $config['next_link'] = 'Next';
-        $config['num_tag_open'] = '<li>';
-        $config['num_tag_close'] = '</li>';
-        $config['prev_tag_open'] = '<li>';
-        $config['prev_tag_close'] = '</li>';
-        $config['next_tag_open'] = '<li>';
-        $config['next_tag_close'] = '</li>';
-        $config['cur_tag_open'] = '&nbsp; <li class="active"><a >';
-		$config['cur_tag_close'] = '</a></li>';
-
-        $this->pagination->initialize($config);
-        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-        $this->data["links"] = explode('&nbsp;',$this->pagination->create_links() );
-
-		$this->data['materials']  =$this->material_model->read($config["per_page"], $page);
-		$this->data['content']  = $this->load->view('material/list_timeline',$this->data,true);
-		$this->load->view('dashboard_std/layout/main_wrapper_lte',$this->data);
-	}*/
-
-	public function view($mat_id = '')
-	{
-		$this->data['title'] 									= "Material";
-		$this->data['PageTitle']							= 'Material';
-		$this->data['material_menu']					= 'menu-open';
-		$this->data['material_view_option']		= 'active';
+		$this->data['title'] = "Material";
+		$this->data['PageTitle'] = 'Material';
+		$this->data['material_menu'] = 'menu-open';
+		$this->data['material_view_option'] = 'active';
 		//$this->data['user_role_list'] = $this->dashboard_model->get_user_roles();
 		$user_id = $this->session->userdata('user_id');
 		//$this->material_model->add_view_entry($mat_id,$user_id);
 		$this->data['total_views'] = $this->material_model->total_views($mat_id);
 
 
-		$this->data['material']  = $this->material_model->read_by_id($mat_id);
-		$this->data['content']  = $this->load->view('organisation/material/view', $this->data, true);
+		$this->data['material'] = $this->material_model->read_by_id($mat_id);
+		$this->data['content'] = $this->load->view('organisation/material/view', $this->data, true);
 		$this->load->view('organisation/starter/starter_layout', $this->data);
 	}
-	public function create()
+
+	public function create(): void
 	{
 
-		$this->data['title'] 								= display('add_material');
-		$this->data['PageTitle']						= 'Add Study Material';
-		$this->data['material_menu']				= 'menu-open';
-		$this->data['material_add_option']	= 'active';
+		$this->data['title'] = display('add_material');
+		$this->data['PageTitle'] = 'Add Study Material';
+		$this->data['material_menu'] = 'menu-open';
+		$this->data['material_add_option'] = 'active';
 
-		$this->data['district_list'] 				= getDistrictListAsArray();
+		$this->data['district_list'] = getDistrictListAsArray();
 		//$this->data['user_role_list'] = $this->dashboard_model->get_user_roles();
 		#-------------------------------------------------#
 		# Fetch Cluster List
-		$this->data['cluster_list'] 				= $this->cluster_model->read_as_list_by_org($this->organisation->org_id);
+		$this->data['cluster_list'] = $this->cluster_model->read_as_list_by_org($this->organisation->org_id);
 		// print_r($this->data['cluster_list']); die();
 		# Fetch Center List
 		#-------------------------------------------------#
@@ -111,13 +83,14 @@ class CMaterial extends MaterialController
 		$id = $this->input->post('mat_id');
 
 		#-------------------------------#
-		$this->form_validation->set_rules('mat_title', 	display('title'),		'required|max_length[100]');
-		$this->form_validation->set_rules('mat_desc', 	display('description'),	'required|max_length[300]');
+		$this->form_validation->set_rules('mat_title', display('title'), 'required|max_length[100]');
+		$this->form_validation->set_rules('mat_desc', display('description'), 'required|max_length[300]');
 		//$this->form_validation->set_rules('org_idd',   	display('org_name'),		'required');
-		$this->form_validation->set_rules('cluster_idd', display('cluster_name'),	'required');
-		$this->form_validation->set_rules('center_idd', display('center_name'),	'required');
-		$this->form_validation->set_rules('mat_type',  	display('type'),		'required');
-		if ($this->input->post('mat_type') == 1) {; //$this->form_validation->set_rules('mat_video_link', display('video_link'),'required|valid_url|callback_url_check');
+		$this->form_validation->set_rules('cluster_idd', display('cluster_name'), 'required');
+		$this->form_validation->set_rules('center_idd', display('center_name'), 'required');
+		$this->form_validation->set_rules('mat_type', display('type'), 'required');
+		if ($this->input->post('mat_type') == 1) {
+			; //$this->form_validation->set_rules('mat_video_link', display('video_link'),'required|valid_url|callback_url_check');
 			$this->form_validation->set_rules('mat_video_link', display('video_link'), 'trim|required|htmlspecialchars|callback_url_check');
 		} else {
 			$this->form_validation->set_rules('hidden_attach_file', display('attach_file'), 'required');
@@ -135,18 +108,18 @@ class CMaterial extends MaterialController
 		}
 
 		$this->data['material'] = (object)$postData = [
-			'mat_id'		=> $this->input->post('mat_id'),
-			'mat_title'		=> $this->input->post('mat_title'),
-			'mat_desc'		=> $this->input->post('mat_desc'),
-			'mat_type'		=> $this->input->post('mat_type'),
+			'mat_id' => $this->input->post('mat_id'),
+			'mat_title' => $this->input->post('mat_title'),
+			'mat_desc' => $this->input->post('mat_desc'),
+			'mat_type' => $this->input->post('mat_type'),
 			'mat_video_link' => $video_id, //$this->input->post('mat_video_link'),
-			'mat_doc_link'	=> $this->input->post('hidden_attach_file'),
-			'mat_date'		=> date('Y-m-d H:m:s'), //date('m/d/Y',strtotime((!empty($mat_date) ? $mat_date : date("m/d/Y")))),
-			'org_idd'		=> $this->organisation->org_id,
-			'cluster_idd'	=> $this->input->post('cluster_idd'),
-			'center_idd'	=> $this->input->post('center_idd'),
-			'mat_by'		=> $this->session->userdata('user_id'),
-			'mat_status'	=> $this->input->post('mat_status'),
+			'mat_doc_link' => $this->input->post('hidden_attach_file'),
+			'mat_date' => date('Y-m-d H:m:s'), //date('m/d/Y',strtotime((!empty($mat_date) ? $mat_date : date("m/d/Y")))),
+			'org_idd' => $this->organisation->org_id,
+			'cluster_idd' => $this->input->post('cluster_idd'),
+			'center_idd' => $this->input->post('center_idd'),
+			'mat_by' => $this->session->userdata('user_id'),
+			'mat_status' => $this->input->post('mat_status'),
 		];
 
 		#-------------------------------#
@@ -180,9 +153,9 @@ class CMaterial extends MaterialController
 	public function edit($mat_id = null)
 	{
 		$this->data['title'] = display('edit_material');
-		$this->data['PageTitle']								= 'Edit Study Material';
-		$this->data['material_menu']						= 'menu-open';
-		$this->data['material_add_option']			= 'active';
+		$this->data['PageTitle'] = 'Edit Study Material';
+		$this->data['material_menu'] = 'menu-open';
+		$this->data['material_add_option'] = 'active';
 		$this->data['district_list'] = getDistrictListAsArray();
 		//$this->data['user_role_list'] = $this->dashboard_model->get_user_roles();
 		$this->data['cluster_list'] = $this->cluster_model->read_as_list_by_org($this->organisation->org_id);
@@ -220,7 +193,7 @@ class CMaterial extends MaterialController
 		if (($_SERVER['REQUEST_METHOD']) == "POST") {
 			$filename = $_FILES['attach_file']['name'];
 			$filename = strstr($filename, '.', true);
-			$email    = $this->session->userdata('email');
+			$email = $this->session->userdata('email');
 			$filename = strstr($email, '@', true) . "_" . $filename;
 			$filename = strtolower($filename);
 
@@ -229,15 +202,15 @@ class CMaterial extends MaterialController
 				mkdir($file_path, 0755, true);
 			/*-----------------------------*/
 
-			$config['upload_path']   = $file_path;
+			$config['upload_path'] = $file_path;
 			// $config['allowed_types'] = 'csv|pdf|ai|xls|ppt|pptx|gz|gzip|tar|zip|rar|mp3|wav|bmp|gif|jpg|jpeg|jpe|png|txt|text|log|rtx|rtf|xsl|mpeg|mpg|mov|avi|doc|docx|dot|dotx|xlsx|xl|word|mp4|mpa|flv|webm|7zip|wma|svg';
 			$config['allowed_types'] = 'pdf|xls|ppt|pptx|doc|docx|word|mov|avi|mp4|mpa|flv|webm';
-			$config['max_size']      = 0;
-			$config['max_width']     = 0;
-			$config['max_height']    = 0;
+			$config['max_size'] = 0;
+			$config['max_width'] = 0;
+			$config['max_height'] = 0;
 			$config['file_ext_tolower'] = true;
-			$config['file_name']     =  $filename;
-			$config['overwrite']     = false;
+			$config['file_name'] = $filename;
+			$config['overwrite'] = false;
 			$this->load->library('upload', $config);
 
 			$name = 'attach_file';
@@ -246,7 +219,7 @@ class CMaterial extends MaterialController
 				$this->data['status'] = false;
 				echo json_encode($this->data);
 			} else {
-				$upload =  $this->upload->data();
+				$upload = $this->upload->data();
 				$this->data['message'] = display('upload_successfully');
 				//$this->data['filepath'] = './uploads/material/'.$upload['file_name'];
 				$this->data['filepath'] = $file_path . $upload['file_name'];
@@ -266,6 +239,7 @@ class CMaterial extends MaterialController
 			return TRUE;
 		}
 	}
+
 	public function download($file)
 	{
 		$this->load->helper('download');
