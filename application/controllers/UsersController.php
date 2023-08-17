@@ -5,6 +5,8 @@ class UsersController extends CI_Controller
 {
 	// Define all the fields of the users table
 	private $userId;
+	private $orgId;
+
 	public $data = array();
 	// private $session;
 	private $objUserService;
@@ -49,12 +51,27 @@ class UsersController extends CI_Controller
 		$this->objOrgDasboardService	= $this->organisationdashboardservice;
 		$this->objFileUpload					= $this->fileupload;
 		// Load Data for Views
-		$this->data['organisation']		= $this->objUserService->fetchOrganisationHeadDetailsByUserId($this->getUserId());
+		$this->data['organisation']		= $this->getLoggedInUserOrganization();
 		$this->data['user_role_list']	= $this->objUserService->getUserRoleListAsArray();
 
 		// $this->data['org_details'] 		= $this->objOrgDasboardService->fetchTotalOfClusterCenterAnimatorSuByOrgId($this->getOrgId());
 	}
+	public function getLoggedInUserOrganization()
+	{
+		// Get the organization ID from the session
+		$this->orgId = $this->session->userdata('org_id');
 
+		if (!$this->orgId) {
+			throw new Exception('Organization ID is missing.');
+		}
+		// Load the organization model
+		$this->load->model('organisation_model'); // Make sure you have the correct model name
+
+		// Retrieve organization details from the database based on org_id
+		$organization = $this->organisation_model->read_by_id($this->orgId);
+
+		return $organization;
+	}
 	//  TODO: Use in Service or prepare data only
 	public function prepareData()
 	{
@@ -102,6 +119,10 @@ class UsersController extends CI_Controller
 	public function getUserId()
 	{
 		return $this->userId;
+	}
+	public function getOrgId()
+	{
+		return !empty($this->orgId)?$this->orgId:throw new Exception('Organisation id is missing.');
 	}
 
 	public function getData()

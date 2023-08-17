@@ -93,8 +93,8 @@
 							<table class="table table-hover table-striped">
 								<tbody>
 									<tr>
-                                            <td class="col-md-4">Admission Date</td>
-										<td class="col-md-5" colspan="2"><?php echo !empty($student->create_date)?date('d-M-Y', strtotime($student->create_date)):null; ?></td>
+										<td class="col-md-4">Admission Date</td>
+										<td class="col-md-5" colspan="2"><?php echo !empty($student->create_date) ? date('d-M-Y', strtotime($student->create_date)) : null; ?></td>
 									</tr>
 									<tr>
 										<td>Mobile Number</td>
@@ -104,38 +104,44 @@
 										<td>Email</td>
 										<td colspan="2"><?php echo $student->email; ?></td>
 									</tr>
-                                    <tr>
-                                        <td colspan="3"><h3 class="pagetitleh2">Address </h3></td>
-                                    </tr>
-                                    <tr>
-                                        <td>District</td>
-                                        <td colspan="2"><?php echo $student->district; ?></td>
-                                    </tr>
-                                    <tr >
-                                        <td colspan="3"><h3 class="pagetitleh2">Parent / Guardian Details </h3></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-md-4">Father Name</td>
-                                        <td class="col-md-5" ><?php echo $student->father_name; ?></td>
-                                        <td ><img class="profile-user-img img-responsive img-circle" src="<?php echo (isset($student->fpicture) and !empty($student->fpicture)) ? base_url($student->fpicture) : base_url("assets/images/no_image.png")  ?>"></td>
-                                    </tr>
+									<tr>
+										<td colspan="3">
+											<h3 class="pagetitleh2">Address </h3>
+										</td>
+									</tr>
+									<tr>
+										<td>District</td>
+										<td colspan="2"><?php echo $student->district; ?></td>
+									</tr>
+									<tr>
+										<td colspan="3">
+											<h3 class="pagetitleh2">Parent / Guardian Details </h3>
+										</td>
+									</tr>
+									<tr>
+										<td class="col-md-4">Father Name</td>
+										<td class="col-md-5"><?php echo $student->father_name; ?></td>
+										<td><img class="profile-user-img img-responsive img-circle" src="<?php echo (isset($student->fpicture) and !empty($student->fpicture)) ? base_url($student->fpicture) : base_url("assets/images/no_image.png")  ?>"></td>
+									</tr>
 
-                                    <tr>
-                                        <td >Mother Name</td>
-                                        <td ><?php echo $student->mother_name; ?></td>
-                                        <td ><img class="profile-user-img img-responsive img-circle" src="<?php echo (isset($student->mpicture) and !empty($student->mpicture)) ? base_url($student->mpicture) : base_url("assets/images/no_image.png")  ?>"></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3"><h3 class="pagetitleh2">Miscellaneous Details </h3></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-md-4">Level of School</td>
-                                        <td class="col-md-5" colspan="2"><?php echo $student->school_level; ?></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-md-4">Others</td>
-                                        <td class="col-md-5" colspan="2"><?php echo $student->school_status; ?></td>
-                                    </tr>
+									<tr>
+										<td>Mother Name</td>
+										<td><?php echo $student->mother_name; ?></td>
+										<td><img class="profile-user-img img-responsive img-circle" src="<?php echo (isset($student->mpicture) and !empty($student->mpicture)) ? base_url($student->mpicture) : base_url("assets/images/no_image.png")  ?>"></td>
+									</tr>
+									<tr>
+										<td colspan="3">
+											<h3 class="pagetitleh2">Miscellaneous Details </h3>
+										</td>
+									</tr>
+									<tr>
+										<td class="col-md-4">Level of School</td>
+										<td class="col-md-5" colspan="2"><?php echo $student->school_level; ?></td>
+									</tr>
+									<tr>
+										<td class="col-md-4">Others</td>
+										<td class="col-md-5" colspan="2"><?php echo $student->school_status; ?></td>
+									</tr>
 								</tbody>
 							</table>
 						</div>

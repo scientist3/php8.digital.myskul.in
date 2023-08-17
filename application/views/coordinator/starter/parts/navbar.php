@@ -9,7 +9,7 @@
 			<a href="<?php echo base_url() ?>" class="nav-link <?php echo isset($dashboard) ? $dashboard : null ?>">Dashboard</a>
 		</li>
 		<li class="nav-item d-none d-sm-inline-block">
-			<a href="<?php echo base_url('organisation/cprofile/index'); ?>" class="nav-link <?php echo isset($profile_active) ? $profile_active : null ?>">Profile</a>
+			<a href="<?php echo base_url('coordinator/cprofile/index'); ?>" class="nav-link <?php echo isset($profile_active) ? $profile_active : null ?>">Profile</a>
 		</li>
 		<li class="nav-item d-none d-sm-inline-block">
 			<a href="<?php echo base_url("logout") ?>" class="nav-link">Logout</a>

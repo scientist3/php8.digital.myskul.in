@@ -45,7 +45,7 @@
 						<div class="timeline-footer">
 							<a class="btn btn-primary btn-sm d-none">Read more</a>
 							<a class="btn btn-danger btn-sm d-none">Delete</a>
-							<a class="btn btn-primary btn-sm " href="<?php echo base_url(); ?>organisation/cmaterial/download/<?php echo $material->mat_doc_link ?>"> <i class="fa fa-download"></i></a>
+							<a class="btn btn-primary btn-sm " href="<?php echo base_url(); ?>organisation/cmaterial/download/<?php echo $material->mat_id ?>"> <i class="fa fa-download"></i></a>
 
 						</div>
 					</div>

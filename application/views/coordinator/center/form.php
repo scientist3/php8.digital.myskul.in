@@ -1,7 +1,9 @@
 <div class="row">
 	<!--  form area -->
 	<div class="col-sm-12 col-md-4">
-		<?php echo form_open_multipart('organisation/ccenter/create', 'class="form-inner"') ?>
+		<?php echo form_open_multipart('coordinator/ccenter/create', 'class="form-inner"') ?>
+		<?php echo form_hidden('center_id', $center->center_id); ?>
+		<?php echo form_hidden('center_cluster_id', $center->center_cluster_id); ?>
 		<div class="card card-outline card-primary">
 
 			<div class="card-header">
@@ -9,11 +11,8 @@
 					<i class="fa fa-list"></i> <?php echo $left_title; ?>
 				</h3>
 			</div>
-			<?php //echo "<pre>"; print_r($center); echo "</pre>"; 
-			?>
 			<div class="card-body">
 
-				<?php echo form_hidden('center_id', $center->center_id); ?>
 				<div class="row">
 
 					<div class="col-sm-12">
@@ -32,7 +31,7 @@
 							<label for="center_cluster_id">
 								<?php echo display('cluster') ?> <i class="text-danger">*</i>
 							</label>
-							<?php echo form_dropdown('center_cluster_id', $cluster_list, $center->center_cluster_id, 'class="form-control" id="center_cluster_id" '); ?>
+							<?php echo form_dropdown('center_cluster_id', $cluster_list, $center->center_cluster_id, 'class="form-control" id="center_cluster_id" disabled'); ?>
 						</div>
 					</div>
 
@@ -58,7 +57,7 @@
 			</div>
 			<div class="card-footer">
 				<div class="float-right">
-					<a href="<?php echo base_url('/'); ?>organisation/ccenter/create" class="btn btn-danger <?php echo (isset($show_cancel_btn) && $show_cancel_btn) ? '' : 'd-none'; ?>"><?php echo display('Cancel') ?></a>
+					<a href="<?php echo base_url('/'); ?>coordinator/ccenter/create" class="btn btn-danger <?php echo (isset($show_cancel_btn) && $show_cancel_btn) ? '' : 'd-none'; ?>"><?php echo display('Cancel') ?></a>
 					<button tyep="submit" class="btn  btn-primary"><?php echo display('save') ?></button>
 				</div>
 			</div>
@@ -124,8 +123,8 @@
 										<?php echo CenterTypes::getTypeName($center->center_type_id); ?>
 									</td>
 									<td class="center" width="80">
-										<a href="<?php echo base_url("organisation/ccenter/edit/$center->center_id") ?>" class="btn btn-xs btn-success"><i class="fa fa-edit"></i></a>
-										<a href="<?php echo base_url("organisation/ccenter/delete/$center->center_id") ?>" class="btn btn-xs btn-danger" onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i class="fa fa-trash"></i></a>
+										<a href="<?php echo base_url("coordinator/ccenter/edit/$center->center_id") ?>" class="btn btn-xs btn-success"><i class="fa fa-edit"></i></a>
+										<a href="<?php echo base_url("coordinator/ccenter/delete/$center->center_id") ?>" class="btn btn-xs btn-danger" onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i class="fa fa-trash"></i></a>
 									</td>
 								</tr>
 								<?php $sl++; ?>

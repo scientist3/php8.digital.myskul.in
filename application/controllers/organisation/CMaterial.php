@@ -36,7 +36,7 @@ class CMaterial extends MaterialController
 		$this->data['material_view_option'] = 'active';
 		// $this->data['user_role_list'] = $this->dashboard_model->get_user_roles();
 		#------------------------------------------------#
-		$this->data['materials'] = $this->material_model->read_for_org($this->organisation->org_id);
+		$this->data['materials'] = $this->material_model->read_for_org($this->getOrgId());
 		//print_r($this->data['materials']);
 		// print_r($this->organisation);
 		// print_r($this->user_id);
@@ -75,7 +75,7 @@ class CMaterial extends MaterialController
 		//$this->data['user_role_list'] = $this->dashboard_model->get_user_roles();
 		#-------------------------------------------------#
 		# Fetch Cluster List
-		$this->data['cluster_list'] = $this->cluster_model->read_as_list_by_org($this->organisation->org_id);
+		$this->data['cluster_list'] = $this->cluster_model->read_as_list_by_org($this->getOrgId());
 		// print_r($this->data['cluster_list']); die();
 		# Fetch Center List
 		#-------------------------------------------------#
@@ -91,7 +91,7 @@ class CMaterial extends MaterialController
 		$this->form_validation->set_rules('mat_type', display('type'), 'required');
 		if ($this->input->post('mat_type') == 1) {
 			; //$this->form_validation->set_rules('mat_video_link', display('video_link'),'required|valid_url|callback_url_check');
-			$this->form_validation->set_rules('mat_video_link', display('video_link'), 'trim|required|htmlspecialchars|callback_url_check');
+			$this->form_validation->set_rules('mat_video_link', display('video_link'), 'trim|required|htmlspecialchars');
 		} else {
 			$this->form_validation->set_rules('hidden_attach_file', display('attach_file'), 'required');
 		}
@@ -103,8 +103,13 @@ class CMaterial extends MaterialController
 		$url = $this->input->post('mat_video_link');
 		$video_id = '';
 		if (!empty($url)) {
-			parse_str(parse_url($url, PHP_URL_QUERY), $my_array_of_vars);
-			$video_id = isset($my_array_of_vars['v']) ? $my_array_of_vars['v'] : '';
+			$parsed_url = parse_url($url);
+			if (isset($parsed_url['query'])) {
+				parse_str($parsed_url['query'], $my_array_of_vars);
+				$video_id = isset($my_array_of_vars['v']) ? $my_array_of_vars['v'] : $url;
+			}else{
+				$video_id = $url;
+			}
 		}
 
 		$this->data['material'] = (object)$postData = [
@@ -115,7 +120,7 @@ class CMaterial extends MaterialController
 			'mat_video_link' => $video_id, //$this->input->post('mat_video_link'),
 			'mat_doc_link' => $this->input->post('hidden_attach_file'),
 			'mat_date' => date('Y-m-d H:m:s'), //date('m/d/Y',strtotime((!empty($mat_date) ? $mat_date : date("m/d/Y")))),
-			'org_idd' => $this->organisation->org_id,
+			'org_idd' => $this->getOrgId(),
 			'cluster_idd' => $this->input->post('cluster_idd'),
 			'center_idd' => $this->input->post('center_idd'),
 			'mat_by' => $this->session->userdata('user_id'),
@@ -158,7 +163,7 @@ class CMaterial extends MaterialController
 		$this->data['material_add_option'] = 'active';
 		$this->data['district_list'] = getDistrictListAsArray();
 		//$this->data['user_role_list'] = $this->dashboard_model->get_user_roles();
-		$this->data['cluster_list'] = $this->cluster_model->read_as_list_by_org($this->organisation->org_id);
+		$this->data['cluster_list'] = $this->cluster_model->read_as_list_by_org($this->getOrgId());
 		#-------------------------------#
 		$this->data['material'] = $this->material_model->read_by_id($mat_id);
 		$this->data['content'] = $this->load->view('organisation/material/upload', $this->data, true);
@@ -179,9 +184,36 @@ class CMaterial extends MaterialController
 			$this->session->set_flashdata('exception', display('please_try_again'));
 		}
 
-		redirect('organisation/material');
+		redirect('organisation/cmaterial');
 	}
 
+	public function download($material_id)
+	{
+		// Retrieve the file path or name associated with the material ID from the database
+		$filePathOrName = $this->material_model->getFilePathOrName($material_id); // Adjust this line based on your database query
+
+		if ($filePathOrName) {
+			// Construct the full path to the file
+			$filePath = FCPATH . $filePathOrName;
+
+			// Check if the file exists
+			if (file_exists($filePath)) {
+				// Set the appropriate headers for downloading
+				header('Content-Type: application/octet-stream');
+				header('Content-Disposition: attachment; filename="' . $filePathOrName . '"');
+				header('Content-Length: ' . filesize($filePath));
+
+				// Read the file and output its contents
+				readfile($filePath);
+			} else {
+				// Handle the case where the file does not exist
+				echo "File not found.";
+			}
+		} else {
+			// Handle the case where the file data is not found in the database
+			echo "File data not found in the database.";
+		}
+	}
 	public function do_upload()
 	{
 		ini_set('memory_limit', '200M');
@@ -240,19 +272,10 @@ class CMaterial extends MaterialController
 		}
 	}
 
-	public function download($file)
-	{
-		$this->load->helper('download');
-		$filepath = "./uploads/material/" . $this->uri->segment(4);
-		//echo $filepath;die;
-		$this->data = file_get_contents($filepath);
-		$name = $this->uri->segment(4);
-		force_download($name, $this->data);
-	}
-
 	public function center_by_cluster()
 	{
 		$cluster_idd = $this->input->post('cluster_idd');
-		return $this->center_model->center_by_cluster($cluster_idd);
+		$selectedCenterId = $this->input->post('center_idd');
+		return $this->center_model->center_by_cluster($cluster_idd, $selectedCenterId);
 	}
 }

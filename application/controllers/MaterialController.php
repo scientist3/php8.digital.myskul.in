@@ -4,6 +4,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class MaterialController extends CI_Controller
 {
 	public $userId;
+	public $orgId;
 	public $data = array();
 	public $objUserService;
 
@@ -44,14 +45,29 @@ class MaterialController extends CI_Controller
 		$this->objUserService					= $this->userservice;
 
 		// Load Data for Views
-		$this->data['organisation']		= $this->objUserService->fetchOrganisationHeadDetailsByUserId($this->userId);
+		$this->data['organisation']		= $this->getLoggedInUserOrganization();
 		$this->data['user_role_list']	= $this->objUserService->getUserRoleListAsArray();
 		$_POST['cluster_org_id'] 			= $this->getOrgId();
 
 		$this->data['coodinator_list'] 					= $this->getUserService()->getCoordinatorList($this->getOrgId());
 		$this->data['clusters'] 								= $this->fetchClusterList($this->getOrgId());
 	}
+	public function getLoggedInUserOrganization()
+	{
+		// Get the organization ID from the session
+		$this->orgId = $this->session->userdata('org_id');
 
+		if (!$this->orgId) {
+			throw new Exception('Organization ID is missing.');
+		}
+		// Load the organization model
+		$this->load->model('organisation_model'); // Make sure you have the correct model name
+
+		// Retrieve organization details from the database based on org_id
+		$organization = $this->organisation_model->read_by_id($this->orgId);
+
+		return $organization;
+	}
 	public function getUserService()
 	{
 		return $this->objUserService;;
@@ -63,7 +79,10 @@ class MaterialController extends CI_Controller
 		$objCluster->setValues($this->input->post());
 		return $objCluster;
 	}
-
+	public function getOrgId()
+	{
+		return !empty($this->orgId)?$this->orgId:throw new Exception('Organisation id is missing.');
+	}
 	public function validateClusterForm()
 	{
 		$this->form_validation->set_rules('cluster_name', display('cluster_name'), 'required|max_length[150]');

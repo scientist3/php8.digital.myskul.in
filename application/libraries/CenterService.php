@@ -49,6 +49,13 @@ class CenterService
 	{
 		return $this->CI->centertypemodel->get_center_as_list();
 	}
+	/*
+	-------------------------- Coordinator --------------------------
+	*/
+	public function fetchAnimatorListByOrgIdByClusterId($intOrgId, $intClusterId)
+	{
+		return $this->CI->user_model->readAnimatorsByOrgByCluster($intOrgId,$intClusterId);
+	}
 }
 
 class CenterEOS

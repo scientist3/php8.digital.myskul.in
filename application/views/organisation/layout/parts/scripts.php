@@ -1,8 +1,7 @@
 	<!-- jQuery -->
 	<script src="<?php echo base_url('vendor/almasaeed2010/adminlte/'); ?>plugins/jquery/jquery.min.js"></script>
 	<!-- Bootstrap 4 -->
-	<script
-		src="<?php echo base_url('vendor/almasaeed2010/adminlte/'); ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="<?php echo base_url('vendor/almasaeed2010/adminlte/'); ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 	<!-- Select2 -->
 	<!-- <script
 		src="<?php echo base_url('vendor/almasaeed2010/adminlte/'); ?>plugins/select2/js/select2.full.min.js"></script> -->
@@ -36,7 +35,7 @@
 	<!-- <script src="<?php echo base_url('vendor/almasaeed2010/adminlte/'); ?>dist/js/demo.js"></script> -->
 	<!-- Page specific script -->
 	<script>
-		$(function () {
+		$(function() {
 			//Initialize Select2 Elements
 			// $('.select2').select2()
 
@@ -167,8 +166,8 @@
 		// document.querySelector("#actions .cancel").onclick = function () {
 		// 	myDropzone.removeAllFiles(true)
 		// }
-	// DropzoneJS Demo Code End
+		// DropzoneJS Demo Code End
 	</script>
-</body>
+	</body>
 
-</html>
+	</html>
