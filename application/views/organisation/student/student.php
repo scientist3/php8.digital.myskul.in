@@ -109,7 +109,7 @@
 <div class="row">
 	<div class="col-sm-12">
 		<form role="form" action="<?php echo site_url('organisation/cstudent/index') ?>" method="post" class="">
-		    <div class="card card-outline card-primary">
+			<div class="card card-outline card-primary">
 				<div class="card-header with-border">
 					<h3 class="card-title"><i class="fa fa-search"></i> <?php echo display('select_criteria'); ?></h3>
 				</div>
@@ -118,7 +118,7 @@
 						<div class="col-sm-4">
 							<div class="form-group">
 								<label><?php echo display('cluster'); ?></label> <small class="req"> * </small>
-								<?php echo form_dropdown('cluster_id',  $cluster_list , $cluster_id/*$this->session->userdata('site_id') */, 'class="form-control" id="cluster_id" '); ?>
+								<?php echo form_dropdown('cluster_id',  $cluster_list, $cluster_id/*$this->session->userdata('site_id') */, 'class="form-control" id="cluster_id" '); ?>
 								<span class="text-danger"><?php echo form_error('cluster_id'); ?></span>
 							</div>
 						</div>
@@ -126,7 +126,7 @@
 						<div class="col-sm-4">
 							<div class="form-group">
 								<label><?php echo display('center'); ?></label> <small class="req"> *</small>
-								<?php echo form_dropdown('center_id', [''=>'Select Center'], $center_id/*$this->session->userdata('site_id') */, 'class="form-control" id="center_id" '); ?>
+								<?php echo form_dropdown('center_id', ['' => 'Select Center'], $center_id/*$this->session->userdata('site_id') */, 'class="form-control" id="center_id" '); ?>
 								<span class="text-danger"><?php echo form_error('center_id'); ?></span>
 							</div>
 						</div>
@@ -165,26 +165,26 @@
 			<?php //echo "<pre>"; print_r($users[0]); echo "</pre>"; 
 			?>
 			<div class="card-body">
-                <table id="userTable" class="datatable_server table table-bordered table-striped table-hovers">
-                    <thead>
-                    <tr>
-                        <th><?php echo display('serial') ?></th>
-                        <th><?php echo display('first_name') ?></th>
-                        <th><?php echo display('mobile') ?></th>
-                        <th><?php echo display('email') ?></th>
-                        <th><?php echo display('district') ?></th>
-                        <th><?php echo display('sex') ?></th>
-                        <th><?php echo display('age') ?></th>
-                        <th><?php echo display('organisation_name') ?></th>
-                        <th><?php echo display('cluster_name') ?></th>
-                        <th><?php echo display('center_name') ?></th>
-                        <th><?php echo display('action') ?></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <!-- User data rows will be dynamically generated here -->
-                    </tbody>
-                </table>
+				<table id="userTable" class="datatable_server table table-bordered table-striped table-hovers">
+					<thead>
+						<tr>
+							<th><?php echo display('serial') ?></th>
+							<th><?php echo display('first_name') ?></th>
+							<th><?php echo display('mobile') ?></th>
+							<th><?php echo display('email') ?></th>
+							<th><?php echo display('district') ?></th>
+							<th><?php echo display('sex') ?></th>
+							<th><?php echo display('age') ?></th>
+							<th><?php echo display('organisation_name') ?></th>
+							<th><?php echo display('cluster_name') ?></th>
+							<th><?php echo display('center_name') ?></th>
+							<th><?php echo display('action') ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- User data rows will be dynamically generated here -->
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
@@ -194,226 +194,226 @@
 <script src="<?php echo base_url('vendor/almasaeed2010/adminlte/'); ?>plugins/jquery/jquery.min.js"></script>
 
 <script type="text/javascript">
-    // Function to initialize the DataTable with server-side processing
-    function initializeDataTable() {
-        $('#userTable').DataTable({
-            serverSide: true, // Enable server-side processing
-            dom: "<'row'<'col-sm-2'l><'col-sm-6 text-center'B><'col-sm-4'f>>t" +
-                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            ajax: {
-                url: '<?php echo base_url('api/v1/organisation/studentListWithParemsAsJson ') ?>', // Replace with your server API endpoint
-                type: 'POST', // Use 'POST' or 'GET' based on your server implementation
-                data: function(d) {
-                    // Add any additional parameters for filtering (if needed)
-                    d.check = "P";
-                    d.cluster_id = $('#cluster_id').val();
-                    d.center_id = $('#center_id').val();
-                    d.user_role = 5;
-                    d.date = $('#date').val();
-                    d.page = (d.start / d.length) + 1; // Calculate the current page number
-                }
-            },
-            /* user_id, age, block, center_id, class, cluster_idd, create_date, created_by, district, email,
-            father_name, father_occup, firstname, mobile, mother_name, mother_occup, org_idd,
-            picture, remarks, school_level, school_name, school_status, school_type, sex, socail_status,
-            status, update_date, user_role, village
-            */
-            columns: [
-                // Define your columns here
-                {
-                    data: 'picture',
-                    title: 'Serial ',
-                    render: function(data, type, row) {
-                        // Customize the content of the cell
-                        var imageUrl = data ? '<?php echo base_url("' + data + '") ?>' : '<?php echo base_url("assets/images/no_image.png") ?>';
-                        return '<img src="' + imageUrl + '" alt="Picture" class="img-thumbnail img-responsive" height="50px" width="50px">';
-                    }
-                },
-                {
-                    data: 'firstname',
-                    title: 'Name'
-                },
-                {
-                    data: 'mobile',
-                    title: 'Mobile',
-                },
-                {
-                    data: 'email',
-                    title: 'Email',
-                },
-                {
-                    data: 'district',
-                    title: 'District',
-                },
-                {
-                    data: 'sex',
-                    title: 'Gender',
-                },
-                {
-                    data: 'age',
-                    title: 'Age Group',
-                },
-                {
-                    data: 'org_name',
-                    title: 'Organisation',
-                },
-                {
-                    data: 'cluster_name',
-                    title: 'Cluster',
-                },
-                {
-                    data: 'center_name',
-                    title: 'Center',
-                },
-                {
-                    data: 'user_id',
-                    title: 'Actions',
-                    render: function(data, type, row) {
-                         // Customize the content of the cell
-                        var viewLink = '<?php echo base_url("organisation/cstudent/profile/") ?>' + data;
-                        var editLink = '<?php echo base_url("organisation/cstudent/edit/") ?>' + data;
-                        var deleteLink = '<?php echo base_url("organisation/cstudent/stddelete/") ?>' + data;
-                        html = '<a href="' + viewLink + '" class="btn btn-xs btn-success mr-1"><i class="fa fa-eye"></i></a>';
-                        html +=  '<a href="' + editLink + '" class="btn btn-xs btn-primary mr-1"><i class="fa fa-edit"></i></a>';
-                        html +=  '<a href="' + deleteLink + '" class="btn btn-xs btn-danger" onclick="return confirm(\'Are You Sure\')"><i class="fa fa-trash"></i></a>';
+	// Function to initialize the DataTable with server-side processing
+	function initializeDataTable() {
+		$('#userTable').DataTable({
+			serverSide: true, // Enable server-side processing
+			dom: "<'row'<'col-sm-2'l><'col-sm-6 text-center'B><'col-sm-4'f>>t" +
+				"<'row'<'col-sm-5'i><'col-sm-7'p>>",
+			ajax: {
+				url: '<?php echo base_url('api/v1/organisation/studentListWithParemsAsJson ') ?>', // Replace with your server API endpoint
+				type: 'POST', // Use 'POST' or 'GET' based on your server implementation
+				data: function(d) {
+					// Add any additional parameters for filtering (if needed)
+					d.check = "P";
+					d.cluster_id = $('#cluster_id').val();
+					d.center_id = $('#center_id').val();
+					d.user_role = 5;
+					d.date = $('#date').val();
+					d.page = (d.start / d.length) + 1; // Calculate the current page number
+				}
+			},
+			/* user_id, age, block, center_id, class, cluster_idd, create_date, created_by, district, email,
+			father_name, father_occup, firstname, mobile, mother_name, mother_occup, org_idd,
+			picture, remarks, school_level, school_name, school_status, school_type, sex, socail_status,
+			status, update_date, user_role, village
+			*/
+			columns: [
+				// Define your columns here
+				{
+					data: 'picture',
+					title: 'Serial ',
+					render: function(data, type, row) {
+						// Customize the content of the cell
+						var imageUrl = data ? '<?php echo base_url("' + data + '") ?>' : '<?php echo base_url("assets/images/no_image.png") ?>';
+						return '<img src="' + imageUrl + '" alt="Picture" class="img-thumbnail img-responsive" height="50px" width="50px">';
+					}
+				},
+				{
+					data: 'firstname',
+					title: 'Name'
+				},
+				{
+					data: 'mobile',
+					title: 'Mobile',
+				},
+				{
+					data: 'email',
+					title: 'Email',
+				},
+				{
+					data: 'district',
+					title: 'District',
+				},
+				{
+					data: 'sex',
+					title: 'Gender',
+				},
+				{
+					data: 'age',
+					title: 'Age Group',
+				},
+				{
+					data: 'org_name',
+					title: 'Organisation',
+				},
+				{
+					data: 'cluster_name',
+					title: 'Cluster',
+				},
+				{
+					data: 'center_name',
+					title: 'Center',
+				},
+				{
+					data: 'user_id',
+					title: 'Actions',
+					render: function(data, type, row) {
+						// Customize the content of the cell
+						var viewLink = '<?php echo base_url("organisation/cstudent/profile/") ?>' + data;
+						var editLink = '<?php echo base_url("organisation/cstudent/edit/") ?>' + data;
+						var deleteLink = '<?php echo base_url("organisation/cstudent/stddelete/") ?>' + data;
+						html = '<a href="' + viewLink + '" class="btn btn-xs btn-success mr-1"><i class="fa fa-eye"></i></a>';
+						html += '<a href="' + editLink + '" class="btn btn-xs btn-primary mr-1"><i class="fa fa-edit"></i></a>';
+						html += '<a href="' + deleteLink + '" class="btn btn-xs btn-danger" onclick="return confirm(\'Are You Sure\')"><i class="fa fa-trash"></i></a>';
 
-                        return html;
-                    }
-                }
-            ],
-            buttons: [{
-                extend: 'copy',
-                title: '<?php echo isset($pdfFileName) ? $pdfFileName : 'Example File'; ?>',
-                className: 'btn-sm', // Add the btn-sm class for small button
-                exportOptions: {
-                    columns: [1, 2, 3, 4, 5]
-                },
-            },
-                {
-                    extend: 'csv',
-                    title: '<?php echo isset($pdfFileName) ? $pdfFileName : 'Example File'; ?>',
-                    className: 'btn-sm', // Add the btn-sm class for small button
-                    exportOptions: {
-                        columns: [1, 2, 3, 4, 5]
-                    },
-                },
-                {
-                    extend: 'excel',
-                    title: 'ExampleFile',
-                    className: 'btn-sm', // Add the btn-sm class for small button
-                    title: 'exportTitle'
-                },
-                {
-                    extend: 'pdfHtml5',
-                    title: '<?php echo isset($pdfFileName) ? $pdfFileName : 'Example File'; ?>',
-                    className: 'btn-sm', // Add the btn-sm class for small button
-                    pageSize: 'A4',
-                    orientation: 'portrait', // Set the PDF orientation to landscape
-                    exportOptions: {
-                        columns: [1, 2, 3, 4, 5]
-                    },
-                    customize: function(doc) {
-                        // Adjust font size
-                        doc.defaultStyle.fontSize = 10;
+						return html;
+					}
+				}
+			],
+			buttons: [{
+					extend: 'copy',
+					title: '<?php echo isset($pdfFileName) ? $pdfFileName : 'Example File'; ?>',
+					className: 'btn-sm', // Add the btn-sm class for small button
+					exportOptions: {
+						columns: [1, 2, 3, 4, 5]
+					},
+				},
+				{
+					extend: 'csv',
+					title: '<?php echo isset($pdfFileName) ? $pdfFileName : 'Example File'; ?>',
+					className: 'btn-sm', // Add the btn-sm class for small button
+					exportOptions: {
+						columns: [1, 2, 3, 4, 5]
+					},
+				},
+				{
+					extend: 'excel',
+					title: 'ExampleFile',
+					className: 'btn-sm', // Add the btn-sm class for small button
+					title: 'exportTitle'
+				},
+				{
+					extend: 'pdfHtml5',
+					title: '<?php echo isset($pdfFileName) ? $pdfFileName : 'Example File'; ?>',
+					className: 'btn-sm', // Add the btn-sm class for small button
+					pageSize: 'A4',
+					orientation: 'portrait', // Set the PDF orientation to landscape
+					exportOptions: {
+						columns: [1, 2, 3, 4, 5]
+					},
+					customize: function(doc) {
+						// Adjust font size
+						doc.defaultStyle.fontSize = 10;
 
-                        // Use autoTable to adjust column widths
-                        doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
-                        // Align header and body rows to center
-                        doc.content[1].table.body.forEach(function(row) {
-                            row.forEach(function(cell) {
-                                cell.alignment = 'left';
-                            });
-                        });
-                    }
-                },
-                {
-                    extend: "print",
-                    title: '<?php echo isset($pdfFileName) ? $pdfFileName : 'Example File'; ?>',
-                    className: 'btn-sm', // Add the btn-sm class for small button
-                    exportOptions: {
-                        columns: [1, 2, 3, 4, 5]
-                    }
-                },
-                {
-                    extend: "colvis",
-                    className: 'btn-sm', // Add the btn-sm class for small button
-                }
-            ],
-            // Add pagination options
-            paging: true,
-            lengthChange: true,
-            lengthMenu: [
-                [7, 10, 25, 50, -1],
-                [7, 10, 25, 50, "All"]
-            ], // Customize the number of records per page
-            pageLength: 7, // Set the default number of records per page
-            responsive: true, // Enable responsive features
-            order: [
-                [1, 'asc']
-            ]
-        });
-    }
-    // Function to clear and reinitialize DataTable after window resize event is complete
-    function reinitializeDataTable() {
-        // Clear the previous timeout to avoid unnecessary reinitialization
-        if (typeof resizeTimeout !== 'undefined' && resizeTimeout !== null) {
-            clearTimeout(resizeTimeout);
-        }
-        // Set a new timeout to reinitialize DataTable after resizing is complete
-        resizeTimeout = setTimeout(function() {
-            // Clear the table before reinitializing
-            $('#userTable').DataTable().clear().destroy();
-            initializeDataTable(); // Reinitialize DataTable
-        }, 500); // Adjust the delay (in milliseconds) according to your preference
-    }
+						// Use autoTable to adjust column widths
+						doc.content[1].table.widths = Array(doc.content[1].table.body[0].length + 1).join('*').split('');
+						// Align header and body rows to center
+						doc.content[1].table.body.forEach(function(row) {
+							row.forEach(function(cell) {
+								cell.alignment = 'left';
+							});
+						});
+					}
+				},
+				{
+					extend: "print",
+					title: '<?php echo isset($pdfFileName) ? $pdfFileName : 'Example File'; ?>',
+					className: 'btn-sm', // Add the btn-sm class for small button
+					exportOptions: {
+						columns: [1, 2, 3, 4, 5]
+					}
+				},
+				{
+					extend: "colvis",
+					className: 'btn-sm', // Add the btn-sm class for small button
+				}
+			],
+			// Add pagination options
+			paging: true,
+			lengthChange: true,
+			lengthMenu: [
+				[7, 10, 25, 50, -1],
+				[7, 10, 25, 50, "All"]
+			], // Customize the number of records per page
+			pageLength: 7, // Set the default number of records per page
+			responsive: true, // Enable responsive features
+			order: [
+				[1, 'asc']
+			]
+		});
+	}
+	// Function to clear and reinitialize DataTable after window resize event is complete
+	function reinitializeDataTable() {
+		// Clear the previous timeout to avoid unnecessary reinitialization
+		if (typeof resizeTimeout !== 'undefined' && resizeTimeout !== null) {
+			clearTimeout(resizeTimeout);
+		}
+		// Set a new timeout to reinitialize DataTable after resizing is complete
+		resizeTimeout = setTimeout(function() {
+			// Clear the table before reinitializing
+			$('#userTable').DataTable().clear().destroy();
+			initializeDataTable(); // Reinitialize DataTable
+		}, 500); // Adjust the delay (in milliseconds) according to your preference
+	}
 
-    $(document).ready(function() {
-        // Call the function to initialize DataTable on page load
-        initializeDataTable();
-        $('#cluster_id, #center_id').on('change', function() {
-            event.preventDefault(); // Prevent form submission
+	$(document).ready(function() {
+		// Call the function to initialize DataTable on page load
+		initializeDataTable();
+		$('#cluster_id, #center_id').on('change', function() {
+			event.preventDefault(); // Prevent form submission
 
-            // Clear the table before reinitializing
-            $('#userTable').DataTable().clear().destroy();
+			// Clear the table before reinitializing
+			$('#userTable').DataTable().clear().destroy();
 
-            // Call the function to initialize DataTable with the new search data
-            initializeDataTable();
-        });
+			// Call the function to initialize DataTable with the new search data
+			initializeDataTable();
+		});
 
-        $("#cluster_id").change(function() {
-            fetchCenterOptions($(this).val());
-        });
+		$("#cluster_id").change(function() {
+			fetchCenterOptions($(this).val());
+		});
 
-        function fetchCenterOptions(clusterId) {
-            var centerList = $('#center_id');
-            var error = $('#error');
+		function fetchCenterOptions(clusterId) {
+			var centerList = $('#center_id');
+			var error = $('#error');
 
-            $.ajax({
-                url: "<?php echo site_url('organisation/cstudent/center_by_cluster/') ?>",
-                type: 'post',
-                dataType: 'json',
-                data: {
-                    '<?= $this->security->get_csrf_token_name(); ?>': '<?= $this->security->get_csrf_hash(); ?>',
-                    cluster_id: clusterId
-                },
-                success: function(data) {
-                    if (data.status === true) {
-                        updateCenterOptions(centerList, data.message);
-                        error.html('');
-                    } else {
-                        updateCenterOptions(centerList, '<option value="">Select Center</option>');
-                        // Uncomment the line below if you want to show an error message
-                        // error.html(data.center);
-                    }
-                },
-                error: function() {
-                    alert('Failed to fetch center options.');
-                }
-            });
-        }
+			$.ajax({
+				url: "<?php echo site_url('organisation/cstudent/center_by_cluster/') ?>",
+				type: 'post',
+				dataType: 'json',
+				data: {
+					'<?= $this->security->get_csrf_token_name(); ?>': '<?= $this->security->get_csrf_hash(); ?>',
+					cluster_id: clusterId
+				},
+				success: function(data) {
+					if (data.status === true) {
+						updateCenterOptions(centerList, data.message);
+						error.html('');
+					} else {
+						updateCenterOptions(centerList, '<option value="">Select Center</option>');
+						// Uncomment the line below if you want to show an error message
+						// error.html(data.center);
+					}
+				},
+				error: function() {
+					alert('Failed to fetch center options.');
+				}
+			});
+		}
 
-        function updateCenterOptions(selectElement, optionsHtml) {
-            selectElement.html(optionsHtml);
-        }
-    });
+		function updateCenterOptions(selectElement, optionsHtml) {
+			selectElement.html(optionsHtml);
+		}
+	});
 </script>

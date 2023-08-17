@@ -1,11 +1,11 @@
 <style>
-    .btn-secondary:not(:disabled):not(.disabled).active,
-    .btn-secondary:not(:disabled):not(.disabled):active,
-    .show>.btn-secondary.dropdown-toggle {
-        color: #fff;
-        background-color: #4490db;
-        border-color: #4e555b;
-    }
+	.btn-secondary:not(:disabled):not(.disabled).active,
+	.btn-secondary:not(:disabled):not(.disabled):active,
+	.show>.btn-secondary.dropdown-toggle {
+		color: #fff;
+		background-color: #4490db;
+		border-color: #4e555b;
+	}
 </style>
 <div class="row">
 	<!--  form area -->
@@ -29,108 +29,108 @@
 			<div class="card-body">
 				<div id="output" class="d-none alert"></div>
 
-        <div class="row">
-          <!-- Title -->
-          <div class="col-sm-6 col-md-4">
-            <div class="form-group">
-              <label for="mat_title"><?php echo display('title') ?> <i class="text-danger">*</i></label>
-              <input name="mat_title" type="text" class="form-control" id="mat_title" placeholder="<?php echo display('title') ?>" value="<?php echo $material->mat_title ?>">
-            </div>
-          </div>
+				<div class="row">
+					<!-- Title -->
+					<div class="col-sm-6 col-md-4">
+						<div class="form-group">
+							<label for="mat_title"><?php echo display('title') ?> <i class="text-danger">*</i></label>
+							<input name="mat_title" type="text" class="form-control" id="mat_title" placeholder="<?php echo display('title') ?>" value="<?php echo $material->mat_title ?>">
+						</div>
+					</div>
 
-          <!-- Description -->
-          <div class="col-sm-6 col-md-4">
-            <div class="form-group ">
-              <label for="mat_desc"><?php echo display('description') ?> <i class="text-danger">*</i></label>
-              <textarea name="mat_desc" class="form-control" placeholder="<?php echo display('description') ?>" maxlength="140" rows="1"><?php echo $material->mat_desc ?></textarea>
-            </div>
-          </div>
+					<!-- Description -->
+					<div class="col-sm-6 col-md-4">
+						<div class="form-group ">
+							<label for="mat_desc"><?php echo display('description') ?> <i class="text-danger">*</i></label>
+							<textarea name="mat_desc" class="form-control" placeholder="<?php echo display('description') ?>" maxlength="140" rows="1"><?php echo $material->mat_desc ?></textarea>
+						</div>
+					</div>
 
-          <!-- Type -->
-          <div class="col-sm-6 col-md-4">
-            <div class="form-group">
-              <label for="mat_type"><?php echo display('mat_type') ?> <i class="text-danger">*</i></label>
-              <div class="btn-group btn-group-toggle form-control" data-toggle="buttons" style="border: none;padding: 0;">
-                <label class="btn btn-secondary active">
-                  <input type="radio" name="mat_type" id="video" value="1" autocomplete="off" <?php echo  set_radio('mat_type', '1', true); ?>> <?php echo display('video_link') ?>
-                </label>
-                <label class="btn btn-secondary">
-                  <input type="radio" name="mat_type" id="url" value="2" autocomplete="off" <?php echo  set_radio('mat_type', '2'); ?>> <?php echo display('attach_file') ?>
-                </label>
-              </div>
-            </div>
-          </div>
+					<!-- Type -->
+					<div class="col-sm-6 col-md-4">
+						<div class="form-group">
+							<label for="mat_type"><?php echo display('mat_type') ?> <i class="text-danger">*</i></label>
+							<div class="btn-group btn-group-toggle form-control" data-toggle="buttons" style="border: none;padding: 0;">
+								<label class="btn btn-secondary active">
+									<input type="radio" name="mat_type" id="video" value="1" autocomplete="off" <?php echo  set_radio('mat_type', '1', true); ?>> <?php echo display('video_link') ?>
+								</label>
+								<label class="btn btn-secondary">
+									<input type="radio" name="mat_type" id="url" value="2" autocomplete="off" <?php echo  set_radio('mat_type', '2'); ?>> <?php echo display('attach_file') ?>
+								</label>
+							</div>
+						</div>
+					</div>
 
-          <!-- Video Link -->
-          <div class="col-sm-6 col-md-4" id="video_link">
-            <div class="form-group" >
-              <label for="mat_video_link"><?php echo display('video_link') ?> <i class="text-danger">*</i></label>
-              <div class="col-xs-9">
-                <input name="mat_video_link" type="text" class="form-control" id="mat_video_link" placeholder="<?php echo display('video_link') ?>" value="<?php echo $material->mat_video_link ?>">
-              </div>
-            </div>
-          </div>
+					<!-- Video Link -->
+					<div class="col-sm-6 col-md-4" id="video_link">
+						<div class="form-group">
+							<label for="mat_video_link"><?php echo display('video_link') ?> <i class="text-danger">*</i></label>
+							<div class="col-xs-9">
+								<input name="mat_video_link" type="text" class="form-control" id="mat_video_link" placeholder="<?php echo display('video_link') ?>" value="<?php echo $material->mat_video_link ?>">
+							</div>
+						</div>
+					</div>
 
-          <!-- File upload -->
-          <div class="col-sm-6 col-md-4" id="filetype">
-            <div class="form-group" >
-              <label for="attach_file"><?php echo display('attach_file') ?> <i class="text-danger">*</i></label>
-              <div class="custom-file">
-                <input type="file" name="attach_file" id="attach_file" class="custom-file-input">
-                <label class="custom-file-label" for="attach_file">Choose file</label>
-                <input type="hidden" name="hidden_attach_file" id="hidden_attach_file" value="<?php echo $material->mat_doc_link ?>">
-                <p id="upload-progress" class="hide alert"></p>
-              </div>
-            </div>
-          </div>
+					<!-- File upload -->
+					<div class="col-sm-6 col-md-4" id="filetype">
+						<div class="form-group">
+							<label for="attach_file"><?php echo display('attach_file') ?> <i class="text-danger">*</i></label>
+							<div class="custom-file">
+								<input type="file" name="attach_file" id="attach_file" class="custom-file-input">
+								<label class="custom-file-label" for="attach_file">Choose file</label>
+								<input type="hidden" name="hidden_attach_file" id="hidden_attach_file" value="<?php echo $material->mat_doc_link ?>">
+								<p id="upload-progress" class="hide alert"></p>
+							</div>
+						</div>
+					</div>
 
-          <!-- Cluster ID -->
-          <div class="col-sm-6 col-md-4">
-            <div class="form-group ">
-              <label for="cluster_idd" class="col-xs-3 col-form-label"><?php echo display('cluster_name') ?> <i class="text-danger">*</i></label>
-              <div class="col-xs-9">
-			          <?php echo form_dropdown('cluster_idd', $cluster_list, $material->cluster_idd, 'class="select2bs4 form-control" id="cluster_idd" disabled');	?>
-                <span class="cluster_error"></span>
-              </div>
-            </div>
-          </div>
+					<!-- Cluster ID -->
+					<div class="col-sm-6 col-md-4">
+						<div class="form-group ">
+							<label for="cluster_idd" class="col-xs-3 col-form-label"><?php echo display('cluster_name') ?> <i class="text-danger">*</i></label>
+							<div class="col-xs-9">
+								<?php echo form_dropdown('cluster_idd', $cluster_list, $material->cluster_idd, 'class="select2bs4 form-control" id="cluster_idd" disabled');	?>
+								<span class="cluster_error"></span>
+							</div>
+						</div>
+					</div>
 
-          <?php if(!empty($material->cluster_idd)):?>
-            <div class="col-sm-6 col-md-4">
-              <div class="form-group ">
-                <label for="center_idd" class="col-xs-3 col-form-label"><?php echo display('center_name') ?> <i class="text-danger">*</i></label>
-                <div class="col-xs-9">
-				          <?php echo form_dropdown('center_idd', $center_list, $material->center_idd, 'class="form-control" id="center_idd"') ?>
-                  <input type="hidden" name="hidden_center_id" id="hidden_center_id" value="<?php echo $material->center_idd; ?>">
-                </div>
-              </div>
-            </div>
-          <?php else:?>
-            <div class="col-sm-6 col-md-4">
-              <div class="form-group ">
-                <label for="center_idd" class="col-xs-3 col-form-label"><?php echo display('center_name') ?> <i class="text-danger">*</i></label>
-                <div class="col-xs-9">
-				          <?php echo form_dropdown('center_idd', '', '', 'class="form-control" id="center_idd"') ?>
+					<?php if (!empty($material->cluster_idd)) : ?>
+						<div class="col-sm-6 col-md-4">
+							<div class="form-group ">
+								<label for="center_idd" class="col-xs-3 col-form-label"><?php echo display('center_name') ?> <i class="text-danger">*</i></label>
+								<div class="col-xs-9">
+									<?php echo form_dropdown('center_idd', $center_list, $material->center_idd, 'class="form-control" id="center_idd"') ?>
+									<input type="hidden" name="hidden_center_id" id="hidden_center_id" value="<?php echo $material->center_idd; ?>">
+								</div>
+							</div>
+						</div>
+					<?php else : ?>
+						<div class="col-sm-6 col-md-4">
+							<div class="form-group ">
+								<label for="center_idd" class="col-xs-3 col-form-label"><?php echo display('center_name') ?> <i class="text-danger">*</i></label>
+								<div class="col-xs-9">
+									<?php echo form_dropdown('center_idd', '', '', 'class="form-control" id="center_idd"') ?>
 
-                </div>
-              </div>
-            </div>
-          <?php endif;?>
+								</div>
+							</div>
+						</div>
+					<?php endif; ?>
 
-          <div class="col-sm-6 col-md-4">
-            <div class="form-group">
-              <label for="mat_status"><?php echo display('status') ?> <i class="text-danger">*</i></label>
-              <div class="btn-group btn-group-toggle form-control" data-toggle="buttons" style="border: none;padding: 0;">
-                <label class="btn btn-secondary active">
-                  <input type="radio" name="mat_status" value="1" <?php echo  set_radio('mat_status', '1', TRUE); ?>><?php echo display('active') ?>
-                </label>
-                <label class="btn btn-secondary">
-                 <input type="radio" name="mat_status" value="0" <?php echo  set_radio('mat_status', '0'); ?>><?php echo display('inactive') ?>
-                </label>
-              </div>
-            </div>
-          </div>
-        </div>
+					<div class="col-sm-6 col-md-4">
+						<div class="form-group">
+							<label for="mat_status"><?php echo display('status') ?> <i class="text-danger">*</i></label>
+							<div class="btn-group btn-group-toggle form-control" data-toggle="buttons" style="border: none;padding: 0;">
+								<label class="btn btn-secondary active">
+									<input type="radio" name="mat_status" value="1" <?php echo  set_radio('mat_status', '1', TRUE); ?>><?php echo display('active') ?>
+								</label>
+								<label class="btn btn-secondary">
+									<input type="radio" name="mat_status" value="0" <?php echo  set_radio('mat_status', '0'); ?>><?php echo display('inactive') ?>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div class="card-footer">
 				<button type="submit" class="btn btn-primary float-right"><i class="fa fa-save"></i> <?php echo display('save') ?></button>
@@ -146,40 +146,41 @@
 <script src="<?php echo base_url('vendor/almasaeed2010/adminlte/'); ?>plugins/select2/js/select2.full.min.js"></script>
 
 <script type="text/javascript">
-  function toggleElements(showElement, hideElement) {
-      $(showElement).show();
-      $(hideElement).hide();
-  }
-  function setupToggleButton(){
-        $('#filetype').hide();
+	function toggleElements(showElement, hideElement) {
+		$(showElement).show();
+		$(hideElement).hide();
+	}
 
-        // Check which radio button is initially selected and show/hide accordingly
-        if ($('#video').is(':checked')) {
-            toggleElements('#video_link', '#filetype');
-        } else if ($('#url').is(':checked')) {
-            toggleElements('#filetype', '#video_link');
-        }
+	function setupToggleButton() {
+		$('#filetype').hide();
 
-        // Toggle show/hide when radio buttons are clicked
-        $('#video').click(function() {
-            toggleElements('#video_link', '#filetype');
-        });
+		// Check which radio button is initially selected and show/hide accordingly
+		if ($('#video').is(':checked')) {
+			toggleElements('#video_link', '#filetype');
+		} else if ($('#url').is(':checked')) {
+			toggleElements('#filetype', '#video_link');
+		}
 
-        $('#url').click(function() {
-            toggleElements('#filetype', '#video_link');
-        });
-    }
+		// Toggle show/hide when radio buttons are clicked
+		$('#video').click(function() {
+			toggleElements('#video_link', '#filetype');
+		});
 
-  $(function() {
-    var browseFile = $('#attach_file');
+		$('#url').click(function() {
+			toggleElements('#filetype', '#video_link');
+		});
+	}
+
+	$(function() {
+		var browseFile = $('#attach_file');
 		var form = $('#mailForm');
 		var progress = $("#upload-progress");
 		var hiddenFile = $("#hidden_attach_file");
 		var output = $("#output");
 
-    $('.select2bs4').select2({
-      theme: 'bootstrap4'
-    })
+		$('.select2bs4').select2({
+			theme: 'bootstrap4'
+		})
 		browseFile.on('change', function(e) {
 			e.preventDefault();
 			uploadData = new FormData(form[0]);
@@ -213,7 +214,7 @@
 			});
 		});
 
-     setupToggleButton();
+		setupToggleButton();
 		//department_id
 		$("#cluster_idd").change(function() {
 			var output = $('.cluster_error');
@@ -227,7 +228,7 @@
 				data: {
 					'<?= $this->security->get_csrf_token_name(); ?>': '<?= $this->security->get_csrf_hash(); ?>',
 					cluster_idd: $(this).val(),
-          center_idd:$('#hidden_center_id').val()
+					center_idd: $('#hidden_center_id').val()
 				},
 				success: function(data) {
 					if (data.status == true) {
@@ -247,6 +248,6 @@
 				}
 			});
 		});
-    $('#cluster_idd').trigger('change');
+		$('#cluster_idd').trigger('change');
 	});
 </script>

@@ -166,7 +166,8 @@
 					</div>
 					<!-- /.tab-pane -->
 					<div class="active tab-pane" id="settings">
-						<?php // echo form_hidden('old_password', $user->password) ?>
+						<?php // echo form_hidden('old_password', $user->password) 
+						?>
 						<!-- First Name -->
 						<div class="form-group row">
 							<label for="inputName" class="col-sm-2 col-form-label">Name</label>
@@ -226,7 +227,7 @@
 							<div class="form-group row">
 								<label for="picturePreview" class="col-sm-2 col-form-label">Picture</label>
 								<div class="col-sm-10">
-									<img src="<?php echo base_url($user->picture) ?>" alt="Picture" class="img-thumbnail" style="width: 210px;"/>
+									<img src="<?php echo base_url($user->picture) ?>" alt="Picture" class="img-thumbnail" style="width: 210px;" />
 								</div>
 							</div>
 						<?php } ?>
@@ -261,7 +262,7 @@
 								</div>
 							</div>
 						</div>
-            <!-- Agree -->
+						<!-- Agree -->
 						<div class="form-group row d-none">
 							<div class="offset-sm-2 col-sm-10">
 								<div class="checkbox">
@@ -276,9 +277,9 @@
 				</div>
 				<!-- /.tab-content -->
 			</div><!-- /.card-body -->
-      <div class="card-footer">
-        <button type="submit" class="btn btn-danger float-right">Submit</button>
-      </div>
+			<div class="card-footer">
+				<button type="submit" class="btn btn-danger float-right">Submit</button>
+			</div>
 		</div>
 		<?php echo form_close(); ?>
 		<!-- /.card -->

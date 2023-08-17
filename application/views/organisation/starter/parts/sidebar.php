@@ -182,38 +182,38 @@
 					</ul>
 				</li>
 
-        <!-- Message -->
-        <li class="nav-item <?php echo $message_menu ?? null; ?>">
-          <a href="#" class="nav-link <?php echo isset($message_menu) ? 'active' : null; ?>">
-            <i class="nav-icon fa fa-envelope"></i>
-            <p>
+				<!-- Message -->
+				<li class="nav-item <?php echo $message_menu ?? null; ?>">
+					<a href="#" class="nav-link <?php echo isset($message_menu) ? 'active' : null; ?>">
+						<i class="nav-icon fa fa-envelope"></i>
+						<p>
 							<?php echo display('message'); ?>
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="<?php echo base_url("organisation/message/new_message") ?>" class="nav-link <?php echo $new_message_option ?? null; ?>">
-                <i class="far fa-circle nav-icon"></i>
-                <p><?php echo display('new_message'); ?></p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="<?php echo base_url("organisation/message/index") ?>" class="nav-link <?php echo $inbox_option ?? null; ?>">
-                <i class="far fa-circle nav-icon"></i>
-                <p><?php echo display('inbox'); ?></p>
-              </a>
-            </li>
+							<i class="right fas fa-angle-left"></i>
+						</p>
+					</a>
+					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a href="<?php echo base_url("organisation/message/new_message") ?>" class="nav-link <?php echo $new_message_option ?? null; ?>">
+								<i class="far fa-circle nav-icon"></i>
+								<p><?php echo display('new_message'); ?></p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="<?php echo base_url("organisation/message/index") ?>" class="nav-link <?php echo $inbox_option ?? null; ?>">
+								<i class="far fa-circle nav-icon"></i>
+								<p><?php echo display('inbox'); ?></p>
+							</a>
+						</li>
 
-            <li class="nav-item">
-              <a href="<?php echo base_url("organisation/message/sent") ?>" class="nav-link <?php echo $sent_option ?? null; ?>">
-                <i class="far fa-circle nav-icon"></i>
-                <p><?php echo display('sent'); ?></p>
-              </a>
-            </li>
+						<li class="nav-item">
+							<a href="<?php echo base_url("organisation/message/sent") ?>" class="nav-link <?php echo $sent_option ?? null; ?>">
+								<i class="far fa-circle nav-icon"></i>
+								<p><?php echo display('sent'); ?></p>
+							</a>
+						</li>
 
-          </ul>
-        </li>
+					</ul>
+				</li>
 			</ul>
 		</nav>
 		<!-- /.sidebar-menu -->

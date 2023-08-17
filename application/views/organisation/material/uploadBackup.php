@@ -87,7 +87,7 @@
 						<!-- <div id="available_days"></div> -->
 					</div>
 				</div>
-        
+
 				<div class="form-group ">
 
 					<label class="col-sm-3"><?php echo display('status') ?></label>

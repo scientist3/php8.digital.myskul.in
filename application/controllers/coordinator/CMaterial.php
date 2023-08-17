@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-	require(APPPATH . 'controllers/coordinator/MaterialController.php');
+require(APPPATH . 'controllers/coordinator/MaterialController.php');
 
 class CMaterial extends MaterialController
 {
@@ -11,18 +11,17 @@ class CMaterial extends MaterialController
 	{
 		parent::__construct();
 
-		$this->load->model(array(
-		));
+		$this->load->model(array());
 	}
 
 	public function index()
 	{
-		$this->data['title'] = display("view_study_material") ;
+		$this->data['title'] = display("view_study_material");
 		$this->data['PageTitle'] = display('view_study_material');
 		$this->data['material_menu'] = 'menu-open';
 		$this->data['material_view_option'] = 'active';
 		#------------------------------------------------#
-		$this->data['materials'] = $this->fetchMaterialByOrgByCluster($this->getOrgId(),$this->getClusterId());
+		$this->data['materials'] = $this->fetchMaterialByOrgByCluster($this->getOrgId(), $this->getClusterId());
 		$this->renderView('coordinator/material/list', $this->data);
 	}
 
@@ -53,7 +52,7 @@ class CMaterial extends MaterialController
 
 		$this->setFormValidationRules();
 
-		$this->data['material'] = ( object ) $postData = $this->getPostedData();
+		$this->data['material'] = (object) $postData = $this->getPostedData();
 		if ($this->form_validation->run() === true) {
 			if (empty($id)) {
 				$this->handleCreate($postData);
@@ -93,7 +92,7 @@ class CMaterial extends MaterialController
 			if (isset($parsed_url['query'])) {
 				parse_str($parsed_url['query'], $my_array_of_vars);
 				$video_id = isset($my_array_of_vars['v']) ? $my_array_of_vars['v'] : $url;
-			}else{
+			} else {
 				$video_id = $url;
 			}
 		}

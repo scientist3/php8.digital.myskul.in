@@ -24,12 +24,7 @@ class Center extends OrganisationController
 		$this->org_id = $this->session->userdata('org_id');
 		$this->cluster_id = $this->session->userdata('cluster_id');
 		$this->user_id = $this->session->userdata('user_id');
-		// if (empty($this->cluster_id)) {
-		//     $this->session->set_flashdata('message','You dont have any cluster assigned. Please Contact organisation head/admin.');
-		// }
-		//$this->user_id = $user_id = $this->session->userdata('user_id');
-		//$this->organisation=$this->organisation_model->read_orgheads_org($user_id);
-		//print_r($this->organisation);
+
 	}
 	public function index()
 	{

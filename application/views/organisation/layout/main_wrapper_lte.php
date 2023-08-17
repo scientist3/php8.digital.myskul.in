@@ -21,11 +21,9 @@ $settings = $this->db->select("site_align")
 	<!-- Favicon and touch icons -->
 	<link rel="shortcut icon" href="<?= base_url($this->session->userdata('favicon')) ?>">
 	<!-- Google Font: Source Sans Pro -->
-	<link rel="stylesheet"
-		href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 	<!-- Font Awesome -->
-	<link rel="stylesheet"
-		href="<?php echo base_url('vendor/almasaeed2010/adminlte/'); ?>plugins/fontawesome-free/css/all.min.css">
+	<link rel="stylesheet" href="<?php echo base_url('vendor/almasaeed2010/adminlte/'); ?>plugins/fontawesome-free/css/all.min.css">
 	<!-- daterange picker -->
 	<link rel="stylesheet" href="../../plugins/daterangepicker/daterangepicker.css">
 	<!-- iCheck for checkboxes and radio inputs -->
@@ -120,8 +118,7 @@ $settings = $this->db->select("site_align")
 						<li class="dropdown user user-menu">
 							<?php $picture = $this->session->userdata('picture'); ?>
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-								<img src="<?php echo (!empty($picture) ? base_url($picture) : base_url("assets/images/no-img.png")) ?>"
-									class="user-image" alt="User Image">
+								<img src="<?php echo (!empty($picture) ? base_url($picture) : base_url("assets/images/no-img.png")) ?>" class="user-image" alt="User Image">
 								<span class="hidden-xs">
 									<?php echo $this->session->userdata('fullname') ?>
 								</span>
@@ -129,9 +126,7 @@ $settings = $this->db->select("site_align")
 							<ul class="dropdown-menu">
 								<!-- User image -->
 								<li class="user-header">
-									<img
-										src="<?php echo (!empty($picture) ? base_url($picture) : base_url("assets/images/no-img.png")) ?>"
-										class="img-circle" alt="User Image">
+									<img src="<?php echo (!empty($picture) ? base_url($picture) : base_url("assets/images/no-img.png")) ?>" class="img-circle" alt="User Image">
 
 									<p>
 										<?php echo $this->session->userdata('fullname') ?> - Admin
@@ -144,8 +139,7 @@ $settings = $this->db->select("site_align")
 								<!-- Menu Footer-->
 								<li class="user-footer">
 									<div class="btn-group btn-group-justified">
-										<a href="<?php echo base_url('dashboard_org/dashboard_org/profile'); ?>"
-											class="btn btn-default btn-flat">Profile</a>
+										<a href="<?php echo base_url('dashboard_org/dashboard_org/profile'); ?>" class="btn btn-default btn-flat">Profile</a>
 										<!--<a href="< ?php echo base_url('dashboard/screenlock') ?>" class="btn btn-default btn-flat">Lock</a>-->
 										<a href="<?php echo base_url('logout') ?>" class="btn btn-default btn-flat">Sign out</a>
 									</div>
@@ -164,8 +158,7 @@ $settings = $this->db->select("site_align")
 				<!-- Sidebar user panel -->
 				<div class="user-panel">
 					<div class="pull-left image">
-						<img src="<?php echo (!empty($picture) ? base_url($picture) : base_url("assets/images/no-img.png")) ?>"
-							class="img-circle" alt="User Image">
+						<img src="<?php echo (!empty($picture) ? base_url($picture) : base_url("assets/images/no-img.png")) ?>" class="img-circle" alt="User Image">
 					</div>
 					<div class="pull-left info">
 						<p>
@@ -182,8 +175,7 @@ $settings = $this->db->select("site_align")
 				<ul class="sidebar-menu" data-widget="tree">
 					<li class="header">MAIN NAVIGATION</li>
 
-					<li
-						class="<?php echo (($this->uri->segment(1) == 'dashboard') && (($this->uri->segment(2) == 'index')) ? "active" : null) ?>">
+					<li class="<?php echo (($this->uri->segment(1) == 'dashboard') && (($this->uri->segment(2) == 'index')) ? "active" : null) ?>">
 						<!-- Dashboard -->
 						<a href="<?php echo base_url('dashboard_org/dashboard_org/index') ?>">
 							<i class="fa fa-dashboard"></i>
@@ -392,7 +384,7 @@ $settings = $this->db->select("site_align")
 						</li>
 						
 						</ul>
-					</li> */?>
+					</li> */ ?>
 
 				</ul>
 			</section>
@@ -469,10 +461,11 @@ $settings = $this->db->select("site_align")
 		<!-- jQuery UI 1.11.4 -->
 		<script src="<?php echo base_url('assets/plugins/'); ?>jquery-ui/jquery-ui.min.js"></script>
 		<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-		<script> $.widget.bridge('uibutton ', $.ui.button); </script>
+		<script>
+			$.widget.bridge('uibutton ', $.ui.button);
+		</script>
 		<!-- Bootstrap 4 -->
-		<script
-			src="<?php echo base_url('vendor/almasaeed2010/adminlte/'); ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+		<script src="<?php echo base_url('vendor/almasaeed2010/adminlte/'); ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 		<!-- ==================================== -->
 
@@ -497,11 +490,10 @@ $settings = $this->db->select("site_align")
 		<!-- <script src="<?php echo base_url('assetslte/'); ?>bower_components/fastclick/lib/fastclick.js"></script> -->
 
 		<!-- Select2 -->
-		<script
-			src="<?php echo base_url('vendor/almasaeed2010/adminlte/'); ?>plugins/select2/js/select2.full.min.js"></script>
+		<script src="<?php echo base_url('vendor/almasaeed2010/adminlte/'); ?>plugins/select2/js/select2.full.min.js"></script>
 
 		<script>
-			$(document).ready(function () {
+			$(document).ready(function() {
 				// Initialize Select2 dropdown
 				$('.select2bs4').select2({
 					theme: 'bootstrap4'

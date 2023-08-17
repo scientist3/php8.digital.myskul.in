@@ -8,16 +8,6 @@ class CCenter extends CenterController
 	public function __construct()
 	{
 		parent::__construct();
-//		$this->load->model(
-//			array(
-//				'setting_model',
-//				'dashboard_model',
-//				'organisation_model',
-//				'cluster_model',
-//				'center_model',
-//				'user_model',
-//			)
-//		);
 	}
 
 	public function index()
@@ -36,12 +26,12 @@ class CCenter extends CenterController
 
 		$this->prepareCommonData();
 
-		$this->data['center']= (object) $postData = $this->getCenterPostData();
+		$this->data['center'] = (object) $postData = $this->getCenterPostData();
 
 		if ($this->form_validation->run() === true) {
 			$this->processCenterData($postData);
 		} else {
-			$this->renderView('coordinator/center/form',$this->data);
+			$this->renderView('coordinator/center/form', $this->data);
 		}
 	}
 
@@ -55,12 +45,12 @@ class CCenter extends CenterController
 
 		$this->prepareCommonData();
 
-//		$this->data['animator_list'] = $this->user_model->read_as_list_ani();
-//		$this->data['centers'] = $this->getObjCenterService()->fetchCentersByOrgId($this->getOrgId());
-//		$this->data['cluster_list'] = $this->cluster_model->read_as_list();
+		//		$this->data['animator_list'] = $this->user_model->read_as_list_ani();
+		//		$this->data['centers'] = $this->getObjCenterService()->fetchCentersByOrgId($this->getOrgId());
+		//		$this->data['cluster_list'] = $this->cluster_model->read_as_list();
 
 		$this->data['center'] = $this->center_model->read_by_id($center_id);
-		$this->renderView('coordinator/center/form',$this->data);
+		$this->renderView('coordinator/center/form', $this->data);
 	}
 
 	public function delete($center_id = null)
@@ -89,7 +79,7 @@ class CCenter extends CenterController
 			'center_id' => $this->input->post('center_id'),
 			'center_name' => $this->input->post('center_name', true),
 			'center_head_id' => $this->input->post('center_head_id'),
-			'center_cluster_id' => !empty($this->input->post('center_cluster_id'))?$this->input->post('center_cluster_id'):$this->getClusterId(),
+			'center_cluster_id' => !empty($this->input->post('center_cluster_id')) ? $this->input->post('center_cluster_id') : $this->getClusterId(),
 			'center_type_id' => $this->input->post('center_type_id'),
 		];
 	}
