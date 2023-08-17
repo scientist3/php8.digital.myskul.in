@@ -12,8 +12,8 @@
 			$this->load->model(
 				array(
 					'coordinator/cluster_model'=> 'clusterModel',
-					'coordinator/center_model'=> 'centerModel',
-					'coordinator/user_model'=> 'userModel',
+//					'coordinator/center_model'=> 'centerModel',
+//					'coordinator/user_model'=> 'userModel',
 					'messages/message_model' => 'messageModel'
 				)
 			);

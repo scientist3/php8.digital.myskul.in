@@ -51,9 +51,4 @@
 			return $this->db->from($this->table)
 				->count_all_results();
 		}
-
-		public function total_clusters_of_org($org_id = null)
-		{
-			// Modify as needed
-		}
 	}

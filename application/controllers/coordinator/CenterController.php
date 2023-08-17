@@ -5,6 +5,8 @@
 	{
 		private $user_id;
 
+		private $objCenterService;
+
 		public function __construct()
 		{
 			parent::__construct();
@@ -36,5 +38,37 @@
 
 		}
 
+		public function getUserId()
+		{
+			return $this->user_id;
+		}
 
+		public function getObjCenterService(): mixed
+		{
+			return $this->objCenterService;
+		}
+
+		/**
+		 * @throws Exception
+		 */
+		public function getCentersOfLoggedInCluster()
+		{
+			// Fetch and return the centers of the logged-in cluster
+			return  $this->center_model->getCenterDetails($this->getOrgId(),$this->getClusterId());
+		}
+		public function deleteCenter($center_id)
+		{
+			// Check if this center is being used anywhere
+			if ($this->center_model->fetchCountByCenterId($center_id)) {
+				$this->session->set_flashdata('exception', 'This Center is being used with User');
+				return;
+			}
+			if ($this->center_model->delete($center_id)) {
+				#set success message
+				$this->session->set_flashdata('message', display('delete_successfully'));
+			} else {
+				#set exception message
+				$this->session->set_flashdata('exception', display('please_try_again'));
+			}
+		}
 	}

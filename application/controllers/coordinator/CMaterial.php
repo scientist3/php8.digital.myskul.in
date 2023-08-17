@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-require(APPPATH . 'controllers/MaterialController.php');
+	require(APPPATH . 'controllers/coordinator/MaterialController.php');
 
 class CMaterial extends MaterialController
 {
@@ -12,38 +12,18 @@ class CMaterial extends MaterialController
 		parent::__construct();
 
 		$this->load->model(array(
-			'dashboard_model',
-			'setting_model',
-			'contactus_model',
-			'user_model',
-			'organisation_model',
-			'cluster_model',
-			'center_model',
-			'material_model'
 		));
-		if ($this->session->userdata('isRepLogIn') == false || $this->session->userdata('user_role') != 2)
-			redirect('login');
-		$this->load->library("pagination");
-		$this->user_id = $user_id = $this->session->userdata('user_id');
-		$this->organisation = $this->organisation_model->read_orgheads_org($user_id);
 	}
 
 	public function index()
 	{
-		$this->data['title'] = "Study Material";
-		$this->data['PageTitle'] = 'View Study Material';
+		$this->data['title'] = display("view_study_material") ;
+		$this->data['PageTitle'] = display('view_study_material');
 		$this->data['material_menu'] = 'menu-open';
 		$this->data['material_view_option'] = 'active';
-		// $this->data['user_role_list'] = $this->dashboard_model->get_user_roles();
 		#------------------------------------------------#
-		$this->data['materials'] = $this->material_model->read_for_org($this->getOrgId());
-		//print_r($this->data['materials']);
-		// print_r($this->organisation);
-		// print_r($this->user_id);
-
-		// die();
-		$this->data['content'] = $this->load->view('organisation/material/list', $this->data, true);
-		$this->load->view('organisation/starter/starter_layout', $this->data);
+		$this->data['materials'] = $this->fetchMaterialByOrgByCluster($this->getOrgId(),$this->getClusterId());
+		$this->renderView('coordinator/material/list', $this->data);
 	}
 
 	public function view($mat_id = ''): void
@@ -52,56 +32,62 @@ class CMaterial extends MaterialController
 		$this->data['PageTitle'] = 'Material';
 		$this->data['material_menu'] = 'menu-open';
 		$this->data['material_view_option'] = 'active';
-		//$this->data['user_role_list'] = $this->dashboard_model->get_user_roles();
-		$user_id = $this->session->userdata('user_id');
-		//$this->material_model->add_view_entry($mat_id,$user_id);
+
 		$this->data['total_views'] = $this->material_model->total_views($mat_id);
-
-
 		$this->data['material'] = $this->material_model->read_by_id($mat_id);
-		$this->data['content'] = $this->load->view('organisation/material/view', $this->data, true);
-		$this->load->view('organisation/starter/starter_layout', $this->data);
+		$this->renderView('coordinator/material/view', $this->data);
 	}
-
 	public function create(): void
 	{
-
 		$this->data['title'] = display('add_material');
 		$this->data['PageTitle'] = 'Add Study Material';
 		$this->data['material_menu'] = 'menu-open';
 		$this->data['material_add_option'] = 'active';
 
 		$this->data['district_list'] = getDistrictListAsArray();
-		//$this->data['user_role_list'] = $this->dashboard_model->get_user_roles();
-		#-------------------------------------------------#
-		# Fetch Cluster List
-		$this->data['cluster_list'] = $this->cluster_model->read_as_list_by_org($this->getOrgId());
-		// print_r($this->data['cluster_list']); die();
-		# Fetch Center List
-		#-------------------------------------------------#
+
+		$this->data['cluster_list'] = $this->clusterModel->read_as_list_by_org($this->getOrgId());
+		$this->data['center_list'] = $this->centerModel->readCenterByClusterIdAsList($this->getClusterId());
 
 		$id = $this->input->post('mat_id');
 
-		#-------------------------------#
+		$this->setFormValidationRules();
+
+		$this->data['material'] = ( object ) $postData = $this->getPostedData();
+		if ($this->form_validation->run() === true) {
+			if (empty($id)) {
+				$this->handleCreate($postData);
+			} else {
+				$this->handleUpdate($postData);
+			}
+		} else {
+			$this->renderView('coordinator/material/upload', $this->data);
+		}
+	}
+
+	private function setFormValidationRules(): void
+	{
 		$this->form_validation->set_rules('mat_title', display('title'), 'required|max_length[100]');
 		$this->form_validation->set_rules('mat_desc', display('description'), 'required|max_length[300]');
-		//$this->form_validation->set_rules('org_idd',   	display('org_name'),		'required');
-		$this->form_validation->set_rules('cluster_idd', display('cluster_name'), 'required');
+		//$this->form_validation->set_rules('cluster_idd', display('cluster_name'), 'required');
 		$this->form_validation->set_rules('center_idd', display('center_name'), 'required');
 		$this->form_validation->set_rules('mat_type', display('type'), 'required');
+
 		if ($this->input->post('mat_type') == 1) {
-			; //$this->form_validation->set_rules('mat_video_link', display('video_link'),'required|valid_url|callback_url_check');
+			//callback_url_check
 			$this->form_validation->set_rules('mat_video_link', display('video_link'), 'trim|required|htmlspecialchars');
 		} else {
 			$this->form_validation->set_rules('hidden_attach_file', display('attach_file'), 'required');
 		}
+
 		$this->form_validation->set_rules('mat_status', display('status'), 'required');
-		#-------------------------------#
-		//$mat_date = $this->input->post('mat_date');
-		// mat_id  mat_title   mat_desc    mat_type    mat_extra   mat_video_link  mat_doc_link    mat_date    mat_for     mat_by  mat_status 
-		//create material
+	}
+
+	private function getPostedData(): array
+	{
 		$url = $this->input->post('mat_video_link');
 		$video_id = '';
+
 		if (!empty($url)) {
 			$parsed_url = parse_url($url);
 			if (isset($parsed_url['query'])) {
@@ -112,47 +98,42 @@ class CMaterial extends MaterialController
 			}
 		}
 
-		$this->data['material'] = (object)$postData = [
+		return [
 			'mat_id' => $this->input->post('mat_id'),
 			'mat_title' => $this->input->post('mat_title'),
 			'mat_desc' => $this->input->post('mat_desc'),
 			'mat_type' => $this->input->post('mat_type'),
-			'mat_video_link' => $video_id, //$this->input->post('mat_video_link'),
+			'mat_video_link' => $video_id,
 			'mat_doc_link' => $this->input->post('hidden_attach_file'),
-			'mat_date' => date('Y-m-d H:m:s'), //date('m/d/Y',strtotime((!empty($mat_date) ? $mat_date : date("m/d/Y")))),
+			'mat_date' => date('Y-m-d H:m:s'),
 			'org_idd' => $this->getOrgId(),
-			'cluster_idd' => $this->input->post('cluster_idd'),
+			'cluster_idd' => $this->getClusterId(),
 			'center_idd' => $this->input->post('center_idd'),
 			'mat_by' => $this->session->userdata('user_id'),
 			'mat_status' => $this->input->post('mat_status'),
 		];
+	}
 
-		#-------------------------------#
-		if ($this->form_validation->run() === true) {
-			#if empty $id then insert data
-			if (empty($id)) {
-				if ($this->material_model->create($postData)) {
-					#set success message
-					$this->session->set_flashdata('message', display('save_successfully'));
-				} else {
-					#set exception message
-					$this->session->set_flashdata('exception', display('please_try_again'));
-				}
-				redirect('organisation/cmaterial');
-			} else { // Update
-				if ($this->material_model->update($postData)) {
-					#set success message
-					$this->session->set_flashdata('message', display('update_successfully'));
-				} else {
-					#set exception message
-					$this->session->set_flashdata('exception', display('please_try_again'));
-				}
-				redirect('organisation/cmaterial/edit/' . $postData['mat_id']);
-			}
+	private function handleCreate(array $postData): void
+	{
+		if ($this->material_model->create($postData)) {
+			$this->session->set_flashdata('message', display('save_successfully'));
 		} else {
-			$this->data['content'] = $this->load->view('organisation/material/upload', $this->data, true);
-			$this->load->view('organisation/starter/starter_layout', $this->data);
+			$this->session->set_flashdata('exception', display('please_try_again'));
 		}
+
+		redirect('coordinator/cmaterial');
+	}
+
+	private function handleUpdate(array $postData): void
+	{
+		if ($this->material_model->update($postData)) {
+			$this->session->set_flashdata('message', display('update_successfully'));
+		} else {
+			$this->session->set_flashdata('exception', display('please_try_again'));
+		}
+
+		redirect('coordinator/cmaterial/edit/' . $postData['mat_id']);
 	}
 
 	public function edit($mat_id = null)
@@ -163,11 +144,11 @@ class CMaterial extends MaterialController
 		$this->data['material_add_option'] = 'active';
 		$this->data['district_list'] = getDistrictListAsArray();
 		//$this->data['user_role_list'] = $this->dashboard_model->get_user_roles();
-		$this->data['cluster_list'] = $this->cluster_model->read_as_list_by_org($this->getOrgId());
+		$this->data['cluster_list'] = $this->clusterModel->read_as_list_by_org($this->getOrgId());
+		$this->data['center_list'] = $this->centerModel->readCenterByClusterIdAsList($this->getClusterId());
 		#-------------------------------#
 		$this->data['material'] = $this->material_model->read_by_id($mat_id);
-		$this->data['content'] = $this->load->view('organisation/material/upload', $this->data, true);
-		$this->load->view('organisation/starter/starter_layout', $this->data);
+		$this->renderView('coordinator/material/upload', $this->data);
 	}
 
 	public function delete($mat_id = null)
@@ -184,7 +165,7 @@ class CMaterial extends MaterialController
 			$this->session->set_flashdata('exception', display('please_try_again'));
 		}
 
-		redirect('organisation/cmaterial');
+		redirect('coordinator/material');
 	}
 
 	public function download($material_id)
@@ -264,7 +245,7 @@ class CMaterial extends MaterialController
 	public function url_check($str)
 	{
 
-		if (!$this->dashboard_model->valid_url($str)) {
+		if (!$this->valid_url($str)) {
 			$this->form_validation->set_message('url_check', 'The {field} field must contain a valid URL.');
 			return FALSE;
 		} else {
@@ -276,6 +257,6 @@ class CMaterial extends MaterialController
 	{
 		$cluster_idd = $this->input->post('cluster_idd');
 		$selectedCenterId = $this->input->post('center_idd');
-		return $this->center_model->center_by_cluster($cluster_idd, $selectedCenterId);
+		return $this->centerModel->center_by_cluster($cluster_idd, $selectedCenterId);
 	}
 }

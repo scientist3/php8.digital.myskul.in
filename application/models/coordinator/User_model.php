@@ -43,7 +43,7 @@
 				->from($this->table)
 				->where('org_idd', $orgId)
 				->where('cluster_idd', $clusterId)
-				->where('user_role', Userrole::ANIMATOR)
+				->where('user_role', Userrole1::ANIMATOR)
 				->get()
 				->row()
 				->total_animators;
@@ -55,7 +55,7 @@
 				->from($this->table)
 				->where('org_idd', $orgId)
 				->where('cluster_idd', $clusterId)
-				->where('user_role', Userrole::STUDENT)
+				->where('user_role', Userrole1::STUDENT)
 				->get()
 				->row()
 				->total_students;

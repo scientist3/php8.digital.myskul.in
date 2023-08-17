@@ -169,7 +169,7 @@ class Center_model extends CI_Model
 		return $d;
 	}
 	//read_center_by_cluster_array
-	public function center_by_cluster($cluster_id = null)
+	public function center_by_cluster($cluster_id = null,$intSelectedCenterId = null)
 	{
 		//$department_id = $this->input->post('department_id');
 
@@ -184,7 +184,12 @@ class Center_model extends CI_Model
 			$option = "<option value=\"\">" . display('select_option') . "</option>";
 			if ($query->num_rows() > 0) {
 				foreach ($query->result() as $center) {
-					$option .= "<option value=\"$center->center_id\">$center->center_name</option>";
+					if($center->center_id == $intSelectedCenterId){
+						$option .= "<option value=\"$center->center_id\" selected>$center->center_name</option>";
+
+					}else{
+						$option .= "<option value=\"$center->center_id\">$center->center_name</option>";
+					}
 				}
 				$data['message'] = $option;
 				$data['status'] = true;
@@ -198,5 +203,49 @@ class Center_model extends CI_Model
 		}
 
 		echo json_encode($data);
+	}
+	// In use
+	public function getCenterDetails($orgId = null, $clusterId = null)
+	{
+		$this->db->select("center.*, cluster.cluster_name, student.firstname")
+			->from($this->table)
+			->join('student', 'center_head_id=student.user_id', 'left')
+			->join('cluster', 'cluster_id=center_cluster_id', 'left')
+			->join('organisation', 'org_id=cluster_org_id', 'left')
+			->where('org_id', $orgId)
+			->order_by('center_name', 'asc');
+
+		if ($clusterId !== null) {
+			$this->db->where('cluster_id', $clusterId);
+		}
+
+		return $this->db->get()->result();
+	}
+
+	public function fetchCenterCountByClusterId($clusterId)
+	{
+		return $this->db->select('COUNT(center_id) as center_count')
+			->from($this->table)
+			->where('center_cluster_id', $clusterId)
+			->get()
+			->row()
+			->center_count;
+	}
+
+	public function readCenterByClusterIdAsList($clusterId = null)
+	{
+		$result = $this->db->select("center_id, center_name")
+			->from($this->table)
+			->where('center_cluster_id', $clusterId)
+			//->join('student','cluster_head_id=student.user_id','left') ,organisation.org_name,student.firstname
+			//->join('organisation', 'cluster_org_id=org_id', 'left')
+			->order_by('center_name', 'asc')
+			->get()
+			->result();
+		$list[''] = display('select_center');
+		foreach ($result as $row) {
+			$list[$row->center_id] = $row->center_name;
+		}
+		return $list;
 	}
 }

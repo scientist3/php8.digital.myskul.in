@@ -372,7 +372,7 @@ class User_model extends CI_Model
 		return $coordinatorList;
 	}
 
-	public function read_as_list_ani($org_id = null)
+	public function read_as_list_ani($org_id = null, $intClusterId = null)
 	{
 		if ($org_id == null) {
 			$result = $this->db->select("*")
@@ -394,6 +394,31 @@ class User_model extends CI_Model
 		foreach ($result as $row) {
 			$list[$row->user_id] = $row->firstname;
 		}
+		return $list;
+	}
+
+	public function readAnimatorsByOrgByCluster($intOrgId = null, $intClusterId = null)
+	{
+		$this->db->select("user_id, firstname")
+			->from($this->table)
+			->where('user_role', 4);
+
+		if ($intOrgId !== null) {
+			$this->db->where('org_idd', $intOrgId);
+		}
+		if ($intClusterId !== null) {
+			$this->db->where('cluster_idd', $intClusterId);
+		}
+
+		$this->db->order_by('firstname', 'asc');
+
+		$result = $this->db->get()->result();
+
+		$list = array('' => display('select_animator'));
+		foreach ($result as $row) {
+			$list[$row->user_id] = $row->firstname;
+		}
+
 		return $list;
 	}
 
@@ -594,5 +619,28 @@ class User_model extends CI_Model
 		}
 		//print_r($list);die();
 		return $list;
+	}
+
+	public function fetchAnimatorsByOrgIdByClusterId($orgId, $clusterId)
+	{
+		return $this->db->select('COUNT(user_id) as total_animators')
+			->from($this->table)
+			->where('org_idd', $orgId)
+			->where('cluster_idd', $clusterId)
+			->where('user_role', Userrole1::ANIMATOR)
+			->get()
+			->row()
+			->total_animators;
+	}
+	public function fetchStudentsByOrgIdByClusterId($orgId, $clusterId)
+	{
+		return $this->db->select('COUNT(user_id) as total_students')
+			->from($this->table)
+			->where('org_idd', $orgId)
+			->where('cluster_idd', $clusterId)
+			->where('user_role', Userrole1::STUDENT)
+			->get()
+			->row()
+			->total_students;
 	}
 }

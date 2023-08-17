@@ -18,11 +18,21 @@
 			// Load necessary libraries, User Service and Dashboard Service
 			//$this->load->library(['UserService']);
 			$this->load->library(['session']);
-
-			// Load Common Data;
-			$this->loadCommonData();
+			$this->load->model(
+				array(
+//					'setting_model',
+//					'dashboard_model',
+//					'organisation_model',
+					'cluster_model' => 'clusterModel',
+					'center_model' => 'centerModel',
+					'user_model' =>'userModel',
+					'material_model',
+				)
+			);
 			// Authenticate User
 			$this->authenticateUser();
+			// Load Common Data;
+			$this->loadCommonData();
 		}
 
 		private function authenticateUser()
@@ -30,7 +40,7 @@
 			// Authenticate User
 			if (
 				$this->session->userdata('isRepLogIn') == false
-				|| $this->session->userdata('user_role') != Userrole::CLUSTER_COORDINATOR
+				|| $this->session->userdata('user_role') != Userrole1::CLUSTER_COORDINATOR
 			) {
 				redirect('login');
 				// throw new Exception("User not logged in or invalid role");
@@ -46,7 +56,7 @@
 			$this->data['organisation'] = $this->getLoggedInUserOrganization();
 			$this->data['cluster'] = $this->getLoggedInUserCluster();
 			//
-			$this->data['user_role_list'] = Userrole::getBasicRoleNamesAsArray();
+			$this->data['user_role_list'] = Userrole1::getBasicRoleNamesAsArray();
 		}
 
 		public function getLoggedInUserOrganization()
@@ -96,6 +106,10 @@
 		{
 			return $this->userId;
 		}
+		public function fetchLogedInUserDetails()
+		{
+			return $this->userModel->read_user_by_id($this->getUserId());
+		}
 		public function getOrgId()
 		{
 			return !empty($this->orgId)?$this->orgId:throw new Exception('Organisation id is missing.');
@@ -110,7 +124,7 @@
 			return $this->objUserService;
 		}
 	}
-	class Userrole
+	class Userrole1
 	{
 		const ADMIN = 1;
 		const ORGANISATION = 2;

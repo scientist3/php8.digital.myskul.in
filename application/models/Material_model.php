@@ -302,4 +302,34 @@ class Material_model extends CI_Model {
 			->count_all_results();
 		return $new_docs;*/
 	}
+
+	public function fetchMaterialByOrgByCluster($intOrgId, $intClusterId){
+		$this->db->select('m.*, o.org_name, c.cluster_name, cen.center_name, COUNT(ml.ml_id) AS seenby');
+		$this->db->from('material m');
+		$this->db->join('organisation o', 'o.org_id = m.org_idd');
+		$this->db->join('cluster c', 'c.cluster_id = m.cluster_idd');
+		$this->db->join('center cen', 'cen.center_id = m.center_idd');
+		$this->db->join('material_log ml', 'm.mat_id = ml.ml_mat_id', 'left');
+		$this->db->where('m.org_idd', $intOrgId);
+		$this->db->where('m.cluster_idd', $intClusterId);
+		$this->db->group_by('m.mat_id, m.mat_title, o.org_name, c.cluster_name, cen.center_name');
+		$this->db->order_by('m.mat_id');
+
+		return $this->db->get()->result();
+	}
+
+	public function getFilePathOrName($material_id)
+	{
+		// Assuming you have a table named 'material' with columns 'mat_id' and 'mat_doc_link'
+		$query = $this->db->select('mat_doc_link')
+			->where('mat_id', $material_id)
+			->get('material');
+
+		if ($query->num_rows() > 0) {
+			$result = $query->row();
+			return $result->mat_doc_link;
+		}
+
+		return null; // Return null if no record is found
+	}
 }
