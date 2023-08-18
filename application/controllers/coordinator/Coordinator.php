@@ -72,6 +72,7 @@ class Coordinator extends CI_Controller
 
 		return $organization;
 	}
+
 	public function getLoggedInUserCluster()
 	{
 		// Retrieve the cluster head ID (stored as user_id in session)
@@ -93,6 +94,7 @@ class Coordinator extends CI_Controller
 			return null; // Cluster head ID is not available in the session
 		}
 	}
+
 	public function renderView($viewName, $data = [])
 	{
 		$this->data['content'] = $this->load->view($viewName, $data, true);
@@ -103,10 +105,12 @@ class Coordinator extends CI_Controller
 	{
 		return $this->userId;
 	}
-	public function fetchLogedInUserDetails()
+
+	public function fetchLoggedInUserDetails()
 	{
 		return $this->userModel->read_user_by_id($this->getUserId());
 	}
+
 	public function getOrgId()
 	{
 		return !empty($this->orgId) ? $this->orgId : throw new Exception('Organisation id is missing.');
@@ -116,6 +120,7 @@ class Coordinator extends CI_Controller
 	{
 		return isset($this->data['cluster']->cluster_id) ? $this->data['cluster']->cluster_id : throw new Exception('Cluster id is missing.');
 	}
+
 	public function getObjUserService()
 	{
 		return $this->objUserService;
@@ -173,6 +178,15 @@ class Userrole1
 		return array(
 			" " => 'Select User Role',
 			self::CLUSTER_COORDINATOR => 'Cluster Coordinator',
+			self::ANIMATOR => 'Animator',
+			self::STUDENT => 'Student'
+		);
+	}
+	public static function getOASRoleNamesAsArray()
+	{
+		return array(
+			" " => 'Select User Role',
+			self::ORGANISATION => 'Organisation',
 			self::ANIMATOR => 'Animator',
 			self::STUDENT => 'Student'
 		);

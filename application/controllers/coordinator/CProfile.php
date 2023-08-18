@@ -16,7 +16,7 @@ class CProfile extends Coordinator
 		$this->data['PageTitle'] = "User Profile";
 		$this->data['profile_active'] = 'active';
 
-		$this->data['user'] = $this->fetchLogedInUserDetails();
+		$this->data['user'] = $this->fetchLoggedInUserDetails();
 		$this->renderView('coordinator/profile/index', $this->data);
 	}
 
@@ -36,7 +36,7 @@ class CProfile extends Coordinator
 		}
 
 		// Load the view files
-		$this->data['user'] = $this->fetchLogedInUserDetails();
+		$this->data['user'] = $this->fetchLoggedInUserDetails();
 		$this->renderView('coordinator/profile/index', $this->data);
 	}
 

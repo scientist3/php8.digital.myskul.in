@@ -110,6 +110,17 @@ class Cluster_model extends CI_Model
 		}
 		return $list;
 	}
+	public function get_cluster_ids_of_org($org_id=null)
+	{
+		$clusters = $this->read_as_list_by_org($org_id);
+		$cluster_ids= [];
+		foreach (array_keys($clusters) as $key => $value) {
+			if (!empty($value)) {
+				$cluster_ids[] =$value;
+			}
+		}
+		return $cluster_ids;
+	}
 
 	public function update($data = [])
 	{

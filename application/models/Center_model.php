@@ -248,4 +248,25 @@ class Center_model extends CI_Model
 		}
 		return $list;
 	}
+
+	public function read_centers_of_cluster_as_list($cluster_ids = [])
+	{
+		$list[''] = display('select_center');
+
+		if (count($cluster_ids) != 0) {
+			$result = $this->db->select("center_id,center_name")
+				->from($this->table)
+				->where_in('center_cluster_id', array_keys($cluster_ids))
+				->order_by('center_name', 'asc')
+				->get()
+				->result();
+
+			foreach ($result as $row) {
+				$list[$row->center_id] = $row->center_name;
+			}
+			return $list;
+		} else {
+			return $list;
+		}
+	}
 }
