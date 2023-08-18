@@ -28,11 +28,31 @@ class Organisation extends CI_Controller
 
 		$this->user_id = $this->session->userdata('user_id');
 		$this->objUserService = new $this->userservice();
-		$this->data['organisation'] = $this->objUserService->fetchOrganisationHeadDetailsByUserId($this->user_id);
+		$this->data['organisation'] = $this->getLoggedInUserOrganization();
 	}
+	public function getLoggedInUserOrganization()
+	{
+		// Get the organization ID from the session
+		$this->orgId = $this->session->userdata('org_id');
 
+		if (!$this->orgId) {
+			throw new Exception('Organization ID is missing.');
+		}
+		// Load the organization model
+		$this->load->model('organisation_model'); // Make sure you have the correct model name
+
+		// Retrieve organization details from the database based on org_id
+		$organization = $this->organisation_model->read_by_id($this->orgId);
+
+		return $organization;
+	}
 	private function extractPaginationParameters()
 	{
+		if($this->objUserService == null){
+			$this->load->library('UserService');
+			$this->data['organisation'] = $this->getLoggedInUserOrganization();
+			$this->objUserService = new $this->userservice();
+		}
 		$page = (int)$this->input->post('page') ?: 1;
 		$itemsPerPage = (int)$this->input->post('length') ?: 10;
 		$orderColumnIndex = (int)$this->input->post('order')[0]['column'] ?: 1;
@@ -168,6 +188,11 @@ class Organisation extends CI_Controller
 		$this->output
 			->set_content_type('application/json')
 			->set_output(json_encode($response));
+	}
+
+	public function getOrgId()
+	{
+		return !empty($this->orgId) ? $this->orgId : throw new Exception('Organisation id is missing.');
 	}
 
 }
