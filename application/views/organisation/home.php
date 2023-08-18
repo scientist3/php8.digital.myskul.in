@@ -12,7 +12,7 @@
 			<div class="icon">
 				<i class="ion ion-person-add"></i>
 			</div>
-			<a href="<?php echo base_url('dashboard_org/cluster'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+			<a href="<?php echo base_url('organisation/ccluster'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 	<!-- ./col -->
@@ -31,7 +31,7 @@
 			<div class="icon">
 				<i class="ion ion-stats-bars"></i>
 			</div>
-			<a href="<?php echo base_url('dashboard_org/center'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+			<a href="<?php echo base_url('organisation/ccenter'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 	<!-- ./col -->
@@ -48,7 +48,7 @@
 			<div class="icon">
 				<i class="ion ion-android-contacts"></i>
 			</div>
-			<a href="<?php echo base_url('dashboard_org/user/members'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+			<a href="<?php echo base_url('organisation/cuser/index'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 	<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
@@ -66,7 +66,7 @@
 			<div class="icon">
 				<i class="ion ion-android-contacts"></i>
 			</div>
-			<a href="<?php echo base_url('dashboard_org/user/index'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+			<a href="<?php echo base_url('organisation/cstudent/index'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 	<!-- ./col -->
@@ -85,7 +85,7 @@
 			<div class="icon">
 				<i class="ion ion-android-contacts"></i>
 			</div>
-			<a href="<?php echo base_url('dashboard_org/userlog/index'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+			<a href="<?php echo base_url('organisation/cattendance/index'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 
@@ -102,7 +102,7 @@
 			<div class="icon">
 				<i class="ion ion-android-contacts"></i>
 			</div>
-			<a href="<?php echo base_url('dashboard_org/userlog/index'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+			<a href="<?php echo base_url('organisation/cattendance/index'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 	<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
@@ -118,7 +118,7 @@
 			<div class="icon">
 				<i class="ion ion-android-contacts"></i>
 			</div>
-			<a href="<?php echo base_url('dashboard_org/userlog/index'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+			<a href="<?php echo base_url('organisation/cattendance/index'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 	<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
@@ -136,7 +136,7 @@
 			<div class="icon">
 				<i class="ion ion-android-contacts"></i>
 			</div>
-			<a href="<?php echo base_url('dashboard_org/userlog/index'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+			<a href="<?php echo base_url('organisation/cattendance/index'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 
@@ -153,7 +153,7 @@
 			<div class="icon">
 				<i class="ion ion-android-contacts"></i>
 			</div>
-			<a href="<?php echo base_url('dashboard_org/userlog/index'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+			<a href="<?php echo base_url('organisation/cattendance/absent'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 
@@ -165,12 +165,12 @@
 					<?php echo !empty($org_details->total_cor_absentee) ? $org_details->total_cor_absentee : '0'; ?>
 				</h3>
 
-				<p>Total Coodinators Absent today</p>
+				<p>Total Coordinators Absent today</p>
 			</div>
 			<div class="icon">
 				<i class="ion ion-android-contacts"></i>
 			</div>
-			<a href="<?php echo base_url('dashboard_org/userlog/index'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+			<a href="<?php echo base_url('organisation/cattendance/absent'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 	<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
@@ -186,7 +186,7 @@
 			<div class="icon">
 				<i class="ion ion-android-contacts"></i>
 			</div>
-			<a href="<?php echo base_url('dashboard_org/userlog/index'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+			<a href="<?php echo base_url('organisation/cattendance/absent'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 	<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
@@ -204,7 +204,7 @@
 			<div class="icon">
 				<i class="ion ion-android-contacts"></i>
 			</div>
-			<a href="<?php echo base_url('dashboard_org/userlog/index'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+			<a href="<?php echo base_url('organisation/cattendance/absent'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 	<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
@@ -220,7 +220,7 @@
 			<div class="icon">
 				<i class="ion ion-chatboxes"></i>
 			</div>
-			<a href="<?php echo base_url('dashboard_org/message'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+			<a href="<?php echo base_url('organisation/message'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 

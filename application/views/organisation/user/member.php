@@ -71,8 +71,8 @@
 	</div>
 </div>
 
-<!-- jQuery 3 -->
-<script src="<?php echo base_url('assetslte/'); ?>bower_components/jquery/dist/jquery.min.js"></script>
+<!-- jQuery -->
+<script src="<?php echo base_url('vendor/almasaeed2010/adminlte/'); ?>plugins/jquery/jquery.min.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function() {

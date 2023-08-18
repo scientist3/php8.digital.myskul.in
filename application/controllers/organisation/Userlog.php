@@ -21,10 +21,6 @@ class Userlog extends OrganisationController
 		$this->data['pdfFileName'] 				= 'Attendence Report of Organisation - ' . $this->data['organisation']['org_name'];
 
 		/* ----------------------------------------------  */
-		var_dump($this->getFormData);
-		var_dump($this->input->post());
-		die();
-
 		$this->data['cluster_id']			= $this->input->post('cluster_id');
 		$this->data['center_id']			= $this->input->post('center_id');
 		$this->data['user_role']			= !empty($this->input->post('user_role')) ? $this->input->post('user_role') : '4';

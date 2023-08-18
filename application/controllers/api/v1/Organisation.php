@@ -28,9 +28,28 @@ class Organisation extends CI_Controller
 
 		$this->user_id = $this->session->userdata('user_id');
 		$this->objUserService = new $this->userservice();
-		$this->data['organisation'] = $this->objUserService->fetchOrganisationHeadDetailsByUserId($this->user_id);
+		$this->data['organisation']		= $this->getLoggedInUserOrganization();
 	}
+public function getLoggedInUserOrganization()
+	{
+		// Get the organization ID from the session
+		$this->orgId = $this->session->userdata('org_id');
 
+		if (!$this->orgId) {
+			throw new Exception('Organization ID is missing.');
+		}
+		// Load the organization model
+		$this->load->model('organisation_model'); // Make sure you have the correct model name
+
+		// Retrieve organization details from the database based on org_id
+		$organization = $this->organisation_model->read_by_id($this->orgId);
+
+		return $organization;
+	}
+	public function getOrgId()
+	{
+		return !empty($this->orgId)?$this->orgId:throw new Exception('Organisation id is missing.');
+	}
 	private function extractPaginationParameters()
 	{
 		$page = (int)$this->input->post('page') ?: 1;
