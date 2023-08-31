@@ -28,7 +28,7 @@
 					<div class="col-sm-12">
 						<div class="form-group">
 							<label for="cluster_head_id">
-								<?php echo display('coodinator'); ?>
+								<?php echo display('coordinator'); ?>
 							</label> <small class="text-danger"> *</small>
 							<?php echo form_dropdown('cluster_head_id', $coodinator_list, $input->cluster_head_id, 'class="form-control" id="cluster_head_id" '); ?>
 							<?php // echo form_error('cluster_head_id', '<span class="text-danger text-xs p-1">', '</span>'); 
@@ -73,7 +73,7 @@
 								<?php echo display('org') ?>
 							</th>
 							<th>
-								<?php echo display('coodinator') ?>
+								<?php echo display('coordinator') ?>
 							</th>
 							<th>
 								<?php echo display('action') ?>

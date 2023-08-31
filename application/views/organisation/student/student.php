@@ -201,7 +201,7 @@
 			dom: "<'row'<'col-sm-2'l><'col-sm-6 text-center'B><'col-sm-4'f>>t" +
 				"<'row'<'col-sm-5'i><'col-sm-7'p>>",
 			ajax: {
-				url: '<?php echo base_url('api/v1/organisation/studentListWithParemsAsJson ') ?>', // Replace with your server API endpoint
+				url: '<?php echo base_url('api/v1/organisation/studentListWithParemsAsJson') ?>', // Replace with your server API endpoint
 				type: 'POST', // Use 'POST' or 'GET' based on your server implementation
 				data: function(d) {
 					// Add any additional parameters for filtering (if needed)

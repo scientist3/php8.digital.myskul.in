@@ -28,6 +28,8 @@ class Organisation extends CI_Controller
 
 		$this->user_id = $this->session->userdata('user_id');
 		$this->objUserService = new $this->userservice();
+//		var_dump($this->objUserService);
+		$this->data['organisation']		= $this->getLoggedInUserOrganization();
 		$this->data['organisation'] = $this->getLoggedInUserOrganization();
 	}
 	public function getLoggedInUserOrganization()
@@ -142,6 +144,7 @@ class Organisation extends CI_Controller
 			->set_content_type('application/json')
 			->set_output(json_encode($response));
 	}
+
 	public function studentListWithParemsAsJson()
 	{
 		// Extract pagination parameters using the function

@@ -120,7 +120,7 @@
 					redirect('coordinator/cdashboard/index'); // Coordinator
 					break;
 				case Userrole::ANIMATOR:
-					redirect('animator/dashboard/index'); // Animator
+					redirect('animator/cdashboard/index'); // Animator
 					break;
 				case Userrole::STUDENT:
 					redirect('student/dashboard/index'); // Student

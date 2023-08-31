@@ -31,7 +31,7 @@
 			<div class="icon">
 				<i class="ion ion-android-contacts"></i>
 			</div>
-			<a href="<?php echo base_url('coordinator/user/members'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+			<a href="<?php echo base_url('coordinator/cuser/index'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 	<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">

@@ -643,4 +643,17 @@ class User_model extends CI_Model
 			->row()
 			->total_students;
 	}
+
+	public function fetchStudentsByOrgIdByClusterIdByCenterId($orgId, $clusterId, $centerId)
+	{
+		return $this->db->select('COUNT(user_id) as total_students')
+			->from($this->table)
+			//->where('org_idd', $orgId)
+			//->where('cluster_idd', $clusterId)
+			->where('center_id', $centerId)
+			->where('user_role', Userrole1::STUDENT)
+			->get()
+			->row()
+			->total_students;
+	}
 }

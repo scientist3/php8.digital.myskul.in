@@ -17,7 +17,7 @@
 							<th><?php echo display('serial') ?></th>
 							<th><?php echo display('cluster') ?></th>
 							<th><?php echo display('org') ?></th>
-							<th><?php echo display('coodinator') ?></th>
+							<th><?php echo display('coordinator') ?></th>
 							<!-- <th><?php echo display('date') ?></th> 
                             <th><?php echo display('status') ?></th>  -->
 							<th><?php echo display('action') ?></th>
