@@ -21,7 +21,7 @@ const StudentFormModule = (function () {
 		$('#cluster_idd').change(function () {
 			fetchCentersByCluster($(this).val());
 		});
-		fetchCentersByCluster(clusterId.val());
+		// fetchCentersByCluster(clusterId.val());
 	}
 	
 	function uploadFile(uploadData) {

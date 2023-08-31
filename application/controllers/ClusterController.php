@@ -71,6 +71,9 @@ class ClusterController extends CI_Controller
 		$this->form_validation->set_error_delimiters('<p class="text-sm mb-0">', '</p>');
 	}
 
+	public function getOrgId(){
+		return $this->data['organisation']['org_id'];
+	}
 	public function fetchClustersByOrganizationId($org_id)
 	{
 		$this->objUserService->user_model->fetchClustersByOrgIdAsList($org_id);

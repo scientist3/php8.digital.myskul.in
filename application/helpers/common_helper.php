@@ -65,6 +65,7 @@ if (!function_exists('number')) {
 		}
 	}
 }
+
 if (!function_exists('getDistrictListAsArray')) {
 	function getDistrictListAsArray()
 	{
@@ -146,7 +147,33 @@ if (!function_exists('mergeIntersectArray')) {
 	}
 }
 
+if(!function_exists('rekeyStdClassArray')) {
+	function rekeyStdClassArray($keyProperty, $array): array
+	{
+		$result = array();
+		foreach ($array as $item) {
+			if (isset($item->{$keyProperty})) {
+				$result[$item->{$keyProperty}] = $item;
+			}
+		}
+		return $result;
+	}
+}
 
+if(!function_exists('rekeyArray')) {
+	function rekeyArray($keyField, $array): array
+	{
+		$result = array();
+
+		foreach ($array as $item) {
+			if (isset($item[$keyField])) {
+				$result[$item[$keyField]] = $item;
+			}
+		}
+
+		return $result;
+	}
+}
 // $autoload['helper'] =  array('language_helper');
 
 /*display a language*/
