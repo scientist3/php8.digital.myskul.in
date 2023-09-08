@@ -64,7 +64,7 @@
       </div>
       <div class="card-body">
         <div class="tab-content" id="custom-tabs-four-tabContent">
-          <div class="tab-pane fade active show" id="custom-tabs-for-all-students" data-category="session_status" data-status="0,1,2" role="tabpanel" aria-labelledby="custom-tabs-for-all-students-tab">
+          <div class="tab-pane fade active show" id="custom-tabs-for-all-students" data-category="cncp_status" data-status="0,1,2" role="tabpanel" aria-labelledby="custom-tabs-for-all-students-tab">
             <!-- Display all students here -->
             <table id="userTableAll" class="datatable_new table table-bordered table-striped table-hovers">
               <thead>
@@ -108,8 +108,8 @@
               </tbody>
             </table>
           </div>
-          <div class="tab-pane fade" id="custom-tabs-for-not-submitted" data-category="session_status" data-status="0" role="tabpanel" aria-labelledby="custom-tabs-for-not-submitted-tab">
-            <form role="form" action="<?php echo site_url('animator/cactivities/submitForSessionApproval') ?>" method="post" class="">
+          <div class="tab-pane fade" id="custom-tabs-for-not-submitted" data-category="cncp_status" data-status="0" role="tabpanel" aria-labelledby="custom-tabs-for-not-submitted-tab">
+            <form role="form" action="<?php echo site_url('animator/cactivities/submitForCncpApproval') ?>" method="post" class="">
               <!-- Display not submitted students here -->
               <table id="userTableNotSubmitted" class="datatable_new table table-bordered table-striped table-hovers">
                 <thead>
@@ -137,7 +137,7 @@
                   <?php if (!empty($all_students)) { ?>
                     <?php $sl = 1; ?>
                     <?php foreach ($all_students as $user) { ?>
-                      <?php if ($user->session_status != 0) continue; ?>
+                      <?php if ($user->cncp_status != 0) continue; ?>
                       <tr class="<?php echo ($sl & 1) ? "odd gradeX" : "even gradeC" ?>">
                         <td>
                           <div class="form-groupp d-flex justify-content-center align-items-center">
@@ -168,7 +168,7 @@
               <button type="submit" class="btn btn-primary  float-right "><i class="fa fa-edit"></i>  <?php echo display('submit_for_approval'); ?></button>
             </form>
           </div>
-          <div class="tab-pane fade" id="custom-tabs-for-pending" data-category="session_status" data-status="1" role="tabpanel" aria-labelledby="custom-tabs-for-pending-tab">
+          <div class="tab-pane fade" id="custom-tabs-for-pending" data-category="cncp_status" data-status="1" role="tabpanel" aria-labelledby="custom-tabs-for-pending-tab">
             <!-- Display pending students here -->
             <table id="userTablePending" class="datatable_new table table-bordered table-striped table-hovers">
               <thead>
@@ -190,7 +190,7 @@
                 <?php if (!empty($all_students)) { ?>
                   <?php $sl = 1; ?>
                   <?php foreach ($all_students as $user) { ?>
-                    <?php if ($user->session_status != 1) continue; ?>
+                    <?php if ($user->cncp_status != 1) continue; ?>
                     <tr class="<?php echo ($sl & 1) ? "odd gradeX" : "even gradeC" ?>">
 
                       <td><?php echo $sl; ?></td>
@@ -214,7 +214,7 @@
               </tbody>
             </table>
           </div>
-          <div class="tab-pane fade" id="custom-tabs-for-approved" data-category="session_status" data-status="2" role="tabpanel" aria-labelledby="custom-tabs-for-approved-tab">
+          <div class="tab-pane fade" id="custom-tabs-for-approved" data-category="cncp_status" data-status="2" role="tabpanel" aria-labelledby="custom-tabs-for-approved-tab">
             <!-- Display approved students here -->
             <table id="userTableApproved" class="datatable_new table table-bordered table-striped table-hovers">
               <thead>
@@ -240,7 +240,7 @@
                 <?php if (!empty($all_students)) { ?>
                   <?php $sl = 1; ?>
                   <?php foreach ($all_students as $user) { ?>
-                    <?php if ($user->session_status != 2) continue; ?>
+                    <?php if ($user->cncp_status != 2) continue; ?>
                     <tr class="<?php echo ($sl & 1) ? "odd gradeX" : "even gradeC" ?>">
                       <td><?php echo $sl; ?></td>
                       <td><?php echo ucfirst($user->firstname); ?></td>

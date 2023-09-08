@@ -42,7 +42,8 @@ $(document).ready(function() {
 		tabTable.DataTable({
 			rowCallback: function(row, data, index) {
 				$(row).on('click', function() {
-					if (!$(event.target).hasClass('actions-column')) {
+					if($(event.target).hasClass('js-student-not-enrolled') ) return;
+					if (!$(event.target).hasClass('actions-column') && !$(event.target).hasClass('dtr-control')) {
 						viewStudent(data.user_id);
 					}
 				});
@@ -59,6 +60,8 @@ $(document).ready(function() {
 					d.user_role = 5;
 					d.date = $('#date').val();
 					d.page = (d.start / d.length) + 1;
+					d.category = $(tabSelector).data('category');
+					d.status = $(tabSelector).data('status');
 				}
 			},
 			columnDefs: [
@@ -72,6 +75,14 @@ $(document).ready(function() {
 				}
 			],
 			columns: [
+				{
+					data: 'user_id',
+					render:function(user_id, type, row){
+						html = '<div class="form-groupp d-flex justify-content-center align-items-center"><div class="select"><input name="students[]" class="js-student-not-enrolled form-control ml-1 mr-1" type="checkbox" value="'+user_id+'"></div></div>';
+						return html;
+					// return "<input class="" type=\"checkbox\" value='student["+user_id+"]'>";
+					}
+				},
 				{
 					data: 'picture',
 					title: 'Picture ',

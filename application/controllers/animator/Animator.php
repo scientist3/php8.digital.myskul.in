@@ -19,6 +19,8 @@ class Animator extends CI_Controller
 				'center_model' => 'centerModel',
 				'user_model' => 'userModel',
 				'material_model',
+				'activities_model' => 'ActivitiesModel',
+				'stakeholder_model' => 'StakeholderModel'
 			)
 		);
 		$this->authenticateUser();
@@ -188,6 +190,8 @@ class Userrole1
 	const ANIMATOR = 4;
 	const STUDENT = 5;
 
+	const STAKEHOLDER= 6;
+
 		public static function getRoleName($role)
 		{
 			switch ($role) {
@@ -201,6 +205,8 @@ class Userrole1
 					return 'Animator';
 				case self::STUDENT:
 					return 'Student';
+				case self::STAKEHOLDER:
+					return 'Stakeholder';
 				default:
 					return 'Unknown';
 			}

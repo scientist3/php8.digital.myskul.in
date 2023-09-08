@@ -24,6 +24,7 @@ class Coordinator extends CI_Controller
 				'center_model' => 'centerModel',
 				'user_model' => 'userModel',
 				'material_model',
+				'activities_model' => 'ActivitiesModel',
 			)
 		);
 		// Authenticate User

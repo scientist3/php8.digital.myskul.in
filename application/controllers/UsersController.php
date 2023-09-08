@@ -122,7 +122,7 @@ class UsersController extends CI_Controller
 	}
 	public function getOrgId()
 	{
-		return !empty($this->orgId)?$this->orgId:throw new Exception('Organisation id is missing.');
+		return !empty($this->orgId)?$this->orgId: new Exception('Organisation id is missing.');
 	}
 
 	public function getData()

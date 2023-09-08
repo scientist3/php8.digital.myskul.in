@@ -90,49 +90,49 @@
 						</li>
 
 						<li class="nav-item">
-							<a href="<?php echo base_url("animator/cactivities/cncp_enrolled") ?>" class="nav-link <?php echo $cncp_enrolled_option ?? null; ?>">
+							<a href="<?php echo base_url("animator/cactivities/studentCncpListing") ?>" class="nav-link <?php echo $cncp_enrolled_option ?? null; ?>">
 								<i class="far fa-circle nav-icon"></i>
 								<p><?php echo display('cncp_enrolled'); ?></p>
 							</a>
 						</li>
 
 						<li class="nav-item">
-							<a href="<?php echo base_url("animator/cactivities/cncp_supported") ?>" class="nav-link <?php echo $cncp_supported_option ?? null; ?>">
+							<a href="<?php echo base_url("animator/cactivities/studentCncpSupportedListing") ?>" class="nav-link <?php echo $cncp_supported_option ?? null; ?>">
 								<i class="far fa-circle nav-icon"></i>
 								<p><?php echo display('cncp_supported'); ?></p>
 							</a>
 						</li>
 
 						<li class="nav-item">
-							<a href="<?php echo base_url("animator/cactivities/psycho_educated") ?>" class="nav-link <?php echo $psycho_educated_option ?? null; ?>">
+							<a href="<?php echo base_url("animator/cactivities/studentPsychoEducatedListing") ?>" class="nav-link <?php echo $psycho_educated_option ?? null; ?>">
 								<i class="far fa-circle nav-icon"></i>
 								<p><?php echo display('psycho_educated'); ?></p>
 							</a>
 						</li>
 
 						<li class="nav-item">
-							<a href="<?php echo base_url("animator/cactivities/primary_counseling_status") ?>" class="nav-link <?php echo $primary_counselling_option ?? null; ?>">
+							<a href="<?php echo base_url("animator/cactivities/studentPrimaryCounsellingListing") ?>" class="nav-link <?php echo $primary_counselling_option ?? null; ?>">
 								<i class="far fa-circle nav-icon"></i>
 								<p><?php echo display('primary_counseling_status'); ?></p>
 							</a>
 						</li>
 
 						<li class="nav-item">
-							<a href="<?php echo base_url("animator/cactivities/secondary_tertiary_service") ?>" class="nav-link <?php echo $sec_ter_serv_option ?? null; ?>">
+							<a href="<?php echo base_url("animator/cactivities/studentSecondaryCounsellingListing") ?>" class="nav-link <?php echo $sec_ter_serv_option ?? null; ?>">
 								<i class="far fa-circle nav-icon"></i>
 								<p><?php echo display('secondary_tertiary_service'); ?></p>
 							</a>
 						</li>
 
             <li class="nav-item">
-              <a href="<?php echo base_url("animator/cactivities/psycho_social_well_being") ?>" class="nav-link <?php echo $psycho_social_well_being_option ?? null; ?>">
+              <a href="<?php echo base_url("animator/cactivities/studentPsychoSocialWellBeingListing") ?>" class="nav-link <?php echo $psycho_social_well_being_option ?? null; ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p><?php echo display('psycho_social_well_being'); ?></p>
               </a>
             </li>
 
             <li class="nav-item">
-              <a href="<?php echo base_url("animator/cactivities/care_plans") ?>" class="nav-link <?php echo $care_plans_option ?? null; ?>">
+              <a href="<?php echo base_url("animator/cactivities/studentCarePlanListing") ?>" class="nav-link <?php echo $care_plans_option ?? null; ?>">
                 <i class="far fa-circle nav-icon"></i>
                 <p><?php echo display('care_plans'); ?></p>
               </a>
@@ -140,6 +140,30 @@
 					</ul>
 				</li>
 
+        <!-- Stakeholders -->
+        <li class="nav-item <?php echo $stakeholder_menu ?? null; ?>">
+          <a href="#" class="nav-link <?php echo isset($stakeholder_menu) ? 'active' : null; ?>">
+            <i class="nav-icon fa fa-users"></i>
+            <p>
+							<?php echo display('stakeholders'); ?>
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="<?php echo base_url("animator/cstakeholder/processStakeholderForm") ?>" class="nav-link <?php echo $add_stakeholders ?? null; ?>">
+                <i class="far fa-circle nav-icon"></i>
+                <p><?php echo display('add_stakeholders'); ?></p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="<?php echo base_url("animator/cstakeholder/index") ?>" class="nav-link <?php echo $list_stakeholders ?? null; ?>">
+                <i class="far fa-circle nav-icon"></i>
+                <p><?php echo display('view_stakeholders'); ?></p>
+              </a>
+            </li>
+          </ul>
+        </li>
 				<!-- Users -->
 				<li class="nav-item <?php echo $user_menu ?? null; ?>">
 					<a href="#" class="nav-link <?php echo isset($user_menu) ? 'active' : null; ?>">

@@ -1,80 +1,46 @@
 <?php
-
-defined('BASEPATH') or exit('No direct script access allowed');
-require(APPPATH . 'controllers/animator/Animator.php');
-class Activities extends 	Animator
-{
-	private int $user_id;
-	private $objActivitiesService;
-
-	public function __construct()
+	defined('BASEPATH') or exit('No direct script access allowed');
+	require(APPPATH . 'controllers/animator/Animator.php');
+	class ActivitiesController extends Animator
 	{
-		parent::__construct();
-		$this->load->library('ActivitiesService');
+		private $user_id;
 
-		// Authentication
-		if (!$this->session->userdata('isRepLogIn') || ($this->session->userdata('user_role') != 2)) {
-			$response = array(
-				'success' => false,
-				'message' => "Unauthorized Access"
+		public function __construct()
+		{
+			parent::__construct();
+
+			$this->load->model(
+				array(
+					'animator/cluster_model' => 'clusterModel',
+					'messages/message_model' => 'messageModel'
+				)
 			);
 
-			// Output the JSON response
-			return $this->output
-				->set_content_type('application/json')
-				->set_output(json_encode($response));
+			$this->user_id = $this->session->userdata('user_id');
 		}
 
-		$this->user_id = $this->session->userdata('user_id');
-		$this->objActivitiesService = new $this->activitiesservice();
-//		var_dump($this->objActivitiesService);
-		$this->data['organisation'] = $this->getLoggedInUserOrganization();
-	}
-	public function getLoggedInUserOrganization()
-	{
-		// Get the organization ID from the session
-		$this->orgId = $this->session->userdata('org_id');
-
-		if (!$this->orgId) {
-			throw new Exception('Organization ID is missing.');
+		public function loadLists()
+		{
+			$this->data['org_id']                   = $this->getOrgId();
+			$this->data['cluster_id']               = $this->getClusterId();
+			$this->data['center_id']                = $this->getActiveCenterId();
+			$this->data['user_role']                = '5';
+			$this->data['cluster_list']             = $this->clusterModel->read_as_list_by_org($this->getOrgId());
+			$this->data['district_list']            = getDistrictListAsArray();
 		}
-		// Load the organization model
-		$this->load->model('organisation_model'); // Make sure you have the correct model name
 
-		// Retrieve organization details from the database based on org_id
-		$organization = $this->organisation_model->read_by_id($this->orgId);
+		public function getSessionStudentsByStatus($category,$status)
+		{
+			$objFilter = new Filter();
+			$filterObject = (object) $objFilter->toArray( $this->getOrgId(), $this->getClusterId(), $this->getActiveCenterId(),$this->input);
+			$filterObject->selfId = $this->session->userdata('user_id');
+			// $totalCount = $this->ActivitiesModel->getFilteredUserTotalCount($filterObject);
+			// Fetch users data with pagination and filters
+			$users = $this->ActivitiesModel->getUsersWithPagination( $filterObject );
+			return  $users;
+		}
 
-		return $organization;
 	}
-
-	public function studentListWithParemsAsJson(): void
-	{
-		$this->load->library('ActivitiesService');
-		$this->objActivitiesService = new $this->activitiesservice();
-		$objFilter = new Filter();
-		$filterObject = (object) $objFilter->toArray( $this->getOrgId(), $this->getClusterId(), $this->getActiveCenterId(),$this->input);
-		$filterObject->selfId = $this->session->userdata('user_id');
-
-		// Fetch users data with pagination and total count (you need to implement the method in ActivitiesService)
-
-		list($users, $totalCount) = $this->objActivitiesService->fetchStudentWithPaginationAndCountByFilters($filterObject);
-
-		// Construct the JSON response with pagination details
-		$response = array(
-			'draw' => intval($this->input->post('draw')), // Current draw counter
-			'recordsTotal' => $totalCount,
-			'recordsFiltered' => $totalCount,
-			'data' => $users // The paginated user data to be displayed in the DataTable
-		);
-
-		// Output the JSON response
-		$this->output
-			->set_content_type('application/json')
-			->set_output(json_encode($response));
-	}
-
-
-}
 	class Filter
 	{
 		public $orgId;
@@ -127,7 +93,7 @@ class Activities extends 	Animator
 			// Check and assign date
 			$this->date = !empty($input->post('date')) ? $input->post('date') : date('Y-m-d');
 
-			$this->page = (int)$input->post('page') ?? 1;
+			$this->page = (int)($input->post('page') ?? 1);
 			$this->itemsPerPage = (int)$input->post('length') ?? 10;
 
 			// Check if 'order' array is set and not empty

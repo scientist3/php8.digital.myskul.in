@@ -199,35 +199,37 @@
 		}
 
 		//  USED FUNCTION IN ATTENDANCE >> API >> ORGANISATION >> USER-SERVICE >> get_users_with_pagination
-		public function getFilteredUserTotalCount($orgId, $clusterId, $centerId, $userRole, $userId, $searchValue, $check = "P")
+		public function getFilteredUserTotalCount($filterObject)
 		{
 			// Construct your SQL query to count the users based on the provided filters and search value
 			$this->db->select('COUNT(*) as total_count');
 			$this->db->from($this->table);
-			$this->db->where_not_in($this->table . '.user_id', $userId);
+			$this->db->where_not_in($this->table . '.user_id', $filterObject->selfId);
 
 			// Apply searchValue to each field that needs to be searched
-			if (!empty($searchValue)) {
+			if (!empty($filterObject->searchValue)) {
 				$this->db->group_start();
-				$this->db->like('firstname', $searchValue);
+				$this->db->like('firstname', $filterObject->searchValue);
 				// Add more fields here if needed
 				$this->db->group_end();
 			}
 
 			// Apply other filters
-			if ($orgId != null) {
-				$this->db->where('org_idd', $orgId);
+			if ($filterObject->orgId != null) {
+				$this->db->where('org_idd', $filterObject->orgId);
 			}
-			if ($clusterId != null) {
-				$this->db->where('cluster_idd', $clusterId);
+			if ($filterObject->clusterId != null) {
+				$this->db->where('cluster_idd', $filterObject->clusterId);
 			}
-			if ($centerId != null) {
-				$this->db->where('center_id', $centerId);
+			if ($filterObject->centerId != null) {
+				$this->db->where('center_id', $filterObject->centerId);
 			}
+			$userRole = ($filterObject->userRole == 'all') ? null : $filterObject->userRole;
 			if ($userRole != null) {
 				$this->db->where('user_role', $userRole);
 			}
 
+			$this->db->where_in($filterObject->studentFilter->category, explode(",",$filterObject->studentFilter->status));
 			// Execute the query and get the result
 			$result = $this->db->get()->row();
 
@@ -410,44 +412,34 @@
 		}
 
 		//  USED FUNCTION IN CSTUDENT >> API >> ORGANISATION >> USER-SERVICE >> fetchUsersWithPaginationAndCountByFilters
-		public function getUsersWithPagination(
-			$orgId = null,
-			$clusterId = null,
-			$centerId = null,
-			$userRole = null,
-			$date = null,
-			$selfId = null,
-			$orderBy = null,
-			$sortOrder = 'asc',
-			$searchValue = null,
-			$itemsPerPage = 7,
-			$page = 1
-		): array
+		public function getUsersWithPagination( $filterObject ): array
 		{
-			$this->db->select('user_id, student.org_idd, student.cluster_idd, age, block, student.center_id, class, cluster_idd, create_date, created_by, district, email,
+			$this->db->select('user_id, student.org_idd, student.cluster_idd, student.center_id, session_status, cncp_status, cncp_supported_status, psycho_educated_status, primary_counselling_status, secondary_counselling_status,well_being_status, care_plan_status, age, block, student.center_id, class, cluster_idd, create_date, created_by, district, email,
             father_name, father_occup, firstname, mobile, mother_name, mother_occup, org_idd, 
             picture, remarks, school_level, school_name, school_status, school_type, sex, socail_status,
-            status, update_date, user_role, village,center.center_name, org_name,cluster_name');
+            status, update_date, user_role,  village,center.center_name, org_name,cluster_name');
 			$this->db->from($this->table);
 			$this->db->join('organisation', 'organisation.org_id=student.org_idd', 'left');
 			$this->db->join('cluster', 'cluster.cluster_id=student.cluster_idd', 'left');
 			$this->db->join('center', 'center.center_id=student.center_id', 'left');
-			if (!empty($selfId)) {
-				$this->db->where_not_in($this->table . '.user_id', $selfId);
+
+			if (!empty($filterObject->selfId)) {
+				$this->db->where_not_in($this->table . '.user_id', $filterObject->selfId);
 			}
 
-			if (!empty($orgId)) {
-				$this->db->where('org_idd', $orgId);
+			if (!empty($filterObject->orgId)) {
+				$this->db->where('org_idd', $filterObject->orgId);
 			}
 
-			if (!empty($clusterId)) {
-				$this->db->where($this->table.'.cluster_idd', $clusterId);
+			if (!empty($filterObject->clusterId)) {
+				$this->db->where($this->table.'.cluster_idd', $filterObject->clusterId);
 			}
 
-			if (!empty($centerId)) {
-				$this->db->where($this->table.'.center_id', $centerId);
+			if (!empty($filterObject->centerId)) {
+				$this->db->where($this->table.'.center_id', $filterObject->centerId);
 			}
 
+			$userRole = ($filterObject->userRole == 'all') ? null : $filterObject->userRole;
 			if (!empty($userRole)) {
 				$this->db->where($this->table.'.user_role', $userRole);
 			}
@@ -458,22 +450,50 @@
 			}
 
 			// Support for ordering and sorting
-			if (!empty($orderBy)) {
-				$this->db->order_by($orderBy, $sortOrder);
+			if (!empty($filterObject->sortBy)) {
+				$this->db->order_by($filterObject->sortBy, $filterObject->sortOrder);
 			}
 
-			if (!empty($searchValue)) {
+			if (!empty($filterObject->searchValue)) {
 				$this->db->group_start();
-				$this->db->like('firstname', $searchValue);
+				$this->db->like('firstname', $filterObject->searchValue);
 				$this->db->group_end();
 			}
 			// Pagination
-			if ($itemsPerPage != -1) {
-				$offset = ($page - 1) * $itemsPerPage;
-				$this->db->limit($itemsPerPage, $offset);
-			}
+//			if ($filterObject->itemsPerPage != -1) {
+//				$offset = ($filterObject->page - 1) * $filterObject->itemsPerPage;
+//				$this->db->limit($filterObject->itemsPerPage, $offset);
+//			}
+			$this->db->where_in($filterObject->studentFilter->category, explode(",", $filterObject->studentFilter->status));
+
+//			$this->db->where_in($filterObject->studentFilter->category, explode(",",$filterObject->studentFilter->status));
 			//echo $this->db->get_compiled_select();
 			$users = $this->db->get()->result();
 			return $users;
 		}
-	}
+
+		public function updateByColumn($data = [])
+		{
+			if (valArr($data['user_ids'])){
+			return $this->db->where_in('user_id', $data['user_ids'])->update($this->table, $data['set']);
+			}
+		}
+
+		public function getApprovalStudentsByCategoryByOrgByClusterId($intOrgId, $intClusterId, $strCategory, $arrStatus){
+
+			$this->db->select('user_id, student.org_idd, student.cluster_idd, student.center_id, session_status, cncp_status, cncp_supported_status, psycho_educated_status, primary_counselling_status, secondary_counselling_status,well_being_status, care_plan_status, age, block, student.center_id, class, cluster_idd, create_date, created_by, district, email,
+            father_name, father_occup, firstname, mobile, mother_name, mother_occup, org_idd, 
+            picture, remarks, school_level, school_name, school_status, school_type, sex, socail_status,
+            status, update_date, user_role,  village,center.center_name, org_name,cluster_name');
+			$this->db->from($this->table);
+			$this->db->join('organisation', 'organisation.org_id=student.org_idd', 'left');
+			$this->db->join('cluster', 'cluster.cluster_id=student.cluster_idd', 'left');
+			$this->db->join('center', 'center.center_id=student.center_id', 'left');
+			$this->db->where('org_idd', $intOrgId);
+			$this->db->where($this->table.'.cluster_idd', $intClusterId);
+			$this->db->where($this->table.'.user_role', '5');
+			$this->db->where_in( $strCategory, explode(",", $arrStatus));
+			// $this->db->get_compiled_select();
+			return $this->db->get()->result();
+		}
+}
