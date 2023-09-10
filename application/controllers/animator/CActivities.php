@@ -24,9 +24,7 @@ class CActivities extends ActivitiesController
 
 		$this->loadLists();
 		$this->data['all_students']             = $this->getSessionStudentsByStatus( $this->category, $this->status );
-//		$this->data['not_submitted_students']   = $this->getStudentsByStatus('not_submitted');
-//		$this->data['pending_students']         = $this->getStudentsByStatus('pending');
-//		$this->data['approved_students']        = $this->getStudentsByStatus('approved');
+
 		$this->renderView('animator/activities/student_session_listing', $this->data);
 	}
 	// Used
@@ -69,9 +67,7 @@ class CActivities extends ActivitiesController
 
 		$this->loadLists();
 		$this->data['all_students']             = $this->getSessionStudentsByStatus( $this->category, $this->status );
-//		$this->data['not_submitted_students']   = $this->getStudentsByStatus('not_submitted');
-//		$this->data['pending_students']         = $this->getStudentsByStatus('pending');
-//		$this->data['approved_students']        = $this->getStudentsByStatus('approved');
+
 		$this->renderView('animator/activities/student_cncp_listing', $this->data);
 	}
 	public function submitForCncpApproval(): void
@@ -113,9 +109,7 @@ class CActivities extends ActivitiesController
 
 		$this->loadLists();
 		$this->data['all_students']             = $this->getSessionStudentsByStatus( $this->category, $this->status );
-//		$this->data['not_submitted_students']   = $this->getStudentsByStatus('not_submitted');
-//		$this->data['pending_students']         = $this->getStudentsByStatus('pending');
-//		$this->data['approved_students']        = $this->getStudentsByStatus('approved');
+
 		$this->renderView('animator/activities/student_cncp_supported_listing', $this->data);
 	}
 	public function submitForCncpSupportedApproval(): void
@@ -146,7 +140,6 @@ class CActivities extends ActivitiesController
 
 	}
 
-
 	public function studentPsychoEducatedListing($category= 'psycho_educated_status', $status='0,1,2' ): void
 	{
 		$_POST['category'] = $this->category = $category;
@@ -158,9 +151,7 @@ class CActivities extends ActivitiesController
 
 		$this->loadLists();
 		$this->data['all_students']             = $this->getSessionStudentsByStatus( $this->category, $this->status );
-//		$this->data['not_submitted_students']   = $this->getStudentsByStatus('not_submitted');
-//		$this->data['pending_students']         = $this->getStudentsByStatus('pending');
-//		$this->data['approved_students']        = $this->getStudentsByStatus('approved');
+
 		$this->renderView('animator/activities/student_psycho_educated_listing', $this->data);
 	}
 	public function submitForPsychoEducatedApproval(): void
@@ -191,7 +182,6 @@ class CActivities extends ActivitiesController
 
 	}
 
-
 	public function studentPrimaryCounsellingListing($category= 'primary_counselling_status', $status='0,1,2' ): void
 	{
 		$_POST['category'] = $this->category = $category;
@@ -203,9 +193,7 @@ class CActivities extends ActivitiesController
 
 		$this->loadLists();
 		$this->data['all_students']             = $this->getSessionStudentsByStatus( $this->category, $this->status );
-//		$this->data['not_submitted_students']   = $this->getStudentsByStatus('not_submitted');
-//		$this->data['pending_students']         = $this->getStudentsByStatus('pending');
-//		$this->data['approved_students']        = $this->getStudentsByStatus('approved');
+
 		$this->renderView('animator/activities/student_primary_counselling_listing', $this->data);
 	}
 	public function submitForPrimaryCounsellingApproval(): void
@@ -236,7 +224,6 @@ class CActivities extends ActivitiesController
 
 	}
 
-
 	public function studentSecondaryCounsellingListing($category= 'secondary_counselling_status', $status='0,1,2' ): void
 	{
 		$_POST['category'] = $this->category = $category;
@@ -248,9 +235,7 @@ class CActivities extends ActivitiesController
 
 		$this->loadLists();
 		$this->data['all_students']             = $this->getSessionStudentsByStatus( $this->category, $this->status );
-//		$this->data['not_submitted_students']   = $this->getStudentsByStatus('not_submitted');
-//		$this->data['pending_students']         = $this->getStudentsByStatus('pending');
-//		$this->data['approved_students']        = $this->getStudentsByStatus('approved');
+
 		$this->renderView('animator/activities/student_secondary_counselling_listing', $this->data);
 	}
 	public function submitForSecondaryCounsellingApproval(): void
@@ -281,7 +266,6 @@ class CActivities extends ActivitiesController
 
 	}
 
-
 	public function studentPsychoSocialWellBeingListing($category= 'well_being_status', $status='0,1,2' ): void
 	{
 		$_POST['category'] = $this->category = $category;
@@ -293,9 +277,7 @@ class CActivities extends ActivitiesController
 
 		$this->loadLists();
 		$this->data['all_students']             = $this->getSessionStudentsByStatus( $this->category, $this->status );
-//		$this->data['not_submitted_students']   = $this->getStudentsByStatus('not_submitted');
-//		$this->data['pending_students']         = $this->getStudentsByStatus('pending');
-//		$this->data['approved_students']        = $this->getStudentsByStatus('approved');
+
 		$this->renderView('animator/activities/student_well_being_listing', $this->data);
 	}
 	public function submitPsychoSocialWellBeingApproval(): void
@@ -326,7 +308,6 @@ class CActivities extends ActivitiesController
 
 	}
 
-
 	public function studentCarePlanListing($category= 'care_plan_status', $status='0,1,2' ): void
 	{
 		$_POST['category'] = $this->category = $category;
@@ -338,9 +319,9 @@ class CActivities extends ActivitiesController
 
 		$this->loadLists();
 		$this->data['all_students']             = $this->getSessionStudentsByStatus( $this->category, $this->status );
-//		$this->data['not_submitted_students']   = $this->getStudentsByStatus('not_submitted');
-//		$this->data['pending_students']         = $this->getStudentsByStatus('pending');
-//		$this->data['approved_students']        = $this->getStudentsByStatus('approved');
+		//  $this->data['not_submitted_students']   = $this->getStudentsByStatus('not_submitted');
+		//  $this->data['pending_students']         = $this->getStudentsByStatus('pending');
+		//  $this->data['approved_students']        = $this->getStudentsByStatus('approved');
 		$this->renderView('animator/activities/student_care_plan_listing', $this->data);
 	}
 	public function submitCarePlanApproval(): void
