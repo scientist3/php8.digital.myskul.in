@@ -1,3 +1,4 @@
+// Not Used 10/09/2023
 $(document).ready(function() {
 	const base_url  = $('#base_url').val();
 	const userTable = $('#userTable');
@@ -170,12 +171,12 @@ $(document).ready(function() {
 			lengthMenu: [
 			[7, 10, 25, 50, -1],
 			[7, 10, 25, 50, "All"]
-		],
+			],
 			pageLength: 7,
 			responsive: true,
 			order: [
-			[1, 'asc']
-		]
+				[1, 'asc']
+			]
 		});
 	}
 	
