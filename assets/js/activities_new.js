@@ -39,7 +39,6 @@ $(document).ready(function () {
 				extend: 'excel',
 				title: 'ExampleFile',
 				className: 'btn-sm',
-				title: 'exportTitle'
 			},
 			{
 				extend: 'pdfHtml5',
@@ -135,7 +134,6 @@ $(document).ready(function () {
 				extend: 'excel',
 				title: 'ExampleFile',
 				className: 'btn-sm',
-				title: 'exportTitle'
 			},
 			{
 				extend: 'pdfHtml5',
