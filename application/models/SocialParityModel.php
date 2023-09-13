@@ -40,6 +40,10 @@
 			$this->db->where('id', $id);
 			return $this->db->delete($this->table);
 		}
+		public function social_parity_as_list()
+		{
+			return SocialParity::getAllCategoriesAsArray();
+		}
 	}
 	class SocialParity {
 		const APL = 1;

@@ -11,8 +11,11 @@ class Stakeholder_model extends CI_Model
 
 	public function readStakeholdersByOrgId($orgId = null)
 	{
-		$this->db->select("student.*")->from($this->table);
+		$this->db->select("student.*, stakeholder_type.name as stakeholder_name, social_parity.category_name as social_status")->from($this->table);
 		$this->db->where('user_role', Userrole1::STAKEHOLDER);
+		$this->db->join('stakeholder_type', 'stakeholder_type.id=student.stakeholder_type_id', 'left');
+		$this->db->join('social_parity', 'social_parity.id=student.socail_status', 'left');
+		$this->db->order_by('firstname', 'asc');
 
 		if ($orgId !== null) {
 			$this->db->where('org_idd', $orgId);

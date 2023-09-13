@@ -20,7 +20,9 @@ class Animator extends CI_Controller
 				'user_model' => 'userModel',
 				'material_model',
 				'activities_model' => 'ActivitiesModel',
-				'stakeholder_model' => 'StakeholderModel'
+				'stakeholder_model' => 'StakeholderModel',
+				'Stakeholder_type_model' => 'StakeholderTypeModel',
+				'SocialParityModel' => 'SocialParty'
 			)
 		);
 		$this->authenticateUser();

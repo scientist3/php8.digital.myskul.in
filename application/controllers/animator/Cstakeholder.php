@@ -13,52 +13,48 @@ class Cstakeholder extends Animator
 
 	public function index()
 	{
-		$this->data['title']              = display('list_student');
-		$this->data['PageTitle']          = display('list_student');
-		$this->data['stakeholder_menu']   = 'menu-open';
-		$this->data['list_stakeholders']  = 'active';
-		$this->data['district_list']      = getDistrictListAsArray();
-		$this->data['stakeholders']       = $this->StakeholderModel->readStakeholdersByOrgId($this->getOrgId());
-		$this->loadLists();
+		$this->data['title'] = display('list_stakeholders');
+		$this->data['PageTitle'] = display('list_stakeholders');
+		$this->data['stakeholder_menu'] = 'menu-open';
+		$this->data['list_stakeholders'] = 'active';
+
+		$this->data['stakeholders'] = $this->StakeholderModel->readStakeholdersByOrgId( $this->getOrgId() );
+
+		$this->loadCommonData();
 
 		$this->renderView('animator/stakeholder/index', $this->data);
 	}
 
-	private function loadLists()
+	private function loadCommonData()
 	{
-		$this->data['org_id']       = $this->getOrgId();
-		$this->data['cluster_id']   = $this->getClusterId();
-		$this->data['center_id']    = $this->getActiveCenterId();
-		$this->data['user_role']    = '5';
-		$this->data['cluster_list'] = $this->clusterModel->read_as_list_by_org($this->getOrgId());
+		$this->data['org_id']                 = $this->getOrgId();
+		$this->data['cluster_id']             = $this->getClusterId();
+		$this->data['center_id']              = $this->getActiveCenterId();
+		$this->data['user_role']              = '6';
+
+		$this->data['stakeholder_type_list']  = $this->StakeholderTypeModel->get_stakeholder_as_list();
+		$this->data['district_list']          = getDistrictListAsArray();
+		$this->data['social_party_list']      = $this->SocialParty->social_parity_as_list();
+		$this->data['cluster_list']           = $this->clusterModel->read_as_list_by_org($this->getOrgId());
 	}
 
 	public function processStakeholderForm(): void
 	{
-		$this->data['title'] = display('add_student');
-		$this->data['PageTitle'] = display('add_student');
-		$this->data['stakeholder_menu'] = 'menu-open';
-		$this->data['add_stakeholders'] = 'active';
+		$this->data['title']                  = display('add_student');
+		$this->data['PageTitle']              = display('add_student');
+		$this->data['stakeholder_menu']       = 'menu-open';
+		$this->data['add_stakeholders']       = 'active';
 
-		$this->data['district_list'] = getDistrictListAsArray();
-		$this->data['cluster_list'] = $this->clusterModel->read_as_list_by_org($this->getOrgId());
+		$this->loadCommonData();
 
 		// Handle POST data
 		$postData = $this->preparePostData();
-		$this->data['student'] = (object) $postData;
-		// Form validation
-		$this->form_validation->set_rules('firstname', display('first_name'), 'required|max_length[50]');
-//	$this->form_validation->set_rules('cluster_idd', display('cluster_name'), 'required');
-//  $this->form_validation->set_rules('center_id', display('center_name'), 'required');
-		$this->form_validation->set_rules('sex', display('sex'), 'required');
-		$this->form_validation->set_rules('age', display('age'), 'required');
+		$this->data['stakeholder'] = (object) $postData;
 
-		// Perform picture upload and resizing
-		// $picture = $this->handlePictureUpload();
+		$this->setValidationRules($postData['stakeholder_type_id']);
 
 		if ($this->form_validation->run() === true) {
-			$std_id = $this->saveOrUpdateStudent($postData);
-			$this->handleRedirect($postData, $std_id);
+			$this->handleRedirect($this->saveOrUpdateStakeholder($postData));
 		} else {
 			$this->renderView('animator/stakeholder/form', $this->data);
 		}
@@ -67,210 +63,107 @@ class Cstakeholder extends Animator
 	private function preparePostData()
 	{
 		$postData = [
-			'user_id' => $this->input->post('user_id'),
-			'firstname' => $this->input->post('firstname', true),
-			'mobile' => $this->input->post('mobile', true),
-			'user_role' => '5',
-			'picture' => $this->handlePictureUpload1(),
-			'password' => md5('password'/*$this->input->post('password')*/),
-			'district' => $this->input->post('district'),
-			'school_level' => $this->input->post('school_level'),
-			'sex' => $this->input->post('sex'),
-			'age' => $this->input->post('age'),
-			'school_status' => $this->input->post('school_status'),
-			'father_name' => $this->input->post('father_name'),
-			'mother_name' => $this->input->post('mother_name'),
-			'org_idd' => $this->getOrgId(),
-			'cluster_idd' => $this->getClusterId(),
-			'center_id' => !empty($this->input->post('center_id'))?$this->input->post('center_id'):$this->getActiveCenterId(),
-			'created_by' => $this->session->userdata('user_id'),
-			'create_date' => $this->input->post('create_date'),
-			'update_date' => date('Y-m-d'),
-			'status' => 1
+			'user_id'             => $this->input->post('user_id'),
+			'firstname'           => $this->input->post('firstname', true),
+			'village'             => $this->input->post('village', true),
+			'socail_status'       => $this->input->post('socail_status', true),
+			'class'               => $this->input->post('class', true),
+			'date_of_joining'     => $this->input->post('date_of_joining', true),
+			'group_name'          => $this->input->post('group_name', true),
+			'designation'         => $this->input->post('designation', true),
+			'user_role'           => '6',
+			'district'            => $this->input->post('district'),
+			'stakeholder_type_id' => $this->input->post('stakeholder_type_id'),
+			'sex'                 => $this->input->post('sex'),
+			'age'                 => $this->input->post('age'),
+			'father_name'         => $this->input->post('father_name'),
+			'org_idd'             => $this->getOrgId(),
+			'created_by'          => $this->session->userdata('user_id'),
+			'update_date'         => date('Y-m-d'),
+			'status'              => 1
 		];
 
 		return $postData;
 	}
 
-	private function handlePictureUpload1()
+	private function setValidationRules($intStackholderTypeId)
 	{
-		$picture = $this->fileupload->do_upload('siteassets/images/student/', 'picture');
+		$constStakeholder = $this->StakeholderTypeModel->getStackholderTypeClass();
+		// common validation for all
+		$this->form_validation->set_rules('firstname', display('first_name'), 'required|max_length[50]');
+		$this->form_validation->set_rules('village', display('village'), 'required');
+		$this->form_validation->set_rules('age', display('age'), 'required');
 
-		if ($picture !== false && $picture != null) {
-			$this->fileupload->do_resize($picture, 200, 200);
+		if ($intStackholderTypeId == $constStakeholder::PARENT) {
+			$this->form_validation->set_rules('sex', display('gender'), 'required');
+			$this->form_validation->set_rules('district', display('district'), 'required');
+			$this->form_validation->set_rules('socail_status', display('socail_status'), 'required');
+		} else if ($intStackholderTypeId == $constStakeholder::VOLUNTEERS) {
+			$this->form_validation->set_rules('father_name', display('father_name'), 'required');
+			$this->form_validation->set_rules('date_of_joining', display('date_of_joining'), 'required');
+			$this->form_validation->set_rules('class', display('class'), 'required');
+		} else if ($intStackholderTypeId == $constStakeholder::LOCAL_COMMUNITIES) {
+			$this->form_validation->set_rules('sex', display('gender'), 'required');
+			$this->form_validation->set_rules('district', display('district'), 'required');
+			$this->form_validation->set_rules('socail_status', display('socail_status'), 'required');
+			$this->form_validation->set_rules('designation', display('designation'), 'required');
+			$this->form_validation->set_rules('group_name', display('group_name'), 'required');
 		}
-
-		return (!empty($picture) ? $picture : $this->input->post('old_picture'));
 	}
 
-	private function saveOrUpdateStudent($postData)
+	private function saveOrUpdateStakeholder($postData)
 	{
-		if (empty($postData['user_id'])) {
-			if ($this->userModel->create($postData)){
-				$std_id = $this->db->insert_id();
-				$this->session->set_flashdata('message',  display('save_successfully'));
-			}else{
+		$stakeholder_id = $postData['user_id'];
+		if (empty($stakeholder_id)) {
+			if ($this->StakeholderModel->create($postData)) {
+				$stakeholder_id = $this->db->insert_id();
+				$this->session->set_flashdata('message', display('save_successfully'));
+			} else {
 				$this->session->set_flashdata('exception', display('please_try_again'));
 			}
-
 		} else {
-			$std_id = $this->userModel->update($postData);
-			if ($this->userModel->update($postData)){
+			if ($this->StakeholderModel->update($postData)) {
 				$this->session->set_flashdata('message', display('update_successfully'));
-			}else{
+			} else {
 				$this->session->set_flashdata('exception', display('please_try_again'));
 			}
 		}
 
-		return $std_id;
+		return $stakeholder_id;
 	}
 
-	private function handleRedirect($postData, $std_id)
+	private function handleRedirect($stakeholderId)
 	{
-		if (empty($postData['user_id'])) {
-
-			redirect('animator/cstudent/profile/' . $std_id);
+		if (empty($stakeholderId)) {
+			redirect('animator/cstakeholder/index/');
 		} else {
-			redirect('animator/cstudent/edit/' . $postData['user_id']);
+			redirect('animator/cstakeholder/edit/' . $stakeholderId);
 		}
 	}
 
-	public function edit($std_id = ''): void
+	public function edit($stakeholder_id = ''): void
 	{
-		$this->data['PageTitle'] = display('edit_student');
-		$this->loadStudentData($std_id);
-		$this->renderView('animator/student/std_form', $this->data);
-	}
+		$this->data['PageTitle'] = display('edit_stakeholder');
+		$this->data['hideStakeholderType'] = 'd-none';
+		$this->loadCommonData();
 
-	private function loadStudentData($std_id): void
-	{
-		$this->data['district_list'] = getDistrictListAsArray();
-		$this->data['cluster_list'] = $this->clusterModel->read_as_list_by_org($this->getOrgId());
-		$this->data['student'] = $this->userModel->read_by_id($std_id);
-		if(empty($this->data['student'])){
+		$this->data['stakeholder'] = $this->userModel->read_by_id($stakeholder_id);
+		if (empty($this->data['stakeholder'])) {
 			$this->session->set_flashdata('exception', display('no_record_found'));
-			redirect('animator/cstudent/index');
+			redirect('animator/cstakeholder/index');
 		}
-		$this->data['center_list'] = $this->getAllocatedCentersAsList();
+		$this->renderView('animator/stakeholder/form', $this->data);
 	}
-
-	public function profile($std_id = '')
+	public function delete($stakeholder_id = null)
 	{
-		$this->data['title']        = display('student_info');
-		$this->data['PageTitle']    = display('student_info');
-
-		//$this->data['user_role_list'] = $this->dashboard_model->get_user_roles();
-		$this->data['student'] = $this->userModel->read_by_id($std_id);
-		$this->data['content'] = $this->load->view('animator/student/std_profile2', $this->data, true);
-		$this->load->view('animator/starter/starter_layout', $this->data);
-	}
-
-	public function stddelete($std_id = null)
-	{
-		if ($this->userModel->delete($std_id)) {
+		if ($this->userModel->delete($stakeholder_id)) {
 			#set success message
 			$this->session->set_flashdata('message', display('delete_successfully'));
 		} else {
 			#set exception message
 			$this->session->set_flashdata('exception', display('please_try_again'));
 		}
-		redirect('animator/cstudent/');
+		redirect('animator/cstakeholder/');
 	}
 
-	public function handlePictureUpload()
-	{
-		$this->configureUploadSettings();
-
-		if ($_SERVER['REQUEST_METHOD'] == "POST") {
-			$filename = $this->generateFilename();
-
-			$uploadPath = $this->getUploadPath();
-
-			$config = $this->getUploadConfig($filename, $uploadPath);
-
-			$this->load->library('upload', $config);
-
-			$name = 'picture';
-
-			if (!$this->upload->do_upload($name)) {
-				$this->handleUploadError();
-			} else {
-				$uploadData = $this->upload->data();
-				$responseData = $this->prepareResponseData($uploadData);
-				echo json_encode($responseData);
-			}
-		}
-	}
-
-	private function configureUploadSettings()
-	{
-		ini_set('memory_limit', '200M');
-		ini_set('upload_max_filesize', '200M');
-		ini_set('post_max_size', '200M');
-		ini_set('max_input_time', 3600);
-		ini_set('max_execution_time', 3600);
-	}
-
-	private function generateFilename()
-	{
-		$filename = $_FILES['picture']['name'];
-		$filename = strstr($filename, '.', true);
-		$email = $this->session->userdata('email');
-		$filename = strstr($email, '@', true) . "_" . $filename;
-		return strtolower($filename);
-	}
-
-	private function getUploadPath()
-	{
-		if (1 == $this->input->post('is_student_form')) {
-			return FCPATH . '/uploads/student/';
-		} else {
-			return FCPATH . '/uploads/user/';
-		}
-	}
-
-	private function getUploadConfig($filename, $uploadPath)
-	{
-		return [
-			'upload_path' => $uploadPath,
-			'allowed_types' => '*',
-			'max_size' => 0,
-			'max_width' => 0,
-			'max_height' => 0,
-			'file_ext_tolower' => true,
-			'file_name' => $filename,
-			'overwrite' => false,
-		];
-	}
-
-	private function handleUploadError()
-	{
-		$data['exception'] = $this->upload->display_errors();
-		$data['status'] = false;
-		echo json_encode($data);
-	}
-
-	private function prepareResponseData($uploadData)
-	{
-		$responseData = [
-			'message' => display('upload_successfully'),
-			'filepath' => '/uploads/student/' . $uploadData['file_name'],
-			'preview' => (( 1 == $this->input->post( 'is_student_form' ) ) ? base_url('/uploads/student/'): base_url('/uploads/user/') ) . $uploadData['file_name'],
-			'status' => true,
-		];
-		return $responseData;
-	}
-
-	public function center_by_cluster()
-	{
-		$cluster_idd = $this->input->post('cluster_id');
-		$selectedCenterId = $this->input->post('center_idd');
-		return $this->centerModel->center_by_cluster($cluster_idd, $selectedCenterId);
-	}
-
-	public function cluster_by_intervention_area()
-	{
-		$cluster_idd = $this->input->post('cluster_id');
-		return $this->centerModel->center_by_cluster($cluster_idd);
-	}
 }
