@@ -13,7 +13,7 @@ class CenterController extends Coordinator
 		$this->load->library('CenterService');
 
 		$this->objCenterService 			= new $this->centerservice();
-		$this->load->model(['centertypemodel' => 'centerTypeModel']);
+		$this->load->model(['center_type_model' => 'centerTypeModel']);
 
 		$this->user_id = $this->session->userdata('user_id');
 		$this->data['center_type'] 		= $this->centerTypeModel->get_center_as_list();

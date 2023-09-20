@@ -12,10 +12,12 @@ class CDashboard extends DashboardController
 
 	public function index()
 	{
-		$this->data['title'] = "Organisation";
-		$this->data['PageTitle'] = "Organisation Dashboard";
-		$this->data['dashboard'] = 'active';
-		$this->data['details'] = $this->fetchTotalOfCenterAnimatorStudentMessageByOrgIdByClusterId($this->getOrgId(), $this->getClusterId());
+		$this->data['title']      = "Organisation";
+		$this->data['PageTitle']  = "Organisation Dashboard";
+		$this->data['dashboard']  = 'active';
+		$this->data['details']    = $this->fetchTotalOfCenterAnimatorStudentMessageByOrgIdByClusterId($this->getOrgId(), $this->getClusterId());
+		$this->data['activities'] = $this->fetchTotalOfActivitiesByOrgIdByClusterId($this->getOrgId() , $this->getClusterId());
+
 		$this->renderView('coordinator/home', $this->data);
 	}
 }

@@ -57,3 +57,6 @@ $route['login']						= 'login/index';
 $route['login/index']			= 'login/index';
 $route['logout']					= 'login/logout';
 $route['developer']				= 'login/developer';
+$route['animator']			  = 'animator/cdashboard/index';
+$route['coordinator']			= 'coordinator/cdashboard/index';
+$route['organisation']		= 'organisation/cdashboard/index';

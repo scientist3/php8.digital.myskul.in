@@ -13,11 +13,11 @@ class CenterService
 				'center_model',
 				'user_model',
 				'cluster_model',
-				'centertypemodel',
+				'center_type_model',
 			)
 		);
 
-		$this->center_type_model = $this->CI->load->model('CenterTypeModel');
+		$this->center_type_model = $this->CI->load->model('Center_type_model');
 	}
 
 	public function create($data)
@@ -47,7 +47,7 @@ class CenterService
 
 	public function fetchCenterTypeAsList()
 	{
-		return $this->CI->centertypemodel->get_center_as_list();
+		return $this->CI->center_type_model->get_center_as_list();
 	}
 	/*
 	-------------------------- Coordinator --------------------------

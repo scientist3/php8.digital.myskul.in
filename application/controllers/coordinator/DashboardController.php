@@ -12,7 +12,8 @@ class DashboardController extends Coordinator
 		$this->load->model(
 			array(
 				'coordinator/cluster_model' => 'clusterModel',
-				'messages/message_model' => 'messageModel'
+				'messages/message_model'    => 'messageModel',
+				'activities_model'          => 'ActivitiesModel'
 			)
 		);
 
@@ -27,5 +28,15 @@ class DashboardController extends Coordinator
 		$data->total_students = $this->userModel->fetchStudentsByOrgIdByClusterId($orgId, $clusterId);
 		$data->new_messages = $this->messageModel->new_messages_for_user($this->user_id);
 		return $data;
+	}
+
+	public function fetchTotalOfActivitiesByOrgIdByClusterId($intOrgId, $intClusterId)
+	{
+		$data = $this->ActivitiesModel->countActivitiesStatusFieldsByOrgIdByClusterId($intOrgId, $intClusterId);
+		$jsonString = json_encode($data);
+
+		// Convert the JSON string to an object
+		return json_decode($jsonString);
+
 	}
 }

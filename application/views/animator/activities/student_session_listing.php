@@ -280,31 +280,5 @@
 <script src="<?php echo base_url('assets/js/activities_new.js'); ?>"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-        // Not used now may need later
-		/*$('#submitForApproval').on('click', function(e) {
-			e.preventDefault();
-
-			var selectedStudents = $('.js-student-not-enrolled:checked', '#userTableNotSubmitted');
-            var selectedStudentIds = [];
-            selectedStudents.each(function() {
-                selectedStudentIds.push($(this).val());
-            });
-            $.ajax({
-                url: '<?php echo site_url('animator/cactivities/submitForSessionApproval') ?>',
-                type: 'POST',
-                data: {
-                    students: selectedStudentIds
-                },
-                success: function(response) {
-                    // Handle the server response here
-                    window.location.reload();
-
-                },
-                error: function(error) {
-                    alert('Error sending selected students to the server.');
-                    window.location.reload();
-                }
-            });
-		});*/
 	});
 </script>

@@ -1,6 +1,6 @@
 <?php
 
-class CenterTypeModel extends CI_Model
+class Center_type_model extends CI_Model
 {
 	protected $table = 'center_type';
 

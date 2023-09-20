@@ -17,6 +17,7 @@ class OrganisationDashboardService
 				'user_model'								=> 'User',
 				'organisation/user1_model' 	=> 'OrgUser',
 				'messages/message_model'		=> 'Message',
+				'activities_model'          => 'ActivitiesModel'
 			)
 		);
 
@@ -40,5 +41,14 @@ class OrganisationDashboardService
 		$data['total_std_absentee']		= $this->CI->OrgUser->total_std_absentee_today($OrgId, $this->user_id);
 		return (object) $data;
 	}
-	// public
+
+	public function fetchTotalOfActivitiesByOrgId($OrgId)
+	{
+		$data = $this->CI->ActivitiesModel->countActivitiesStatusFields($OrgId);
+		$jsonString = json_encode($data);
+
+		// Convert the JSON string to an object
+		return json_decode($jsonString);
+
+	}
 }

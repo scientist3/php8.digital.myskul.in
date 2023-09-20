@@ -2,7 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require(APPPATH . 'controllers/coordinator/Coordinator.php');
 
-class CActivities extends Coordinator
+class Cactivities extends Coordinator
 {
 	private $org_id;
 	private $cluster_id;
@@ -17,26 +17,27 @@ class CActivities extends Coordinator
 	#-------------------- Student -------------------#
 	public function index()
 	{
-		$this->studentSessionListing();
+		$this->data['title'] = "Student Activities Report";
+		$this->data['PageTitle'] = display('student_activities_report');
+		$this->data['dashboard'] = 'active';
+
+		$this->data['activities_statistics'] = $this->ActivitiesModel->getCenterActivitiesStatusSummaryByOrgIdByClusterId( $this->getOrgId(), $this->getClusterId() );
+
+		$this->renderView('coordinator/activities/index', $this->data);
 	}
 
 	private function loadLists()
-{
-	$this->data['org_id']                   = $this->getOrgId();
-	$this->data['cluster_id']               = $this->getClusterId();
-	// $this->data['center_id']                = $this->getActiveCenterId();
-	$this->data['user_role']                = '5';
-	$this->data['cluster_list']             = $this->clusterModel->read_as_list_by_org($this->getOrgId());
-	$this->data['district_list']            = getDistrictListAsArray();
+	{
+		$this->data['org_id']                   = $this->getOrgId();
+		$this->data['cluster_id']               = $this->getClusterId();
+		// $this->data['center_id']                = $this->getActiveCenterId();
+		$this->data['user_role']                = '5';
+		$this->data['cluster_list']             = $this->clusterModel->read_as_list_by_org($this->getOrgId());
+		$this->data['district_list']            = getDistrictListAsArray();
+	}
 
-
-//		$this->data['all_students']             = $this->getStudentsByStatus('all');
-//		$this->data['not_submitted_students']   = $this->getStudentsByStatus('not_submitted');
-//		$this->data['pending_students']         = $this->getStudentsByStatus('pending');
-//		$this->data['approved_students']        = $this->getStudentsByStatus('approved');
-}
-
-	function studentSessionListing( $category= 'session_status', $status='1' ){
+	function studentSessionListing($category = 'session_status', $status = '1')
+	{
 		$_POST['category'] = $this->category = $category;
 		$_POST['status'] = $this->status = $status;
 		$this->data['title'] = "Student Session Report";
@@ -45,7 +46,7 @@ class CActivities extends Coordinator
 		$this->data['std_sess_comp_option'] = 'active';
 
 		$this->loadLists();
-		$this->data['all_students']                 = $this->ActivitiesModel->getApprovalStudentsByCategoryByOrgByClusterId( $this->getOrgId(), $this->getClusterId(), $category, $status );
+		$this->data['all_students']                 = $this->ActivitiesModel->getApprovalStudentsByCategoryByOrgByClusterId($this->getOrgId(), $this->getClusterId(), $category, $status);
 		// $this->data['not_submitted_students']    = $this->getStudentsByStatus('not_submitted');
 		// $this->data['pending_students']          = $this->getStudentsByStatus('pending');
 		// $this->data['approved_students']         = $this->getStudentsByStatus('approved');
@@ -61,7 +62,7 @@ class CActivities extends Coordinator
 					'user_id' => $user_id
 				];
 			}
-		}else{
+		} else {
 			$this->session->set_flashdata('exception', display('please_try_again_no_student_selected'));
 			redirect('coordinator/cactivities/index');
 		}
@@ -75,7 +76,7 @@ class CActivities extends Coordinator
 		redirect('coordinator/cactivities/index');
 	}
 
-	public function studentCncpListing($category= 'cncp_status', $status='1' ): void
+	public function studentCncpListing($category = 'cncp_status', $status = '1'): void
 	{
 		$_POST['category'] = $this->category = $category;
 		$_POST['status'] = $this->status = $status;
@@ -85,10 +86,8 @@ class CActivities extends Coordinator
 		$this->data['cncp_enrolled_option'] = 'active';
 
 		$this->loadLists();
-		$this->data['all_students']             = $this->ActivitiesModel->getApprovalStudentsByCategoryByOrgByClusterId( $this->getOrgId(), $this->getClusterId(), $category, $status );
-//		$this->data['not_submitted_students']   = $this->getStudentsByStatus('not_submitted');
-//		$this->data['pending_students']         = $this->getStudentsByStatus('pending');
-//		$this->data['approved_students']        = $this->getStudentsByStatus('approved');
+		$this->data['all_students']             = $this->ActivitiesModel->getApprovalStudentsByCategoryByOrgByClusterId($this->getOrgId(), $this->getClusterId(), $category, $status);
+
 		$this->renderView('coordinator/activities/student_cncp_listing', $this->data);
 	}
 	public function submitForCncpApprove(): void
@@ -104,7 +103,7 @@ class CActivities extends Coordinator
 					'user_id' => $user_id
 				];
 			}
-		}else{
+		} else {
 			$this->session->set_flashdata('exception', display('please_try_again_no_student_selected'));
 			redirect('coordinator/cactivities/studentCncpListing');
 		}
@@ -116,10 +115,9 @@ class CActivities extends Coordinator
 		$this->ActivitiesModel->updateByColumn($data['update']);
 		$this->session->set_flashdata('message', display('submitted_successfully'));
 		redirect('coordinator/cactivities/studentCncpListing');
-
 	}
 
-	public function studentCncpSupportedListing($category= 'cncp_supported_status', $status='1' ): void
+	public function studentCncpSupportedListing($category = 'cncp_supported_status', $status = '1'): void
 	{
 		$_POST['category'] = $this->category = $category;
 		$_POST['status'] = $this->status = $status;
@@ -129,10 +127,8 @@ class CActivities extends Coordinator
 		$this->data['cncp_supported_option'] = 'active';
 
 		$this->loadLists();
-		$this->data['all_students']             = $this->ActivitiesModel->getApprovalStudentsByCategoryByOrgByClusterId( $this->getOrgId(), $this->getClusterId(), $category, $status );
-//		$this->data['not_submitted_students']   = $this->getStudentsByStatus('not_submitted');
-//		$this->data['pending_students']         = $this->getStudentsByStatus('pending');
-//		$this->data['approved_students']        = $this->getStudentsByStatus('approved');
+		$this->data['all_students']             = $this->ActivitiesModel->getApprovalStudentsByCategoryByOrgByClusterId($this->getOrgId(), $this->getClusterId(), $category, $status);
+
 		$this->renderView('coordinator/activities/student_cncp_supported_listing', $this->data);
 	}
 	public function submitForCncpSupportedApprove(): void
@@ -148,7 +144,7 @@ class CActivities extends Coordinator
 					'user_id' => $user_id
 				];
 			}
-		}else{
+		} else {
 			$this->session->set_flashdata('exception', display('please_try_again_no_student_selected'));
 			redirect('coordinator/cactivities/studentCncpSupportedListing');
 		}
@@ -160,10 +156,9 @@ class CActivities extends Coordinator
 		$this->ActivitiesModel->updateByColumn($data['update']);
 		$this->session->set_flashdata('message', display('submitted_successfully'));
 		redirect('coordinator/cactivities/studentCncpSupportedListing');
-
 	}
 
-	public function studentPsychoEducatedListing($category= 'psycho_educated_status', $status='1' ): void
+	public function studentPsychoEducatedListing($category = 'psycho_educated_status', $status = '1'): void
 	{
 		$_POST['category'] = $this->category = $category;
 		$_POST['status'] = $this->status = $status;
@@ -173,10 +168,8 @@ class CActivities extends Coordinator
 		$this->data['psycho_educated_option'] = 'active';
 
 		$this->loadLists();
-		$this->data['all_students']             = $this->ActivitiesModel->getApprovalStudentsByCategoryByOrgByClusterId( $this->getOrgId(), $this->getClusterId(), $category, $status );
-//		$this->data['not_submitted_students']   = $this->getStudentsByStatus('not_submitted');
-//		$this->data['pending_students']         = $this->getStudentsByStatus('pending');
-//		$this->data['approved_students']        = $this->getStudentsByStatus('approved');
+		$this->data['all_students']             = $this->ActivitiesModel->getApprovalStudentsByCategoryByOrgByClusterId($this->getOrgId(), $this->getClusterId(), $category, $status);
+
 		$this->renderView('coordinator/activities/student_psycho_educated_listing', $this->data);
 	}
 	public function submitForPsychoEducatedApprove(): void
@@ -192,7 +185,7 @@ class CActivities extends Coordinator
 					'user_id' => $user_id
 				];
 			}
-		}else{
+		} else {
 			$this->session->set_flashdata('exception', display('please_try_again_no_student_selected'));
 			redirect('coordinator/cactivities/studentPsychoEducatedListing');
 		}
@@ -204,10 +197,9 @@ class CActivities extends Coordinator
 		$this->ActivitiesModel->updateByColumn($data['update']);
 		$this->session->set_flashdata('message', display('submitted_successfully'));
 		redirect('coordinator/cactivities/studentPsychoEducatedListing');
-
 	}
 
-	public function studentPrimaryCounselingListing($category= 'primary_counselling_status', $status='1' ): void
+	public function studentPrimaryCounselingListing($category = 'primary_counselling_status', $status = '1'): void
 	{
 		$_POST['category'] = $this->category = $category;
 		$_POST['status'] = $this->status = $status;
@@ -217,10 +209,8 @@ class CActivities extends Coordinator
 		$this->data['primary_counselling_option'] = 'active';
 
 		$this->loadLists();
-		$this->data['all_students']             = $this->ActivitiesModel->getApprovalStudentsByCategoryByOrgByClusterId( $this->getOrgId(), $this->getClusterId(), $category, $status );
-//		$this->data['not_submitted_students']   = $this->getStudentsByStatus('not_submitted');
-//		$this->data['pending_students']         = $this->getStudentsByStatus('pending');
-//		$this->data['approved_students']        = $this->getStudentsByStatus('approved');
+		$this->data['all_students']             = $this->ActivitiesModel->getApprovalStudentsByCategoryByOrgByClusterId($this->getOrgId(), $this->getClusterId(), $category, $status);
+
 		$this->renderView('coordinator/activities/student_primary_counseling_listing', $this->data);
 	}
 	public function submitForPrimaryCounselingApprove(): void
@@ -236,7 +226,7 @@ class CActivities extends Coordinator
 					'user_id' => $user_id
 				];
 			}
-		}else{
+		} else {
 			$this->session->set_flashdata('exception', display('please_try_again_no_student_selected'));
 			redirect('coordinator/cactivities/studentPsychoEducatedListing');
 		}
@@ -248,10 +238,9 @@ class CActivities extends Coordinator
 		$this->ActivitiesModel->updateByColumn($data['update']);
 		$this->session->set_flashdata('message', display('submitted_successfully'));
 		redirect('coordinator/cactivities/studentPsychoEducatedListing');
-
 	}
 
-	public function studentSecondaryCounselingListing($category= 'secondary_counseling_status', $status='1' ): void
+	public function studentSecondaryCounselingListing($category = 'secondary_counselling_status', $status = '1'): void
 	{
 		$_POST['category'] = $this->category = $category;
 		$_POST['status'] = $this->status = $status;
@@ -261,10 +250,8 @@ class CActivities extends Coordinator
 		$this->data['sec_ter_serv_option'] = 'active';
 
 		$this->loadLists();
-		$this->data['all_students']             = $this->ActivitiesModel->getApprovalStudentsByCategoryByOrgByClusterId( $this->getOrgId(), $this->getClusterId(), $category, $status );
-//		$this->data['not_submitted_students']   = $this->getStudentsByStatus('not_submitted');
-//		$this->data['pending_students']         = $this->getStudentsByStatus('pending');
-//		$this->data['approved_students']        = $this->getStudentsByStatus('approved');
+		$this->data['all_students']             = $this->ActivitiesModel->getApprovalStudentsByCategoryByOrgByClusterId($this->getOrgId(), $this->getClusterId(), $category, $status);
+
 		$this->renderView('coordinator/activities/student_secondary_counseling_listing', $this->data);
 	}
 	public function submitForSecondaryCounselingApprove(): void
@@ -280,21 +267,21 @@ class CActivities extends Coordinator
 					'user_id' => $user_id
 				];
 			}
-		}else{
+		} else {
 			$this->session->set_flashdata('exception', display('please_try_again_no_student_selected'));
 			redirect('coordinator/cactivities/studentSecondaryCounselingListing');
 		}
 
 		$data['update'] = [
 			'user_ids' => array_keys(rekeyArray('user_id', $data['students'])),
-			'set' => ['secondary_counseling_status' => 2]
+			'set' => ['secondary_counselling_status' => 2]
 		];
 		$this->ActivitiesModel->updateByColumn($data['update']);
 		$this->session->set_flashdata('message', display('submitted_successfully'));
 		redirect('coordinator/cactivities/studentSecondaryCounselingListing');
 	}
 
-	public function studentPsychoSocialWellBeingListing($category= 'well_being_status', $status='1' ): void
+	public function studentPsychoSocialWellBeingListing($category = 'well_being_status', $status = '1'): void
 	{
 		$_POST['category'] = $this->category = $category;
 		$_POST['status'] = $this->status = $status;
@@ -304,10 +291,8 @@ class CActivities extends Coordinator
 		$this->data['psycho_social_well_being_option'] = 'active';
 
 		$this->loadLists();
-		$this->data['all_students']             = $this->ActivitiesModel->getApprovalStudentsByCategoryByOrgByClusterId( $this->getOrgId(), $this->getClusterId(), $category, $status );
-//		$this->data['not_submitted_students']   = $this->getStudentsByStatus('not_submitted');
-//		$this->data['pending_students']         = $this->getStudentsByStatus('pending');
-//		$this->data['approved_students']        = $this->getStudentsByStatus('approved');
+		$this->data['all_students']             = $this->ActivitiesModel->getApprovalStudentsByCategoryByOrgByClusterId($this->getOrgId(), $this->getClusterId(), $category, $status);
+
 		$this->renderView('coordinator/activities/student_well_being_listing', $this->data);
 	}
 	public function submitForPsychoSocialWellBeingApprove(): void
@@ -323,7 +308,7 @@ class CActivities extends Coordinator
 					'user_id' => $user_id
 				];
 			}
-		}else{
+		} else {
 			$this->session->set_flashdata('exception', display('please_try_again_no_student_selected'));
 			redirect('coordinator/cactivities/studentSecondaryCounselingListing');
 		}
@@ -338,7 +323,7 @@ class CActivities extends Coordinator
 	}
 
 
-	public function studentCarePlanListing($category= 'care_plan_status', $status='1' ): void
+	public function studentCarePlanListing($category = 'care_plan_status', $status = '1'): void
 	{
 		$_POST['category'] = $this->category = $category;
 		$_POST['status'] = $this->status = $status;
@@ -348,10 +333,7 @@ class CActivities extends Coordinator
 		$this->data['care_plans_option'] = 'active';
 
 		$this->loadLists();
-		$this->data['all_students']             = $this->ActivitiesModel->getApprovalStudentsByCategoryByOrgByClusterId( $this->getOrgId(), $this->getClusterId(), $category, $status );
-//		$this->data['not_submitted_students']   = $this->getStudentsByStatus('not_submitted');
-//		$this->data['pending_students']         = $this->getStudentsByStatus('pending');
-//		$this->data['approved_students']        = $this->getStudentsByStatus('approved');
+		$this->data['all_students'] = $this->ActivitiesModel->getApprovalStudentsByCategoryByOrgByClusterId($this->getOrgId(), $this->getClusterId(), $category, $status);
 		$this->renderView('coordinator/activities/student_care_plan_listing', $this->data);
 	}
 	public function submitForCarePlanApprove(): void
@@ -367,9 +349,9 @@ class CActivities extends Coordinator
 					'user_id' => $user_id
 				];
 			}
-		}else{
+		} else {
 			$this->session->set_flashdata('exception', display('please_try_again_no_student_selected'));
-			redirect('coordinator/cactivities/studentSecondaryCounselingListing');
+			redirect('coordinator/cactivities/studentCarePlanListing');
 		}
 
 		$data['update'] = [
@@ -378,13 +360,8 @@ class CActivities extends Coordinator
 		];
 		$this->ActivitiesModel->updateByColumn($data['update']);
 		$this->session->set_flashdata('message', display('submitted_successfully'));
-		redirect('coordinator/cactivities/studentSecondaryCounselingListing');
+		redirect('coordinator/cactivities/studentCarePlanListing');
 	}
 
 
-//	public function center_by_cluster()
-//	{
-//		$cluster_idd = $this->input->post('cluster_idd');
-//		return $this->center_model->center_by_cluster($cluster_idd);
-//	}
 }

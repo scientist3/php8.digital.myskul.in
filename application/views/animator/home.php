@@ -2,13 +2,11 @@
   <div class="col-sm-12">
       <div class="callout callout-info">
         <div class="col-sm-4 float-right">
-          <div class="form-group float-right">
-            <?php echo form_dropdown('active_center_id', $allocated_centers, $this->session->userdata('active_center_id'), 'class="form-control select2bs4" id="active_center_id"'); ?>
+          <div class="form-group float-right w-100">
+            <?php echo form_dropdown('active_center_id', $allocated_centers, $this->session->userdata('active_center_id'), 'class="form-control select2bs4 w-100" id="active_center_id"'); ?>
           </div>
         </div>
-        <h4>
-				  <?php echo $this->session->flashdata('active_center'); ?>
-        </h4>
+        <h4><?php echo $this->session->flashdata('active_center'); ?></h4>
       </div>
   </div>
 </div>
@@ -61,7 +59,7 @@
 			<div class="icon">
 				<i class="ion ion-android-contacts"></i>
 			</div>
-			<a href="<?php echo base_url('animator/user/members'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+			<a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 </div>

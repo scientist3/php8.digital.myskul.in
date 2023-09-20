@@ -2,7 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require(APPPATH . 'controllers/animator/ActivitiesController.php');
 
-class CActivities extends ActivitiesController
+class Cactivities extends ActivitiesController
 {
 	private $org_id;
 	private $cluster_id;
