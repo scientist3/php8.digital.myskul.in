@@ -62,7 +62,8 @@ class UsersController extends CI_Controller
 		$this->orgId = $this->session->userdata('org_id');
 
 		if (!$this->orgId) {
-			throw new Exception('Organization ID is missing.');
+			//throw new Exception('Organization ID is missing.');
+			redirect('login');
 		}
 		// Load the organization model
 		$this->load->model('organisation_model'); // Make sure you have the correct model name

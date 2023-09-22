@@ -86,7 +86,8 @@ class Animator extends CI_Controller
 		$this->intOrgId = $this->session->userdata('org_id');
 
 		if (!$this->intOrgId) {
-			throw new Exception('Organization ID is missing.');
+			//throw new Exception('Organization ID is missing.');
+			redirect('login');
 		}
 		$this->load->model('organisation_model');
 		return $this->organisation_model->read_by_id($this->intUserId);
