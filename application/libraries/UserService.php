@@ -252,7 +252,7 @@ class UserService
 		}
 		//if picture is not uploaded
 		if ($picture === false) {
-			$this->session->set_flashdata('exception', display('invalid_picture'));
+			$this->CI->session->set_flashdata('exception', display('invalid_picture'));
 			return null;
 		}
 		return $picture;

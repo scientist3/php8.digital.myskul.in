@@ -310,7 +310,7 @@ class Material_model extends CI_Model
 		$this->db->from('material m');
 		$this->db->join('organisation o', 'o.org_id = m.org_idd');
 		$this->db->join('cluster c', 'c.cluster_id = m.cluster_idd');
-		$this->db->join('center cen', 'cen.center_id = m.center_idd');
+		$this->db->join('center cen', 'cen.center_id = m.center_idd', 'left');
 		$this->db->join('material_log ml', 'm.mat_id = ml.ml_mat_id', 'left');
 		$this->db->where('m.org_idd', $intOrgId);
 		$this->db->where('m.cluster_idd', $intClusterId);

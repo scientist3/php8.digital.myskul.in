@@ -36,6 +36,7 @@ class Cstakeholder extends Animator
 		$this->data['district_list']          = getDistrictListAsArray();
 		$this->data['social_party_list']      = $this->SocialParty->social_parity_as_list();
 		$this->data['cluster_list']           = $this->clusterModel->read_as_list_by_org($this->getOrgId());
+		$this->data['group_list']             = $this->groupsModel->read_as_list();
 	}
 
 	public function processStakeholderForm(): void
@@ -69,7 +70,7 @@ class Cstakeholder extends Animator
 			'socail_status'       => $this->input->post('socail_status', true),
 			'class'               => $this->input->post('class', true),
 			'date_of_joining'     => $this->input->post('date_of_joining', true),
-			'group_name'          => $this->input->post('group_name', true),
+			'group_id'            => $this->input->post('group_id', true),
 			'designation'         => $this->input->post('designation', true),
 			'user_role'           => '6',
 			'district'            => $this->input->post('district'),
@@ -107,7 +108,7 @@ class Cstakeholder extends Animator
 			$this->form_validation->set_rules('district', display('district'), 'required');
 			$this->form_validation->set_rules('socail_status', display('socail_status'), 'required');
 			$this->form_validation->set_rules('designation', display('designation'), 'required');
-			$this->form_validation->set_rules('group_name', display('group_name'), 'required');
+			$this->form_validation->set_rules('group_id', display('group_name'), 'required');
 		}
 	}
 
@@ -116,20 +117,20 @@ class Cstakeholder extends Animator
 		$stakeholder_id = $postData['user_id'];
 		if (empty($stakeholder_id)) {
 			if ($this->StakeholderModel->create($postData)) {
-				$stakeholder_id = $this->db->insert_id();
+				// $stakeholder_id = $this->db->insert_id();
 				$this->session->set_flashdata('message', display('save_successfully'));
 			} else {
 				$this->session->set_flashdata('exception', display('please_try_again'));
 			}
+			return null;
 		} else {
 			if ($this->StakeholderModel->update($postData)) {
 				$this->session->set_flashdata('message', display('update_successfully'));
 			} else {
 				$this->session->set_flashdata('exception', display('please_try_again'));
 			}
+			return $stakeholder_id;
 		}
-
-		return $stakeholder_id;
 	}
 
 	private function handleRedirect($stakeholderId)

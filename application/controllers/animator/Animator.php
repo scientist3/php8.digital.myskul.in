@@ -5,7 +5,7 @@ class Animator extends CI_Controller
 	private int $intUserId;
 	private int $intOrgId;
 	private int $intClusterId;
-	private int $active_center_id;
+	private $active_center_id;
 	private array $arrCenterIds;
 	public array $data = array();
 
@@ -22,7 +22,8 @@ class Animator extends CI_Controller
 				'activities_model' => 'ActivitiesModel',
 				'stakeholder_model' => 'StakeholderModel',
 				'Stakeholder_type_model' => 'StakeholderTypeModel',
-				'SocialParityModel' => 'SocialParty'
+				'SocialParityModel' => 'SocialParty',
+				'groups_model' => 'groupsModel'
 			)
 		);
 		$this->authenticateUser();
@@ -52,13 +53,13 @@ class Animator extends CI_Controller
 		$this->data['assigned_centers'] = $this->fetchLoggedInUserCenterList();
 		$this->data['user_role_list'] 	= Userrole1::getBasicRoleNamesAsArray();
 		$this->arrCenterIds				      = rekeyStdClassArray('center_id',$this->data['assigned_centers']);
-		$this->data['center_list']  = $this->getAllocatedCentersAsList();
+		$this->data['center_list']      = $this->getAllocatedCentersAsList();
 	}
 
 	private function loadActiveCenter(): void
 	{
 		if ( count( $this->arrCenterIds ) == 0 ) {
-			//top_menu_center_list
+			// top_menu_center_list
 			$this->session->set_flashdata('exception', 'No center assigned yet. please contact cluster head/ organisation head/ admin.');
 			$this->session->set_userdata('isRepLogIn','');
 			redirect('login');
@@ -75,7 +76,11 @@ class Animator extends CI_Controller
 			$this->session->set_flashdata('exception', 'Please select active center displayed on the top menu __^');
 		}else{
 			$this->active_center_id = $this->session->userdata('active_center_id');
-			$ActiveCenterName = $this->centerModel->read_by_id($this->active_center_id)->center_name;
+			if( 'all' == $this->active_center_id ) {
+				$ActiveCenterName = "All Centers";
+			} else {
+				$ActiveCenterName = $this->centerModel->read_by_id($this->active_center_id)->center_name;
+			}
 			$this->session->set_flashdata('active_center', 'Active Center is [ '.$ActiveCenterName.' ]');
 			//header("refresh"current_url());
 		}
@@ -166,9 +171,14 @@ class Animator extends CI_Controller
 		}
 	}
 
-	public function getActiveCenterId(): int
+	public function getActiveCenterId(): int | array
 	{
 		return $this->active_center_id;
+	}
+
+	public function getActiveCenterIdAsArray(): array
+	{
+		return ($this->active_center_id == 'all') ? array_keys($this->arrCenterIds) : [$this->active_center_id ] ;
 	}
 	public function getArrCenterIds(): array
 	{
@@ -177,7 +187,7 @@ class Animator extends CI_Controller
 
 	public function getAllocatedCentersAsList(): array
 	{
-		$data = [];
+		$data = ['all' => "All Centers"];
 		foreach ($this->arrCenterIds as $centerId => $center) {
 			$data[$centerId] = $center->center_name;
 		}

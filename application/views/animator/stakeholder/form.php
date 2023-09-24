@@ -117,10 +117,12 @@
 					<!-- Group Name Dropdown -->
                     <div class="col-sm-4 col-md-4 d-none local">
                         <div class="form-group">
-                            <label for="group_name"><?php echo display('Group Name') ?> <i class="text-danger">*</i></label>
-                            <input name="group_name" type="text" class="form-control" id="group_name" placeholder="<?php echo display('Group Name') ?>" value="<?php echo $stakeholder->group_name ?>">
+                            <label for="group_id"><?php echo display('Group Name') ?> <i class="text-danger">*</i></label>
+                            <?php echo form_dropdown('group_id', $group_list, $stakeholder->group_id, 'class="form-control" id="group_id" '); ?>
+
                         </div>
                     </div>
+
 					<!-- class -->
                     <div class="col-sm-4 col-md-4 d-none voluntaries">
                         <div class="form-group">

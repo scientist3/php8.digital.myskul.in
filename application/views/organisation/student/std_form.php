@@ -254,7 +254,7 @@
 
 		function uploadFile(uploadData) {
 			$.ajax({
-				url: '<?php echo base_url('organisation/cuser/do_upload') ?>',
+				url: '<?php echo base_url('organisation/cuser/handlePictureUpload') ?>',
 				type: form.attr('method'),
 				dataType: 'json',
 				cache: false,

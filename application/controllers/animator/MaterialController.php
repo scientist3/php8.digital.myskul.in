@@ -7,12 +7,6 @@ class MaterialController extends Animator
 	public function __construct()
 	{
 		parent::__construct();
-		// Load Common Data;
-		$this->loadCommonData();
-	}
-
-	private function loadCommonData()
-	{
 	}
 
 	public function fetchMaterialByOrgByCluster($intOrgid, $intClusterId){
@@ -23,6 +17,7 @@ class MaterialController extends Animator
 	{
 		return $this->material_model->getFilePathOrName($material_id);
 	}
+
 	public function valid_url($url)
 	{
 		//$pattern = "/^((ht|f)tp(s?)\:\/\/|~/|/)?([w]{2}([\w\-]+\.)+([\w]{2,5}))(:[\d]{1,5})?/";

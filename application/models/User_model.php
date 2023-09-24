@@ -650,7 +650,7 @@ class User_model extends CI_Model
 			->from($this->table)
 			//->where('org_idd', $orgId)
 			//->where('cluster_idd', $clusterId)
-			->where('center_id', $centerId)
+			->where_in('center_id', $centerId)
 			->where('user_role', Userrole1::STUDENT)
 			->get()
 			->row()

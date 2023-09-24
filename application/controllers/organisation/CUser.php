@@ -218,6 +218,9 @@ class CUser extends UsersController
 
 			$uploadPath = $this->getUploadPath();
 
+			if (!is_dir($uploadPath))
+				mkdir($uploadPath, 0755, true);
+
 			$config = $this->getUploadConfig($filename, $uploadPath);
 
 			$this->load->library('upload', $config);
@@ -293,5 +296,9 @@ class CUser extends UsersController
 		return $responseData;
 	}
 
-
+	public function center_by_cluster()
+	{
+		$cluster_idd = $this->input->post('cluster_idd');
+		return $this->center_model->center_by_cluster($cluster_idd);
+	}
 }
