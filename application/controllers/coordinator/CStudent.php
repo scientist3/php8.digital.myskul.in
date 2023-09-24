@@ -196,6 +196,9 @@ class CStudent extends Coordinator
 
 			$uploadPath = $this->getUploadPath();
 
+			if (!is_dir($uploadPath))
+				mkdir($uploadPath, 0755, true);
+
 			$config = $this->getUploadConfig($filename, $uploadPath);
 
 			$this->load->library('upload', $config);

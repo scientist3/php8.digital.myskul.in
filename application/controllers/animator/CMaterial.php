@@ -113,12 +113,19 @@ class CMaterial extends MaterialController
 
 	private function handleCreate(array $postData): void
 	{
-		if ($this->material_model->create($postData)) {
+		if('all' == $postData['center_idd']){
+			foreach ($this->getActiveCenterId() as $center) {
+				$postData['center_idd'] = $center->center_id;
+				$this->material_model->create($postData);
+			}
 			$this->session->set_flashdata('message', display('save_successfully'));
-		} else {
-			$this->session->set_flashdata('exception', display('please_try_again'));
+		}else{
+			if ($this->material_model->create($postData)) {
+				$this->session->set_flashdata('message', display('save_successfully'));
+			} else {
+				$this->session->set_flashdata('exception', display('please_try_again'));
+			}
 		}
-
 		redirect('animator/cmaterial');
 	}
 

@@ -139,7 +139,12 @@ class CStudent extends UsersController
 
 	private function handlePictureUpload()
 	{
-		$picture = $this->fileupload->do_upload('siteassets/images/student/', 'picture');
+		$uploadPath = 'siteassets/images/student/';
+
+		if (!is_dir($uploadPath))
+			mkdir($uploadPath, 0755, true);
+
+		$picture = $this->fileupload->do_upload( $uploadPath , 'picture');
 
 		if ($picture !== false && $picture != null) {
 			$this->fileupload->do_resize($picture, 200, 200);

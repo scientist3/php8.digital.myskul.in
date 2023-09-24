@@ -16,7 +16,7 @@
 			$this->data['PageTitle']          = "Organisation Dashboard";
 			$this->data['dashboard']          = 'active';
 			$this->data['allocated_centers']  = $this->getAllocatedCentersAsList();
-			$this->data['details']            = $this->fetchTotalOfStudentMessageCenterByOrgIdByClusterId( $this->getOrgId(), $this->getClusterId(),$this->getActiveCenterId() );
+			$this->data['details']            = $this->fetchTotalOfStudentMessageCenterByOrgIdByClusterId( $this->getOrgId(), $this->getClusterId(),$this->getActiveCenterIdAsArray() );
 			$this->renderView('animator/home', $this->data);
 		}
 
