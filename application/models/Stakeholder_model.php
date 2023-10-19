@@ -11,11 +11,12 @@ class Stakeholder_model extends CI_Model
 
 	public function readStakeholdersByOrgId($orgId = null)
 	{
-		$this->db->select("student.*, stakeholder_type.name as stakeholder_name, social_parity.category_name as social_status, groups.group_name")->from($this->table);
+		$this->db->select("student.*, stakeholder_type.name as stakeholder_name, social_parity.category_name as social_status, groups.group_name,center.center_name")->from($this->table);
 		$this->db->where('user_role', Userrole1::STAKEHOLDER);
 		$this->db->join('stakeholder_type', 'stakeholder_type.id=student.stakeholder_type_id', 'left');
 		$this->db->join('social_parity', 'social_parity.id=student.socail_status', 'left');
 		$this->db->join('groups', 'groups.g_id=student.group_id', 'left');
+		$this->db->join('center', 'center.center_id=student.center_id', 'left');
 		$this->db->order_by('firstname', 'asc');
 
 		if ($orgId !== null) {
@@ -50,5 +51,84 @@ class Stakeholder_model extends CI_Model
 		return $this->db->where('user_role', $intOrgId)
 			->from($this->table)
 			->count_all_results();
+	}
+	public function countStakeholdersByClusterIdByStakeholderType($clusterId) {
+		$this->db->select('stakeholder_type_id, COUNT(*) as student_count');
+		$this->db->from('student');
+		$this->db->where('user_role', 6);
+		$this->db->where('cluster_idd', $clusterId);
+		$this->db->group_by('stakeholder_type_id');
+		$query = $this->db->get();
+		$result1 = $query->result();
+
+		$result = [
+			'total_parents' => 0, // Default count for 'parent'
+			'total_volunteers' => 0, // Default count for 'volunteer'
+			'total_local_communities' => 0, // Default count for 'local communities'
+		];
+
+		foreach ($result1 as $row) {
+			$stakeholderTypeId = $row->stakeholder_type_id;
+			$studentCount = $row->student_count;
+
+			// Map stakeholder_type_id to the desired keys
+			switch ($stakeholderTypeId) {
+				case StakeholderType::PARENT:
+					$result['total_parents'] = (int)$studentCount;
+					break;
+				case StakeholderType::VOLUNTEERS:
+					$result['total_volunteers'] = (int)$studentCount;
+					break;
+				case StakeholderType::LOCAL_COMMUNITIES:
+					$result['total_local_communities'] = (int)$studentCount;
+					break;
+			}
+		}
+		return $result;
+	}
+}
+
+class StakeholderType
+{
+	const PARENT = 1;
+	const VOLUNTEERS = 2;
+	const LOCAL_COMMUNITIES = 3;
+
+	public static function getTypeName($type)
+	{
+		switch ($type) {
+			case self::PARENT:
+				return 'Parents and Community Stakeholders reach - Parent';
+			case self::VOLUNTEERS:
+				return 'Volunteers engaged in CFS ARC';
+			case self::LOCAL_COMMUNITIES:
+				return 'VLCPCs, CPCs, local committee, PRIs and other traditional institutions reach';
+			default:
+				return 'Unknown';
+		}
+	}
+
+	public static function getTypeAsList()
+	{
+		return [
+			self::PARENT => "Parent",
+			self::VOLUNTEERS => "Volunteers",
+			self::LOCAL_COMMUNITIES => "Local Communities"
+		];
+	}
+
+	public static function getTypeParent()
+	{
+		return self::PARENT;
+	}
+
+	public static function getTypeVolunteers()
+	{
+		return self::VOLUNTEERS;
+	}
+
+	public static function getTypeLocalCommunities()
+	{
+		return self::LOCAL_COMMUNITIES;
 	}
 }

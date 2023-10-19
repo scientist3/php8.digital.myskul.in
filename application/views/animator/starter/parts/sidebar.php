@@ -159,7 +159,7 @@
                     <a href="#" class="nav-link <?php echo isset($stakeholder_menu) ? 'active' : null; ?>">
                         <i class="nav-icon fa fa-users"></i>
                         <p>
-													<?php echo display('stakeholders'); ?>
+                          <?php echo display('stakeholders'); ?>
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -195,7 +195,7 @@
                             <a href="<?php echo base_url("animator/cgroups/index") ?>"
                                class="nav-link <?php echo $group_add_list_option ?? null; ?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p><?php echo display('add_list_groups'); ?></p>
+                                <p><?php echo display('list_groups'); ?></p>
                             </a>
                         </li>
                     </ul>

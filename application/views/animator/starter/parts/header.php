@@ -9,7 +9,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>
-		Coordinator: <?php echo (!empty($title) ? $title : null) ?>
+		Animator: <?php echo (!empty($title) ? $title : null) ?>
 	</title>
 
 	<!-- Google Font: Source Sans Pro -->

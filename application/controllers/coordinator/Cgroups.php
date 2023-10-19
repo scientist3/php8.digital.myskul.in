@@ -1,12 +1,18 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-require(APPPATH . 'controllers/animator/Animator.php');
+require(APPPATH . 'controllers/coordinator/Coordinator.php');
 
-class Cgroups extends Animator
+class Cgroups extends Coordinator
 {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->library(['session']);
+		$this->load->model(
+			array(
+				'groups_model' => 'groupsModel'
+			)
+		);
 	}
 	public function index()
 	{
@@ -16,7 +22,7 @@ class Cgroups extends Animator
 	public function create()
 	{
 		$this->data['title']					= display('add_list_group');
-		$this->data['PageTitle']			= 'List Groups';
+		$this->data['PageTitle']			= 'Add/List Groups';
 		$this->data['left_title']			= display('add_group');
 		$this->data['right_title']		=	display('list_group');
 		$this->data['group_menu']							= 'menu-open';
@@ -45,7 +51,7 @@ class Cgroups extends Animator
 					#set exception message
 					$this->session->set_flashdata('exception', display('please_try_again'));
 				}
-				redirect('animator/cgroups');
+				redirect('coordinator/cgroups');
 			} else {
 				if ($this->groupsModel->update($postData)) {
 					#set success message
@@ -54,10 +60,10 @@ class Cgroups extends Animator
 					#set exception message
 					$this->session->set_flashdata('exception', display('please_try_again'));
 				}
-				redirect('animator/cgroups');
+				redirect('coordinator/cgroups');
 			}
 		} else {
-			$this->renderView('animator/group/form', $this->data);
+			$this->renderView('coordinator/group/form', $this->data);
 		}
 	}
 
@@ -73,12 +79,12 @@ class Cgroups extends Animator
 
 		$this->data['groups'] = $this->groupsModel->getAll();
 		$this->data['group']  = $this->groupsModel->read_by_id($g_id);
-		$this->renderView('animator/group/form', $this->data);
+		$this->renderView('coordinator/group/form', $this->data);
 	}
 
 	public function delete($g_id = null)
 	{
 		$this->groupsModel->delete($g_id);
-		redirect('animator/cgroups/index');
+		redirect('coordinator/cgroups/index');
 	}
 }

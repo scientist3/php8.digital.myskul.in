@@ -107,7 +107,7 @@
 			      <?php } ?>
             </tbody>
           </table>
-          <button type="submit" class="btn btn-primary  float-right "><i class="fa fa-edit"></i>  <?php echo display('approve'); ?></button>
+          <button type="submit" class="btn btn-primary  float-right "><i class="fa fa-edit"></i>  <?php echo display('authenticate'); ?></button>
         </form>
       </div>
     </div>

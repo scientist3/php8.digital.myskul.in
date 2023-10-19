@@ -135,6 +135,7 @@ class Userrole1
 	const CLUSTER_COORDINATOR = 3;
 	const ANIMATOR = 4;
 	const STUDENT = 5;
+	const STAKEHOLDER = 6;
 
 	public static function getRoleName($role)
 	{
@@ -205,3 +206,4 @@ class Userrole1
 	// 	}
 	// }
 }
+

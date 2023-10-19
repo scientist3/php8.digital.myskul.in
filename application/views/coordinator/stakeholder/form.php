@@ -142,8 +142,8 @@
 					<!-- class -->
                     <div class="col-sm-4 col-md-4 d-none voluntaries">
                         <div class="form-group">
-                            <label for="class"><?php echo display('education') ?> <i class="text-danger">*</i></label>
-                            <input name="class" type="text" class="form-control" id="class" placeholder="<?php echo display('education') ?>" value="<?php echo $stakeholder->class ?>">
+                            <label for="class"><?php echo display('Class') ?> <i class="text-danger">*</i></label>
+                            <input name="class" type="text" class="form-control" id="class" placeholder="<?php echo display('Class') ?>" value="<?php echo $stakeholder->class ?>">
                         </div>
                     </div>
 				</div>

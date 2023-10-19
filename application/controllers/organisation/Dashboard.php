@@ -12,7 +12,7 @@ class Dashboard extends OrganisationController
 
 	public function index()
 	{
-		$this->data['title']         = "Organisation";
+		$this->data['title']         = "Dashboard";
 		$this->data['PageTitle']     = "Organisation Dashboard";
 		$this->data['dashboard']     = 'active';
 		$this->data['org_details']   = $this->getObjOrgDasboardService()->fetchTotalOfClusterCenterAnimatorSuByOrgId($this->getOrgId());

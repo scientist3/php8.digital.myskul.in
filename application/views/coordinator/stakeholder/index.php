@@ -1,15 +1,76 @@
 <div class="row">
+    <div class="col-md-4 col-sm-6 col-12">
+        <div class="info-box">
+			<span class="info-box-icon bg-info"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+					<style>
+						svg {
+                            fill: #ffffff
+                        }
+					</style>
+					<path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM609.3 512H471.4c5.4-9.4 8.6-20.3 8.6-32v-8c0-60.7-27.1-115.2-69.8-151.8c2.4-.1 4.7-.2 7.1-.2h61.4C567.8 320 640 392.2 640 481.3c0 17-13.8 30.7-30.7 30.7zM432 256c-31 0-59-12.6-79.3-32.9C372.4 196.5 384 163.6 384 128c0-26.8-6.6-52.1-18.3-74.3C384.3 40.1 407.2 32 432 32c61.9 0 112 50.1 112 112s-50.1 112-112 112z" />
+				</svg></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Total Parents</span>
+                <span class="info-box-number"><?php echo number($stakeholder_details->total_parents); ?></span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4 col-sm-6 col-12">
+        <div class="info-box">
+			<span class="info-box-icon bg-info"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+					<style>
+						svg {
+                            fill: #ffffff
+                        }
+					</style>
+					<path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM609.3 512H471.4c5.4-9.4 8.6-20.3 8.6-32v-8c0-60.7-27.1-115.2-69.8-151.8c2.4-.1 4.7-.2 7.1-.2h61.4C567.8 320 640 392.2 640 481.3c0 17-13.8 30.7-30.7 30.7zM432 256c-31 0-59-12.6-79.3-32.9C372.4 196.5 384 163.6 384 128c0-26.8-6.6-52.1-18.3-74.3C384.3 40.1 407.2 32 432 32c61.9 0 112 50.1 112 112s-50.1 112-112 112z" />
+				</svg></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Total Volunteers</span>
+                <span class="info-box-number"><?php echo number($stakeholder_details->total_volunteers); ?></span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4 col-sm-6 col-12">
+        <div class="info-box">
+			<span class="info-box-icon bg-info"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 640 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+					<style>
+						svg {
+                            fill: #ffffff
+                        }
+					</style>
+					<path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM609.3 512H471.4c5.4-9.4 8.6-20.3 8.6-32v-8c0-60.7-27.1-115.2-69.8-151.8c2.4-.1 4.7-.2 7.1-.2h61.4C567.8 320 640 392.2 640 481.3c0 17-13.8 30.7-30.7 30.7zM432 256c-31 0-59-12.6-79.3-32.9C372.4 196.5 384 163.6 384 128c0-26.8-6.6-52.1-18.3-74.3C384.3 40.1 407.2 32 432 32c61.9 0 112 50.1 112 112s-50.1 112-112 112z" />
+				</svg></span>
+            <div class="info-box-content">
+                <span class="info-box-text">Total Local Communities</span>
+                <span class="info-box-number"><?php echo number($stakeholder_details->total_local_communities); ?></span>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row">
     <div class="col-sm-12">
         <div class="card card-outline card-primary">
             <div class="card-header">
                 <h3 class="card-title"> <?php echo $PageTitle; ?> </h3>
+                <!--
                 <div class="card-tools">
                     <a class="btn btn-primary"
                        href="<?php echo base_url("animator/cstakeholder/processStakeholderForm") ?>">
                         <i class="fa fa-plus"></i> <?php echo display('add_stakeholder') ?>
                     </a>
-
                 </div>
+                -->
             </div>
             <div class="card-body">
                 <table class="stakeholder_datatable table table-bordered table-striped table-hovers">
@@ -25,11 +86,10 @@
                             <th><?php echo display('district') ?></th>
                             <th><?php echo display('social_parity') ?></th>
                             <th><?php echo display('father_name') ?></th>
-                            <th><?php echo display('class') ?></th>
+                            <th><?php echo display('education') ?></th>
                             <th><?php echo display('date_of_joining') ?></th>
                             <th><?php echo display('group_name') ?></th>
                             <th><?php echo display('designation') ?></th>
-                            <th><?php echo display('action') ?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -51,14 +111,6 @@
                                         <td><?php echo !empty($stakeholder->date_of_joining) ? $stakeholder->date_of_joining : '-'; ?></td>
                                         <td><?php echo !empty($stakeholder->group_name) ? $stakeholder->group_name : '-'; ?></td>
                                         <td><?php echo !empty($stakeholder->designation) ? $stakeholder->designation : '-'; ?></td>
-                                        <td class="center">
-                                            <a href="<?php echo base_url("animator/cstakeholder/edit/$stakeholder->user_id") ?>"
-                                               class="btn btn-xs btn-success"><i class="fa fa-edit"></i></a>
-                                            <a href="<?php echo base_url("animator/cstakeholder/delete/$stakeholder->user_id") ?>"
-                                               class="btn btn-xs btn-danger"
-                                               onclick="return confirm('<?php echo display('are_you_sure') ?>') "><i
-                                                        class="fa fa-trash"></i></a>
-                                        </td>
                                     </tr>
                                 <?php $sl++; ?>
                                 <?php } ?>

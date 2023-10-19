@@ -12,8 +12,8 @@
 
 		public function index()
 		{
-			$this->data['title']              = "Organisation";
-			$this->data['PageTitle']          = "Organisation Dashboard";
+			$this->data['title']              = "Dashboard";
+			$this->data['PageTitle']          = "Animator Dashboard";
 			$this->data['dashboard']          = 'active';
 			$this->data['allocated_centers']  = $this->getAllocatedCentersAsList();
 			$this->data['details']            = $this->fetchTotalOfStudentMessageCenterByOrgIdByClusterId( $this->getOrgId(), $this->getClusterId(),$this->getActiveCenterIdAsArray() );

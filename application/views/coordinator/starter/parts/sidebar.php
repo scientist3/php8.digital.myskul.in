@@ -95,6 +95,46 @@
 					</ul>
 				</li>
 
+                <!-- Groups -->
+                <li class="nav-item <?php echo $group_menu ?? null; ?>">
+                    <a href="#" class="nav-link <?php echo isset($group_menu) ? 'active' : null; ?>">
+                        <i class="nav-icon fa fa-users"></i>
+                        <p>
+							<?php echo display('Groups'); ?>
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?php echo base_url("coordinator/cgroups/index") ?>"
+                               class="nav-link <?php echo $group_add_list_option ?? null; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p><?php echo display('add_list_groups'); ?></p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- stakeholders -->
+                <li class="nav-item <?php echo $stakeholder_menu ?? null; ?>">
+                    <a href="#" class="nav-link <?php echo isset($stakeholder_menu) ? 'active' : null; ?>">
+                        <i class="nav-icon fa fa-users"></i>
+                        <p>
+                          <?php echo display('Stakeholders'); ?>
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?php echo base_url("coordinator/cstakeholder/index") ?>"
+                               class="nav-link <?php echo $list_stakeholders ?? null; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p><?php echo display('list_stakeholders'); ?></p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
 				<!-- Users -->
 				<li class="nav-item <?php echo $user_menu ?? null; ?>">
 					<a href="#" class="nav-link <?php echo isset($user_menu) ? 'active' : null; ?>">
@@ -139,7 +179,7 @@
         <li class="nav-item <?php echo $activities_menu ?? null; ?>">
           <a href="#" class="nav-link <?php echo isset($activities_menu) ? 'active' : null; ?>">
             <i class="nav-icon fa fa-user"></i>
-            <p><?php echo display('activities'); ?>
+            <p><?php echo display('authentication'); ?>
               <i class="right fas fa-angle-left"></i>
             </p>
           </a>
