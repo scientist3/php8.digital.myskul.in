@@ -57,7 +57,7 @@ class CCenter extends CenterController
 		$this->data['cluster_list']		= $this->objCenterService->fetchClusterListByOrgId($this->organisation->org_id);
 		$this->data['centers']				= $this->objCenterService->fetchCentersByOrgId($this->organisation->org_id);
 
-		$this->form_validation->set_rules('center_name', display('center_name'), 'required|max_length[150]');
+		$this->form_validation->set_rules('center_name', display('center_name'), 'required|max_length[150]|is_unique[center.center_name]');
 		$this->form_validation->set_rules('center_cluster_id', display('cluster_name'), 'required');
 		$this->form_validation->set_rules('center_head_id', display('animator'), 'required');
 

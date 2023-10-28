@@ -66,7 +66,7 @@ class ClusterController extends CI_Controller
 
 	public function validateClusterForm()
 	{
-		$this->form_validation->set_rules('cluster_name', display('cluster_name'), 'required|max_length[150]');
+		$this->form_validation->set_rules('cluster_name', display('cluster_name'), 'required|max_length[150]|is_unique[cluster.cluster_name]');
 		$this->form_validation->set_rules('cluster_head_id', display('cluster_head_id'), 'required');
 		$this->form_validation->set_error_delimiters('<p class="text-sm mb-0">', '</p>');
 	}

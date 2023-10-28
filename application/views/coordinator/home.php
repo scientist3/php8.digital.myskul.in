@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
 		<!-- small box -->
 		<div class="small-box bg-red" style="color: white!important;">
 			<div class="inner">
@@ -18,7 +18,7 @@
 		</div>
 	</div>
 	<!-- ./col -->
-	<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
 		<!-- small box -->
 		<div class="small-box bg-yellow">
 			<div class="inner">
@@ -34,7 +34,7 @@
 			<a href="<?php echo base_url('coordinator/cuser/index'); ?>" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
-	<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
 		<!-- small box -->
 		<div class="small-box bg-blue">
 			<div class="inner">
@@ -53,8 +53,7 @@
 		</div>
 	</div>
 	<!-- ./col -->
-
-	<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+	<div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
 		<!-- small box -->
 		<div class="small-box bg-green">
 			<div class="inner">

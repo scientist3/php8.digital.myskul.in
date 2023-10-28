@@ -198,11 +198,12 @@
 					progress.removeClass('hide').html('<i class="fa fa-cog fa-spin"></i> Loading..');
 				},
 				success: function(data) {
-					progress.addClass('hide');
+					progress.addClass('d-none');
+
 					if (data.status == false) {
-						output.html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' + data.exception).addClass('alert-danger').removeClass('hide').removeClass('alert-info');
+						output.html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' + data.exception).addClass('alert-danger').removeClass('d-none').removeClass('alert-info');
 					} else if (data.status == true) {
-						output.html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' + data.message).addClass('alert-info').removeClass('hide').removeClass('alert-danger');
+						output.html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' + data.message).addClass('alert-info').removeClass('d-none').removeClass('alert-danger');
 						hiddenFile.val(data.filepath);
 					}
 				},

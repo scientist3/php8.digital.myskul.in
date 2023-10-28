@@ -73,13 +73,13 @@ class Stakeholder_model extends CI_Model
 
 			// Map stakeholder_type_id to the desired keys
 			switch ($stakeholderTypeId) {
-				case StakeholderType::PARENT:
+				case StakeholderType1::PARENT:
 					$result['total_parents'] = (int)$studentCount;
 					break;
-				case StakeholderType::VOLUNTEERS:
+				case StakeholderType1::VOLUNTEERS:
 					$result['total_volunteers'] = (int)$studentCount;
 					break;
-				case StakeholderType::LOCAL_COMMUNITIES:
+				case StakeholderType1::LOCAL_COMMUNITIES:
 					$result['total_local_communities'] = (int)$studentCount;
 					break;
 			}
@@ -88,7 +88,7 @@ class Stakeholder_model extends CI_Model
 	}
 }
 
-class StakeholderType
+class StakeholderType1
 {
 	const PARENT = 1;
 	const VOLUNTEERS = 2;
