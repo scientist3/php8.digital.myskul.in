@@ -163,7 +163,6 @@
 					extend: 'excel',
 					title: 'ExampleFile',
 					className: 'btn-sm',
-					title: 'exportTitle'
 				},
 				{
 					extend: 'pdfHtml5',

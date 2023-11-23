@@ -317,7 +317,6 @@
 					extend: 'excel',
 					title: 'ExampleFile',
 					className: 'btn-sm', // Add the btn-sm class for small button
-					title: 'exportTitle'
 				},
 				{
 					extend: 'pdfHtml5',

@@ -236,7 +236,7 @@
 					</div>
 				</div>
 				<div class="card-footer">
-					<button tyep="submit" class="btn btn-primary float-right"><i class="fa fa-save"></i> <?php echo display('save') ?></button>
+					<button type="submit" class="btn btn-primary float-right"><i class="fa fa-save"></i> <?php echo display('save') ?></button>
 				</div>
 			</div>
 		</div>
