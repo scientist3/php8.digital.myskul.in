@@ -62,6 +62,7 @@
 						<tr>
 							<th><?php echo display('serial') ?></th>
 							<th><?php echo display('first_name') ?></th>
+                            <th><?php echo display('father') ?></th>
 							<th><?php echo display('mobile') ?></th>
 							<th><?php echo display('email') ?></th>
 							<th><?php echo display('district') ?></th>
@@ -129,6 +130,10 @@
 						data: 'firstname',
 						title: 'Name'
 					},
+                    {
+                        data: 'father_name',
+                        title: 'Father'
+                    },
 					{
 						data: 'mobile',
 						title: 'Mobile',
@@ -145,10 +150,21 @@
 						data: 'sex',
 						title: 'Gender',
 					},
-					{
-						data: 'age',
-						title: 'Age Group',
-					},
+                    {
+                        data: 'age',
+                        title: 'Age Group',
+                        render: function(data, type, row) {
+                            // Customize the content of the cell based on the age value
+                            switch (data) {
+                                case '6-11':
+                                    return 'CFS';
+                                case '12-18':
+                                    return 'ARC';
+                                default:
+                                    return data; // Return the original value if it's not '6-11' or '12-18'
+                            }
+                        }
+                    },
 					{
 						data: 'org_name',
 						title: 'Organisation',
@@ -227,7 +243,7 @@
 						title: '<?php echo isset($pdfFileName) ? $pdfFileName : 'Example File'; ?>',
 						className: 'btn-sm', // Add the btn-sm class for small button
 						exportOptions: {
-							columns: [1, 2, 3, 4, 5]
+							columns: [1, 2, 7, 3, 4, 5,6]
 						}
 					},
 					{

@@ -37,6 +37,8 @@ class Cstakeholder extends Animator
 		$this->data['social_party_list']      = $this->SocialParty->social_parity_as_list();
 		$this->data['cluster_list']           = $this->clusterModel->read_as_list_by_org($this->getOrgId());
 		$this->data['group_list']             = $this->groupsModel->read_as_list();
+		$this->data['center_list']            = $this->getAllocatedCentersAsList();
+		$this->data['frontline_workers_list'] = getFrontlineWorkersAsArray();
 	}
 
 	public function processStakeholderForm(): void
@@ -69,7 +71,7 @@ class Cstakeholder extends Animator
 			'cluster_idd'         => $this->getClusterId(),
 			'center_id'           => !empty($this->input->post('center_id'))?$this->input->post('center_id'):$this->getActiveCenterId(),
 			'village'             => $this->input->post('village', true),
-			'socail_status'       => $this->input->post('socail_status', true),
+			'socail_status'       => !empty($this->input->post('socail_status')) ? $this->input->post('socail_status', true) : null,
 			'class'               => $this->input->post('class', true),
 			'date_of_joining'     => !empty($this->input->post('date_of_joining'))?$this->input->post('date_of_joining', true):NULL,
 			'group_id'            => !empty($this->input->post('group_id')) ? $this->input->post('group_id', true) : null,
@@ -77,6 +79,7 @@ class Cstakeholder extends Animator
 			'user_role'           => '6',
 			'district'            => $this->input->post('district'),
 			'stakeholder_type_id' => $this->input->post('stakeholder_type_id'),
+			'frontline_workers_id'=>$this->input->post('frontline_workers_id'),
 			'sex'                 => $this->input->post('sex'),
 			'age'                 => $this->input->post('age'),
 			'father_name'         => $this->input->post('father_name'),

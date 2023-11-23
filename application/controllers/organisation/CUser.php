@@ -43,8 +43,6 @@ class CUser extends UsersController
 
 		$this->loadFormValidation();
 		$this->handleUserFormSubmission();
-
-		$this->renderView('organisation/user/member_form',$this->data);
 	}
 
 	public function viewUserProfile($user_id = null)

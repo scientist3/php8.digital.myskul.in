@@ -99,6 +99,32 @@ if (!function_exists('getDistrictListAsArray')) {
 	}
 }
 
+if (!function_exists('getFrontlineWorkersAsArray')) {
+	function getFrontlineWorkersAsArray()
+	{
+		$list = array(
+			'' => 'Select Frontline Worker',
+			'1' => 'Asha Workers',
+			'2' => 'ICDS Worker(Anganwadi)',
+			'3'  => 'Teacher',
+      '4'  => 'Other'
+		);
+		return $list;
+	}
+}
+
+if (!function_exists('getChildCategoryAsArray')) {
+	function getChildCategoryAsArray()
+	{
+		$list = array(
+			'' => 'Select Child Category',
+			'1' => 'School',
+			'2' => 'Community',
+		);
+		return $list;
+	}
+}
+
 /**
  * Helper function to check if a given variable is an array with a certain length.
  *

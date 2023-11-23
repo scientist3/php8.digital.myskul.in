@@ -38,16 +38,18 @@
                     <!-- Cluster Dropdown -->
                     <div class="col-sm-3 col-md-3">
                         <div class="form-group">
-                            <label for="cluster_idd"><?php echo display('cluster') ?> <i class="text-danger">*</i></label>
-													<?php echo form_dropdown('cluster_idd', $cluster_list, $cluster_id, 'class="select2bs4 form-control" id="cluster_idd" disabled'); ?>
+                            <label for="cluster_idd">
+                              <?php echo display('cluster') ?> <i class="text-danger">*</i></label>
+                              <?php echo form_dropdown('cluster_idd', $cluster_list, $cluster_id, 'class="select2bs4 form-control" id="cluster_idd" disabled'); ?>
                             <span class="cluster_error"></span>
                         </div>
                     </div>
                     <!-- Center Name Dropdown -->
                     <div class="col-sm-3 col-md-3">
                         <div class="form-group">
-                            <label for="center_id"><?php echo display('Center Name') ?> <i class="text-danger">*</i></label>
-													<?php echo form_dropdown('center_id', $center_list, $center_id, 'class="select2bs4 form-control" id="center_id"'); ?>
+                            <label for="center_id">
+                              <?php echo display('Center Name') ?> <i class="text-danger">*</i></label>
+                              <?php echo form_dropdown('center_id', $center_list, $center_id, 'class="select2bs4 form-control" id="center_id"'); ?>
                             <span class="cluster_error"></span>
                         </div>
                     </div>
@@ -74,7 +76,7 @@
 					</div>
 
 					<!-- Common Properties End-->
-
+<!--                    , Choose frontline worker - ( Asha workers, ICDS worker( Anganwadi), Teacher, Other )-->
 					<!-- Father Name -->
 					<div class="col-sm-4 col-md-4 d-none voluntaries">
 						<div class="form-group">
@@ -83,7 +85,7 @@
 						</div>
 					</div>
 					<!-- Sex -->
-					<div class="col-sm-4 col-md-4 d-none parent local">
+					<div class="col-sm-4 col-md-4 d-none parent local frontline">
 						<div class="form-group">
 							<label for="mobile"><?php echo display('gender') ?> <i class="text-danger">*</i></label>
 							<div class="btn-group btn-group-toggle form-control" data-toggle="buttons" style="border: none;padding: 0;">
@@ -99,14 +101,13 @@
 						</div>
 					</div>
 					<!-- District Dropdown -->
-					<div class="col-sm-4 col-md-4 d-none parent local">
+					<div class="col-sm-4 col-md-4 d-none parent local frontline">
 						<div class="form-group">
 							<label for="district"><?php echo display('district') ?> <i class="text-danger">*</i></label>
 							<?php echo form_dropdown('district', $district_list, $stakeholder->district, 'class="form-control" id="district" '); ?>
 							<span class="district_error"></span>
 						</div>
 					</div>
-
 					<!-- Social Partiy Dropdown -->
 					<div class="col-sm-4 col-md-4 parent local d-none">
 						<div class="form-group">
@@ -122,23 +123,28 @@
                             <input name="date_of_joining" type="date" class="form-control" id="date_of_joining" placeholder="<?php echo display('date_of_joining') ?>" value="<?php echo $stakeholder->date_of_joining ?>">
                         </div>
                     </div>
-					<!-- Designation Dropdown -->
-                    <div class="col-sm-4 col-md-4 d-none local">
-                        <div class="form-group">
-                            <label for="designation"><?php echo display('Designation') ?> <i class="text-danger">*</i></label>
-                            <input name="designation" type="text" class="form-control" id="designation" placeholder="<?php echo display('Designation') ?>" value="<?php echo $stakeholder->designation ?>">
-                        </div>
-                    </div>
-
 					<!-- Group Name Dropdown -->
                     <div class="col-sm-4 col-md-4 d-none local">
                         <div class="form-group">
                             <label for="group_id"><?php echo display('Group Name') ?> <i class="text-danger">*</i></label>
                             <?php echo form_dropdown('group_id', $group_list, $stakeholder->group_id, 'class="form-control" id="group_id" '); ?>
-
                         </div>
                     </div>
-
+                    <!-- Frontline Worker -->
+                    <div class="col-sm-4 col-md-4 d-none frontline">
+                        <div class="form-group">
+                          <label for="frontline_workers_id">
+                            <?php echo display('frontline_workers') ?> <i class="text-danger">*</i></label>
+                            <?php echo form_dropdown('frontline_workers_id', $frontline_workers_list, $stakeholder->frontline_workers_id, 'class="form-control" id="frontline_workers_id" '); ?>
+                        </div>
+                    </div>
+                    <!-- Designation Dropdown -->
+                    <div class="col-sm-4 col-md-4 d-none local frontline">
+                        <div class="form-group">
+                            <label for="designation"><?php echo display('Designation') ?> <i class="text-danger">*</i></label>
+                            <input name="designation" type="text" class="form-control" id="designation" placeholder="<?php echo display('Designation') ?>" value="<?php echo $stakeholder->designation ?>">
+                        </div>
+                    </div>
 					<!-- class -->
                     <div class="col-sm-4 col-md-4 d-none voluntaries">
                         <div class="form-group">
@@ -177,16 +183,20 @@
 		selectedValue = Number.parseInt(selectedValue);
 		if (selectedValue === 1) {
 			// Show fields for option 1
-			$('.local, .voluntaries').addClass('d-none');
+			$('.local, .voluntaries, .frontline').addClass('d-none');
             $('.parent').removeClass('d-none');
 		} else if (selectedValue === 2) {
 			// Show fields for option 2
-            $('.parent, .local').addClass('d-none');
+            $('.parent, .local, .frontline').addClass('d-none');
             $('.voluntaries').removeClass('d-none');
 		} else if (selectedValue === 3) {
 			// Show fields for option 3
-            $('.parent, .voluntaries').addClass('d-none');
+            $('.parent, .voluntaries, .frontline').addClass('d-none');
             $('.local').removeClass('d-none');
-		}
+        } else if (selectedValue === 4) {
+            // Show fields for option 3
+            $('.parent, .voluntaries, .local').addClass('d-none');
+            $('.frontline').removeClass('d-none');
+        }
 	}
 </script>

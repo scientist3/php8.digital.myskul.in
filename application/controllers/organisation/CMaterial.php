@@ -90,7 +90,7 @@ class CMaterial extends MaterialController
 		$this->form_validation->set_rules('center_idd', display('center_name'), 'required');
 		$this->form_validation->set_rules('mat_type', display('type'), 'required');
 		if ($this->input->post('mat_type') == 1) {
-			; //$this->form_validation->set_rules('mat_video_link', display('video_link'),'required|valid_url|callback_url_check');
+			//$this->form_validation->set_rules('mat_video_link', display('video_link'),'required|valid_url|callback_url_check');
 			$this->form_validation->set_rules('mat_video_link', display('video_link'), 'trim|required|htmlspecialchars');
 		} else {
 			$this->form_validation->set_rules('hidden_attach_file', display('attach_file'), 'required');

@@ -231,7 +231,7 @@ class Cactivities extends ActivitiesController
 		$this->data['title'] = "Student Session Report";
 		$this->data['PageTitle'] = display('list_student');
 		$this->data['activities_menu'] = 'menu-open';
-		$this->data['sec_ter_serv_option'] = 'active';
+		$this->data['sec_serv_option'] = 'active';
 
 		$this->loadLists();
 		$this->data['all_students']             = $this->getSessionStudentsByStatus( $this->category, $this->status );
@@ -264,6 +264,48 @@ class Cactivities extends ActivitiesController
 		$this->session->set_flashdata('message', display('submitted_successfully'));
 		redirect('animator/cactivities/studentSecondaryCounsellingListing');
 
+	}
+	
+	public function studentTertiaryCounsellingListing($category= 'tertiary_counselling_status', $status='0,1,2' ): void
+	{
+		$_POST['category'] = $this->category = $category;
+		$_POST['status'] = $this->status = $status;
+		$this->data['title'] = "Student Session Report";
+		$this->data['PageTitle'] = display('list_student');
+		$this->data['activities_menu'] = 'menu-open';
+		$this->data['ter_serv_option'] = 'active';
+		
+		$this->loadLists();
+		$this->data['all_students']             = $this->getSessionStudentsByStatus( $this->category, $this->status );
+		
+		$this->renderView('animator/activities/student_tertiary_counselling_listing', $this->data);
+	}
+	public function submitForTertiaryCounsellingApproval(): void
+	{
+		$this->data['title'] = "Student Tertiary Report";
+		$this->data['PageTitle'] = display('list_student');
+		$this->data['activities_menu'] = 'menu-open';
+		$this->data['psycho_social_well_being_option'] = 'active';
+		
+		if (is_array($this->input->post('students'))) {
+			foreach ($this->input->post('students') as $user_id) {
+				$data['students'][] = [
+					'user_id' => $user_id
+				];
+			}
+		}else{
+			$this->session->set_flashdata('exception', display('please_try_again_no_student_selected'));
+			redirect('animator/cactivities/studentSecondaryCounsellingListing');
+		}
+		
+		$data['update'] = [
+			'user_ids' => array_keys(rekeyArray('user_id', $data['students'])),
+			'set' => ['tertiary_counselling_status' => 1]
+		];
+		$this->ActivitiesModel->updateByColumn($data['update']);
+		$this->session->set_flashdata('message', display('submitted_successfully'));
+		redirect('animator/cactivities/studentTertiaryCounsellingListing');
+		
 	}
 
 	public function studentPsychoSocialWellBeingListing($category= 'well_being_status', $status='0,1,2' ): void

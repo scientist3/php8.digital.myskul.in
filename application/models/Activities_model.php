@@ -7,7 +7,7 @@ class Activities_model extends CI_Model
 	//  USED FUNCTION IN CSTUDENT >> API >> ORGANISATION >> USER-SERVICE >> fetchUsersWithPaginationAndCountByFilters
 	public function getUsersWithPagination($filterObject): array
 	{
-		$this->db->select('user_id, student.org_idd, student.cluster_idd, student.center_id, session_status, cncp_status, cncp_supported_status, psycho_educated_status, primary_counselling_status, secondary_counselling_status,well_being_status, care_plan_status, age, block, student.center_id, class, cluster_idd, create_date, created_by, district, email,
+		$this->db->select('user_id, student.org_idd, student.cluster_idd, student.center_id, session_status, cncp_status, cncp_supported_status, psycho_educated_status, primary_counselling_status, secondary_counselling_status, tertiary_counselling_status,well_being_status, care_plan_status, age, block, student.center_id, class, cluster_idd, create_date, created_by, district, email,
             father_name, father_occup, firstname, mobile, mother_name, mother_occup, org_idd, 
             picture, remarks, school_level, school_name, school_status, school_type, sex, socail_status,
             status, update_date, user_role,  village,center.center_name, org_name,cluster_name');
@@ -75,7 +75,7 @@ class Activities_model extends CI_Model
 	public function getApprovalStudentsByCategoryByOrgByClusterId($intOrgId, $intClusterId, $strCategory, $arrStatus)
 	{
 
-		$this->db->select('user_id, student.org_idd, student.cluster_idd, student.center_id, session_status, cncp_status, cncp_supported_status, psycho_educated_status, primary_counselling_status, secondary_counselling_status,well_being_status, care_plan_status, age, block, student.center_id, class, cluster_idd, create_date, created_by, district, email,
+		$this->db->select('user_id, student.org_idd, student.cluster_idd, student.center_id, session_status, cncp_status, cncp_supported_status, psycho_educated_status, primary_counselling_status, secondary_counselling_status, tertiary_counselling_status,well_being_status, care_plan_status, age, block, student.center_id, class, cluster_idd, create_date, created_by, district, email,
             father_name, father_occup, firstname, mobile, mother_name, mother_occup, org_idd, 
             picture, remarks, school_level, school_name, school_status, school_type, sex, socail_status,
             status, update_date, user_role,  village,center.center_name, org_name,cluster_name');

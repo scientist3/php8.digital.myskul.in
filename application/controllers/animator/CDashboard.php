@@ -15,7 +15,7 @@
 			$this->data['title']              = "Dashboard";
 			$this->data['PageTitle']          = "Animator Dashboard";
 			$this->data['dashboard']          = 'active';
-			$this->data['allocated_centers']  = $this->getAllocatedCentersAsList();
+			$this->data['allocated_centers']  = $this->getAllocatedCentersAsListWithAll();
 			$this->data['details']            = $this->fetchTotalOfStudentMessageCenterByOrgIdByClusterId( $this->getOrgId(), $this->getClusterId(),$this->getActiveCenterIdAsArray() );
 			$this->renderView('animator/home', $this->data);
 		}

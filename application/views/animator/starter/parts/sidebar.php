@@ -130,9 +130,17 @@
 
                         <li class="nav-item">
                             <a href="<?php echo base_url("animator/cactivities/studentSecondaryCounsellingListing") ?>"
-                               class="nav-link <?php echo $sec_ter_serv_option ?? null; ?>">
+                               class="nav-link <?php echo $sec_serv_option ?? null; ?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p><?php echo display('secondary_tertiary_service'); ?></p>
+                                <p><?php echo display('secondary_counseling_status'); ?></p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="<?php echo base_url("animator/cactivities/studentTertiaryCounsellingListing") ?>"
+                               class="nav-link <?php echo $ter_serv_option ?? null; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p><?php echo display('tertiary_counseling_status'); ?></p>
                             </a>
                         </li>
 

@@ -48,7 +48,7 @@
   <div class="col-sm-12">
     <div class="card card-primary card-outline card-outline-tabs">
       <div class="card-header">
-       <h3 class="card-title"><i class="fa fa-list"></i> Student Session Completion Approval</h3>
+       <h3 class="card-title"><i class="fa fa-list"></i> <?php echo $title; ?></h3>
       </div>
       <div class="card-body">
         <form role="form" action="<?php echo site_url('coordinator/cactivities/submitForCncpApprove') ?>" method="post" class="">

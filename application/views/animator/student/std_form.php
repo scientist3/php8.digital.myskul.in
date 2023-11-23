@@ -109,7 +109,10 @@
 											<input type="radio" name="age" value="12-18" <?php echo ($student->age == '12-18')?'checked':''; ?>>
 											12-18 Years
 										</label>
-
+                                        <label class="btn btn-secondary">
+                                            <input type="radio" name="age" value="parent" <?php echo ($student->age == 'parent')?'checked':''; ?>>
+                                            Parent
+                                        </label>
 									</div>
 								</div>
 							</div>
@@ -130,6 +133,22 @@
 								</div>
 							</div>
 
+                            <!-- Father Name -->
+                            <div class="col-sm-6 col-md-6">
+								<div class="form-group">
+									<label for="father_name"><?php echo display('father_name') ?></label>
+									<input name="father_name" class="form-control" type="text" placeholder="<?php echo display('father_name') ?>" id="father_name" value="<?php echo $student->father_name ?>">
+								</div>
+							</div>
+
+							<!-- Mother Name -->
+							<div class="col-sm-6 col-md-6">
+								<div class="form-group ">
+									<label for="mother_name"><?php echo display('mother_name') ?></label>
+									<input name="mother_name" class="form-control" type="text" placeholder="<?php echo display('mother_name') ?>" id="mother_name" value="<?php echo $student->mother_name ?>">
+								</div>
+							</div>
+
 							<!-- School Level -->
 							<div class="col-sm-6 col-md-6">
 								<div class="form-group ">
@@ -145,21 +164,23 @@
 									?>
 								</div>
 							</div>
-							<div class="col-sm-6 col-md-6">
-								<div class="form-group">
-									<label for="father_name"><?php echo display('father_name') ?></label>
-									<input name="father_name" class="form-control" type="text" placeholder="<?php echo display('father_name') ?>" id="father_name" value="<?php echo $student->father_name ?>">
-								</div>
-							</div>
 
-							<!-- Mother Name -->
-							<div class="col-sm-6 col-md-6">
-								<div class="form-group ">
-									<label for="mother_name"><?php echo display('mother_name') ?></label>
-									<input name="mother_name" class="form-control" type="text" placeholder="<?php echo display('mother_name') ?>" id="mother_name" value="<?php echo $student->mother_name ?>">
-								</div>
-							</div>
-
+                            <!-- Social Parity  -->
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group ">
+                                    <label for="social_party"><?php echo display('social_party') ?></label>
+                                    <?php echo form_dropdown('social_party', $social_party_list, $student->socail_status, 'class="form-control" id="social_party" '); ?>
+                                </div>
+                            </div>
+                            
+                            <!-- Child Category -->
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group ">
+                                    <label for="child_category_id"><?php echo display('child_category') ?></label>
+                                    <?php echo form_dropdown('child_category_id', $child_category_list, $student->child_category_id, 'class="form-control" id="child_category_id" ');
+                                    ?>
+                                </div>
+                            </div>
 							<!-- Enrollment Date -->
 							<div class="col-sm-6 col-md-6">
 								<div class="form-group ">

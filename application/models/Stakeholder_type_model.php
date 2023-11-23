@@ -54,6 +54,7 @@ class StakeholderType
 	const PARENT = 1;
 	const VOLUNTEERS = 2;
 	const LOCAL_COMMUNITIES = 3;
+	const FRONTLINE_WORKERS = 4;
 
 	public static function getTypeName($type)
 	{
@@ -64,32 +65,40 @@ class StakeholderType
 				return 'Volunteers engaged in CFS ARC';
 			case self::LOCAL_COMMUNITIES:
 				return 'VLCPCs, CPCs, local committee, PRIs and other traditional institutions reach';
+			case self::FRONTLINE_WORKERS:
+				return 'Frontline workers';
 			default:
 				return 'Unknown';
 		}
 	}
-
+	
 	public static function getTypeAsList()
 	{
 		return [
 			self::PARENT => "Parent",
 			self::VOLUNTEERS => "Volunteers",
-			self::LOCAL_COMMUNITIES => "Local Communities"
+			self::LOCAL_COMMUNITIES => "Local Communities",
+			self::FRONTLINE_WORKERS => "Frontline Workers"
 		];
 	}
-
+	
 	public static function getTypeParent()
 	{
 		return self::PARENT;
 	}
-
+	
 	public static function getTypeVolunteers()
 	{
 		return self::VOLUNTEERS;
 	}
-
+	
 	public static function getTypeLocalCommunities()
 	{
 		return self::LOCAL_COMMUNITIES;
+	}
+	
+	public static function getTypeFrontlineWorkers()
+	{
+		return self::FRONTLINE_WORKERS;
 	}
 }

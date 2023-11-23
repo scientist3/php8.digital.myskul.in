@@ -17,8 +17,7 @@ class CStudent extends UsersController
 			// 	'dashboard_model',
 			// 	'organisation_model',
 			'organisation/cluster1_model',
-			// 	'organisation/center1_model',
-
+			'SocialParityModel' => 'SocialParty',
 		));
 		// if (
 		// 	$this->session->userdata('isLogIn') == false
@@ -87,7 +86,8 @@ class CStudent extends UsersController
 		$this->data['district_list'] = getDistrictListAsArray();
 		$this->data['cluster_list'] = $this->cluster_model->read_as_list_by_org($this->getOrgId());
 		$this->data['center_list'] = $this->center_model->read_as_list1($this->getOrgId());
-
+		$this->data['child_category_list']  = getChildCategoryAsArray();
+		$this->data['social_party_list']    = $this->SocialParty->social_parity_as_list();
 		// Handle POST data
 		$postData = $this->preparePostData();
 		$this->data['student'] = (object) $postData;
@@ -123,6 +123,8 @@ class CStudent extends UsersController
 			'sex' => $this->input->post('sex'),
 			'age' => $this->input->post('age'),
 			'school_status' => $this->input->post('school_status'),
+			'socail_status' => $this->input->post('social_party'),
+			'child_category_id' => $this->input->post('child_category_id'),
 			'father_name' => $this->input->post('father_name'),
 			'mother_name' => $this->input->post('mother_name'),
 			'org_idd' => $this->getOrgId(),
@@ -157,6 +159,7 @@ class CStudent extends UsersController
 	{
 		if (empty($postData['user_id'])) {
 			if ($this->user_model->create($postData)){
+				$std_id = $this->db->insert_id();
 				$this->session->set_flashdata('message',  display('save_successfully'));
 			}else{
 				$this->session->set_flashdata('exception', display('please_try_again'));
@@ -169,8 +172,6 @@ class CStudent extends UsersController
 			}else{
 				$this->session->set_flashdata('exception', display('please_try_again'));
 			}
-
-
 		}
 
 		return $std_id;
@@ -179,7 +180,6 @@ class CStudent extends UsersController
 	private function handleRedirect($postData, $std_id)
 	{
 		if (empty($postData['user_id'])) {
-
 			redirect('organisation/cstudent/profile/' . $std_id);
 		} else {
 			redirect('organisation/cstudent/edit/' . $postData['user_id']);
@@ -204,6 +204,8 @@ class CStudent extends UsersController
 		$this->data['district_list'] = getDistrictListAsArray();
 		$this->data['cluster_list'] = $this->cluster_model->read_as_list_by_org($this->getOrgId());
 		$this->data['student'] = $this->user_model->read_by_id($std_id);
+		$this->data['child_category_list']  = getChildCategoryAsArray();
+		$this->data['social_party_list']    = $this->SocialParty->social_parity_as_list();
 		if(empty($this->data['student'])){
 			$this->session->set_flashdata('exception', display('no_record_found'));
 			redirect('organisation/cstudent/index');

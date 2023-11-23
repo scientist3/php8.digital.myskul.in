@@ -7,7 +7,6 @@ class CDashboard extends DashboardController
 	public function __construct()
 	{
 		parent::__construct();
-		//$this->load->library(['UserService', 'OrganisationDashboardService']);
 	}
 
 	public function index()

@@ -25,6 +25,7 @@ class Coordinator extends CI_Controller
 				'user_model' => 'userModel',
 				'material_model',
 				'activities_model' => 'ActivitiesModel',
+				'SocialParityModel' => 'SocialParty',
 			)
 		);
 		// Authenticate User
@@ -150,6 +151,8 @@ class Userrole1
 				return 'Animator';
 			case self::STUDENT:
 				return 'Student';
+			case self::STAKEHOLDER:
+				return 'Stakeholder';
 			default:
 				return 'Unknown';
 		}

@@ -79,6 +79,7 @@
 		public static function getAllCategoriesAsArray()
 		{
 			return array(
+				''        => 'Select Social Parity',
 				self::APL => 'Above Poverty Line (APL)',
 				self::BPL => 'Below Poverty Line (BPL)',
 				self::AAY => 'Antyodaya Anna Yojana (AAY)',

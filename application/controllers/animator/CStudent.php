@@ -38,21 +38,22 @@ class CStudent extends Animator
 
 	public function processStudentForm(): void
 	{
-		$this->data['title'] = display('add_student');
-		$this->data['PageTitle'] = display('add_student');
-		$this->data['user_menu'] = 'menu-open';
-		$this->data['user_add_option'] = 'active';
+		$this->data['title']                = display('add_student');
+		$this->data['PageTitle']            = display('add_student');
+		$this->data['user_menu']            = 'menu-open';
+		$this->data['user_add_option']      = 'active';
 
-		$this->data['district_list'] = getDistrictListAsArray();
-		$this->data['cluster_list'] = $this->clusterModel->read_as_list_by_org($this->getOrgId());
-
+		$this->data['district_list']        = getDistrictListAsArray();
+		$this->data['cluster_list']         = $this->clusterModel->read_as_list_by_org($this->getOrgId());
+		$this->data['child_category_list']  = getChildCategoryAsArray();
+		$this->data['social_party_list']    = $this->SocialParty->social_parity_as_list();
+		$this->data['center_list']          = $this->getAllocatedCentersAsList();
 		// Handle POST data
-		$postData = $this->preparePostData();
-		$this->data['student'] = (object) $postData;
+		$postData                           = $this->preparePostData();
+		$this->data['student']              = (object) $postData;
+		
 		// Form validation
 		$this->form_validation->set_rules('firstname', display('first_name'), 'required|max_length[50]');
-//	$this->form_validation->set_rules('cluster_idd', display('cluster_name'), 'required');
-//  $this->form_validation->set_rules('center_id', display('center_name'), 'required');
 		$this->form_validation->set_rules('sex', display('sex'), 'required');
 		$this->form_validation->set_rules('age', display('age'), 'required');
 
@@ -81,6 +82,8 @@ class CStudent extends Animator
 			'sex' => $this->input->post('sex'),
 			'age' => $this->input->post('age'),
 			'school_status' => $this->input->post('school_status'),
+			'socail_status' => $this->input->post('social_party'),
+			'child_category_id' => $this->input->post('child_category_id'),
 			'father_name' => $this->input->post('father_name'),
 			'mother_name' => $this->input->post('mother_name'),
 			'org_idd' => $this->getOrgId(),
@@ -150,6 +153,8 @@ class CStudent extends Animator
 		$this->data['district_list'] = getDistrictListAsArray();
 		$this->data['cluster_list'] = $this->clusterModel->read_as_list_by_org($this->getOrgId());
 		$this->data['student'] = $this->userModel->read_by_id($std_id);
+		$this->data['child_category_list']  = getChildCategoryAsArray();
+		$this->data['social_party_list']    = $this->SocialParty->social_parity_as_list();
 		if(empty($this->data['student'])){
 			$this->session->set_flashdata('exception', display('no_record_found'));
 			redirect('animator/cstudent/index');

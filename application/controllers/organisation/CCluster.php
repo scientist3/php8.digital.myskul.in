@@ -37,7 +37,7 @@ class CCluster extends ClusterController
 		#-------------------------------#
 		try {
 			$this->addOrUpdateCluster($this->objCluster);
-		} catch (\Throwable $th) {
+		} catch (Throwable $th) {
 			redirect('organisation/ccluster/edit/' . $this->data['input']->cluster_id);
 		}
 	}

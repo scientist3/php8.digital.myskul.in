@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-require(APPPATH . 'controllers/coordinator/Coordinator.php');
+require(APPPATH . 'controllers/organisation/Organisation.php');
 
-class Cstakeholder extends Coordinator
+class Cstakeholder extends Organisation
 {
 	public function __construct()
 	{
@@ -23,8 +23,8 @@ class Cstakeholder extends Coordinator
 		$this->data['list_stakeholders'] = 'active';
 
 		$this->data['stakeholders'] = $this->StakeholderModel->readStakeholdersByOrgId( $this->getOrgId() );
-		$this->data['stakeholder_details'] = (object) $this->StakeholderModel->countStakeholdersByClusterIdByStakeholderType( $this->getClusterId() );
+		$this->data['stakeholder_details'] = (object) $this->StakeholderModel->countStakeholdersByOrgIdByStakeholderType( $this->getOrgId() );
 
-		$this->renderView('coordinator/stakeholder/index', $this->data);
+		$this->renderView('organisation/stakeholder/index', $this->data);
 	}
 }

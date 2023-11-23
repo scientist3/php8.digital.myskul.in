@@ -141,7 +141,25 @@
 
 					</ul>
 				</li>
-
+                <!-- stakeholders -->
+                <li class="nav-item <?php echo $stakeholder_menu ?? null; ?>">
+                    <a href="#" class="nav-link <?php echo isset($stakeholder_menu) ? 'active' : null; ?>">
+                        <i class="nav-icon fa fa-users"></i>
+                        <p>
+							<?php echo display('stakeholders'); ?>
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?php echo base_url("organisation/cstakeholder/index") ?>"
+                               class="nav-link <?php echo $list_stakeholders ?? null; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p><?php echo display('list_stakeholders_volunteer'); ?></p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 				<!-- Users -->
 				<li class="nav-item <?php echo $user_menu ?? null; ?>">
 					<a href="#" class="nav-link <?php echo isset($user_menu) ? 'active' : null; ?>">

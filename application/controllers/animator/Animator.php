@@ -53,7 +53,7 @@ class Animator extends CI_Controller
 		$this->data['assigned_centers'] = $this->fetchLoggedInUserCenterList();
 		$this->data['user_role_list'] 	= Userrole1::getBasicRoleNamesAsArray();
 		$this->arrCenterIds				      = rekeyStdClassArray('center_id',$this->data['assigned_centers']);
-		$this->data['center_list']      = $this->getAllocatedCentersAsList();
+		$this->data['center_list']      = $this->getAllocatedCentersAsListWithAll();
 	}
 
 	private function loadActiveCenter(): void
@@ -173,6 +173,10 @@ class Animator extends CI_Controller
 
 	public function getActiveCenterId(): int | array
 	{
+		if('all' == $this->active_center_id){
+			// $this->session->set_userdata('active_center_id',key($this->arrCenterIds));
+			$this->active_center_id = key($this->arrCenterIds);
+		}
 		return $this->active_center_id;
 	}
 
@@ -185,9 +189,18 @@ class Animator extends CI_Controller
 		return $this->arrCenterIds;
 	}
 
-	public function getAllocatedCentersAsList(): array
+	public function getAllocatedCentersAsListWithAll(): array
 	{
 		$data = ['all' => "All Centers"];
+		foreach ($this->arrCenterIds as $centerId => $center) {
+			$data[$centerId] = $center->center_name;
+		}
+		return $data;
+	}
+	public function getAllocatedCentersAsList(): array
+	{
+		//$data = ['' => "Select Center"];
+		$data = [];
 		foreach ($this->arrCenterIds as $centerId => $center) {
 			$data[$centerId] = $center->center_name;
 		}
@@ -246,6 +259,7 @@ class Userrole1
 				self::STUDENT => 'Student'
 			);
 		}
+		
 		public static function getCASRoleNamesAsArray()
 		{
 			return array(

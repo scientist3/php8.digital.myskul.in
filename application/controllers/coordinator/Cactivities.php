@@ -47,9 +47,7 @@ class Cactivities extends Coordinator
 
 		$this->loadLists();
 		$this->data['all_students']                 = $this->ActivitiesModel->getApprovalStudentsByCategoryByOrgByClusterId($this->getOrgId(), $this->getClusterId(), $category, $status);
-		// $this->data['not_submitted_students']    = $this->getStudentsByStatus('not_submitted');
-		// $this->data['pending_students']          = $this->getStudentsByStatus('pending');
-		// $this->data['approved_students']         = $this->getStudentsByStatus('approved');
+
 		$this->renderView('coordinator/activities/student_session_listing', $this->data);
 	}
 
@@ -90,6 +88,7 @@ class Cactivities extends Coordinator
 
 		$this->renderView('coordinator/activities/student_cncp_listing', $this->data);
 	}
+
 	public function submitForCncpApprove(): void
 	{
 		$this->data['title'] = "Student Session Report";
@@ -131,6 +130,7 @@ class Cactivities extends Coordinator
 
 		$this->renderView('coordinator/activities/student_cncp_supported_listing', $this->data);
 	}
+
 	public function submitForCncpSupportedApprove(): void
 	{
 		$this->data['title'] = "Student Session Report";
@@ -164,7 +164,7 @@ class Cactivities extends Coordinator
 		$_POST['status'] = $this->status = $status;
 		$this->data['title'] = "Student CNCP Supported Report";
 		$this->data['PageTitle'] = display('list_student');
-		$this->data['activities_menu'] = 'menu-open';
+		$this->data['mhpss_menu'] = 'menu-open';
 		$this->data['psycho_educated_option'] = 'active';
 
 		$this->loadLists();
@@ -172,6 +172,7 @@ class Cactivities extends Coordinator
 
 		$this->renderView('coordinator/activities/student_psycho_educated_listing', $this->data);
 	}
+
 	public function submitForPsychoEducatedApprove(): void
 	{
 		$this->data['title'] = "Student Session Report";
@@ -205,7 +206,7 @@ class Cactivities extends Coordinator
 		$_POST['status'] = $this->status = $status;
 		$this->data['title'] = "Student CNCP Supported Report";
 		$this->data['PageTitle'] = display('list_student');
-		$this->data['activities_menu'] = 'menu-open';
+		$this->data['mhpss_menu'] = 'menu-open';
 		$this->data['primary_counselling_option'] = 'active';
 
 		$this->loadLists();
@@ -213,6 +214,7 @@ class Cactivities extends Coordinator
 
 		$this->renderView('coordinator/activities/student_primary_counseling_listing', $this->data);
 	}
+
 	public function submitForPrimaryCounselingApprove(): void
 	{
 		$this->data['title'] = "Student Session Report";
@@ -247,13 +249,14 @@ class Cactivities extends Coordinator
 		$this->data['title'] = "Student CNCP Supported Report";
 		$this->data['PageTitle'] = display('list_student');
 		$this->data['activities_menu'] = 'menu-open';
-		$this->data['sec_ter_serv_option'] = 'active';
+		$this->data['sec_serv_option'] = 'active';
 
 		$this->loadLists();
 		$this->data['all_students']             = $this->ActivitiesModel->getApprovalStudentsByCategoryByOrgByClusterId($this->getOrgId(), $this->getClusterId(), $category, $status);
 
 		$this->renderView('coordinator/activities/student_secondary_counseling_listing', $this->data);
 	}
+
 	public function submitForSecondaryCounselingApprove(): void
 	{
 		$this->data['title'] = "Student Session Report";
@@ -280,6 +283,48 @@ class Cactivities extends Coordinator
 		$this->session->set_flashdata('message', display('submitted_successfully'));
 		redirect('coordinator/cactivities/studentSecondaryCounselingListing');
 	}
+	
+	public function studentTertiaryCounselingListing($category = 'tertiary_counselling_status', $status = '1'): void
+	{
+		$_POST['category'] = $this->category = $category;
+		$_POST['status'] = $this->status = $status;
+		$this->data['title'] = "Student Tertiary Report";
+		$this->data['PageTitle'] = display('list_student');
+		$this->data['activities_menu'] = 'menu-open';
+		$this->data['ter_serv_option'] = 'active';
+		
+		$this->loadLists();
+		$this->data['all_students']             = $this->ActivitiesModel->getApprovalStudentsByCategoryByOrgByClusterId($this->getOrgId(), $this->getClusterId(), $category, $status);
+		
+		$this->renderView('coordinator/activities/student_tertiary_counseling_listing', $this->data);
+	}
+	
+	public function submitForTertiaryCounselingApprove(): void
+	{
+		$this->data['title'] = "Student Session Report";
+		$this->data['PageTitle'] = display('list_student');
+		$this->data['activities_menu'] = 'menu-open';
+		$this->data['std_sess_comp_option'] = 'active';
+		
+		if (is_array($this->input->post('students'))) {
+			foreach ($this->input->post('students') as $user_id) {
+				$data['students'][] = [
+					'user_id' => $user_id
+				];
+			}
+		} else {
+			$this->session->set_flashdata('exception', display('please_try_again_no_student_selected'));
+			redirect('coordinator/cactivities/studentTertiaryCounselingListing');
+		}
+		
+		$data['update'] = [
+			'user_ids' => array_keys(rekeyArray('user_id', $data['students'])),
+			'set' => ['tertiary_counselling_status' => 2]
+		];
+		$this->ActivitiesModel->updateByColumn($data['update']);
+		$this->session->set_flashdata('message', display('submitted_successfully'));
+		redirect('coordinator/cactivities/studentTertiaryCounselingListing');
+	}
 
 	public function studentPsychoSocialWellBeingListing($category = 'well_being_status', $status = '1'): void
 	{
@@ -295,6 +340,7 @@ class Cactivities extends Coordinator
 
 		$this->renderView('coordinator/activities/student_well_being_listing', $this->data);
 	}
+
 	public function submitForPsychoSocialWellBeingApprove(): void
 	{
 		$this->data['title'] = "Student Session Report";
@@ -322,7 +368,6 @@ class Cactivities extends Coordinator
 		redirect('coordinator/cactivities/studentSecondaryCounselingListing');
 	}
 
-
 	public function studentCarePlanListing($category = 'care_plan_status', $status = '1'): void
 	{
 		$_POST['category'] = $this->category = $category;
@@ -336,6 +381,7 @@ class Cactivities extends Coordinator
 		$this->data['all_students'] = $this->ActivitiesModel->getApprovalStudentsByCategoryByOrgByClusterId($this->getOrgId(), $this->getClusterId(), $category, $status);
 		$this->renderView('coordinator/activities/student_care_plan_listing', $this->data);
 	}
+
 	public function submitForCarePlanApprove(): void
 	{
 		$this->data['title'] = "Student Session Report";
@@ -362,6 +408,4 @@ class Cactivities extends Coordinator
 		$this->session->set_flashdata('message', display('submitted_successfully'));
 		redirect('coordinator/cactivities/studentCarePlanListing');
 	}
-
-
 }

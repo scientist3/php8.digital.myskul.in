@@ -129,7 +129,7 @@
                             <a href="<?php echo base_url("coordinator/cstakeholder/index") ?>"
                                class="nav-link <?php echo $list_stakeholders ?? null; ?>">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p><?php echo display('list_stakeholders'); ?></p>
+                                <p><?php echo display('list_stakeholders_volunteer'); ?></p>
                             </a>
                         </li>
                     </ul>
@@ -175,74 +175,93 @@
 					</ul>
 				</li>
 
-        <!-- Activities-->
-        <li class="nav-item <?php echo $activities_menu ?? null; ?>">
-          <a href="#" class="nav-link <?php echo isset($activities_menu) ? 'active' : null; ?>">
-            <i class="nav-icon fa fa-user"></i>
-            <p><?php echo display('authentication'); ?>
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="<?php echo base_url("coordinator/cactivities/studentSessionListing") ?>" class="nav-link <?php echo $std_sess_comp_option ?? null; ?>">
-                <i class="far fa-circle nav-icon"></i>
-                <p><?php echo display('session_completed_students'); ?></p>
-              </a>
-            </li>
+                <!-- MHPSS -->
+                <li class="nav-item <?php echo $mhpss_menu ?? null; ?>">
+                    <a href="#" class="nav-link <?php echo isset($mhpss_menu) ? 'active' : null; ?>">
+                        <i class="nav-icon fa fa-user"></i>
+                        <p><?php echo display('MHPSS'); ?>
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <!-- Psycho Educated -->
+                        <li class="nav-item">
+                            <a href="<?php echo base_url("coordinator/cactivities/studentPsychoEducatedListing") ?>" class="nav-link <?php echo $psycho_educated_option ?? null; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p><?php echo display('psycho_educated'); ?></p>
+                            </a>
+                        </li>
+                        <!-- Primary Counselling -->
+                        <li class="nav-item">
+                            <a href="<?php echo base_url("coordinator/cactivities/studentPrimaryCounselingListing") ?>" class="nav-link <?php echo $primary_counselling_option ?? null; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p><?php echo display('primary_counselling_status'); ?></p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
-            <li class="nav-item">
-              <a href="<?php echo base_url("coordinator/cactivities/studentCncpListing") ?>" class="nav-link <?php echo $cncp_enrolled_option ?? null; ?>">
-                <i class="far fa-circle nav-icon"></i>
-                <p><?php echo display('cncp_enrolled'); ?></p>
-              </a>
-            </li>
+                <!-- Referral Linkage -->
+                <li class="nav-item <?php echo $activities_menu ?? null; ?>">
+                    <a href="#" class="nav-link <?php echo isset($activities_menu) ? 'active' : null; ?>">
+                        <i class="nav-icon fa fa-user"></i>
+                        <p><?php echo display('referral_linkage'); ?>
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <!-- Session Completed students -->
+                        <li class="nav-item">
+                            <a href="<?php echo base_url("coordinator/cactivities/studentSessionListing") ?>" class="nav-link <?php echo $std_sess_comp_option ?? null; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p><?php echo display('session_completed_students'); ?></p>
+                            </a>
+                        </li>
+                        <!-- CNCP Enrolled/Identified -->
+                        <li class="nav-item">
+                            <a href="<?php echo base_url("coordinator/cactivities/studentCncpListing") ?>" class="nav-link <?php echo $cncp_enrolled_option ?? null; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p><?php echo display('cncp_identified'); ?></p>
+                            </a>
+                        </li>
+                        <!-- CNCP Supported -->
+                        <li class="nav-item">
+                            <a href="<?php echo base_url("coordinator/cactivities/studentCncpSupportedListing") ?>" class="nav-link <?php echo $cncp_supported_option ?? null; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p><?php echo display('cncp_supported'); ?></p>
+                            </a>
+                        </li>
+                        <!-- Secondary/Tertiary Counselling  -->
+                        <li class="nav-item">
+                            <a href="<?php echo base_url("coordinator/cactivities/studentSecondaryCounselingListing") ?>" class="nav-link <?php echo $sec_serv_option ?? null; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p><?php echo display('secondary_counselling_status,'); ?></p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?php echo base_url("coordinator/cactivities/studentTertiaryCounselingListing") ?>" class="nav-link <?php echo $ter_serv_option ?? null; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p><?php echo display('tertiary_counselling_status'); ?></p>
+                            </a>
+                        </li>
+                        <!-- Psycho Social Well Being -->
+                        <li class="nav-item">
+                            <a href="<?php echo base_url("coordinator/cactivities/studentPsychoSocialWellBeingListing") ?>" class="nav-link <?php echo $psycho_social_well_being_option ?? null; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p><?php echo display('psycho_social_well_being'); ?></p>
+                            </a>
+                        </li>
+                        <!-- Care Plans -->
+                        <li class="nav-item">
+                            <a href="<?php echo base_url("coordinator/cactivities/studentCarePlanListing") ?>" class="nav-link <?php echo $care_plans_option ?? null; ?>">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p><?php echo display('care_plans'); ?></p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
-            <li class="nav-item">
-              <a href="<?php echo base_url("coordinator/cactivities/studentCncpSupportedListing") ?>" class="nav-link <?php echo $cncp_supported_option ?? null; ?>">
-                <i class="far fa-circle nav-icon"></i>
-                <p><?php echo display('cncp_supported'); ?></p>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a href="<?php echo base_url("coordinator/cactivities/studentPsychoEducatedListing") ?>" class="nav-link <?php echo $psycho_educated_option ?? null; ?>">
-                <i class="far fa-circle nav-icon"></i>
-                <p><?php echo display('psycho_educated'); ?></p>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a href="<?php echo base_url("coordinator/cactivities/studentPrimaryCounselingListing") ?>" class="nav-link <?php echo $primary_counselling_option ?? null; ?>">
-                <i class="far fa-circle nav-icon"></i>
-                <p><?php echo display('primary_counselling_status'); ?></p>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a href="<?php echo base_url("coordinator/cactivities/studentSecondaryCounselingListing") ?>" class="nav-link <?php echo $sec_ter_serv_option ?? null; ?>">
-                <i class="far fa-circle nav-icon"></i>
-                <p><?php echo display('secondary_tertiary_service'); ?></p>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a href="<?php echo base_url("coordinator/cactivities/studentPsychoSocialWellBeingListing") ?>" class="nav-link <?php echo $psycho_social_well_being_option ?? null; ?>">
-                <i class="far fa-circle nav-icon"></i>
-                <p><?php echo display('psycho_social_well_being'); ?></p>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a href="<?php echo base_url("coordinator/cactivities/studentCarePlanListing") ?>" class="nav-link <?php echo $care_plans_option ?? null; ?>">
-                <i class="far fa-circle nav-icon"></i>
-                <p><?php echo display('care_plans'); ?></p>
-              </a>
-            </li>
-          </ul>
-        </li>
-
-        <!-- Message -->
+                <!-- Message -->
 				<li class="nav-item <?php echo $message_menu ?? null; ?>">
 					<a href="#" class="nav-link <?php echo isset($message_menu) ? 'active' : null; ?>">
 						<i class="nav-icon fa fa-envelope"></i>

@@ -71,7 +71,7 @@ class MaterialController extends CI_Controller
 	}
 	public function getUserService()
 	{
-		return $this->objUserService;;
+		return $this->objUserService;
 	}
 	/* -------- Start Section CCluster ------------ */
 	public function getClusterObject()

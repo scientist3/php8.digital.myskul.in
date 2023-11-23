@@ -52,13 +52,13 @@
             <a class="nav-link active" id="custom-tabs-for-all-students-tab" data-toggle="pill" href="#custom-tabs-for-all-students" role="tab" aria-controls="custom-tabs-for-all-students" aria-selected="true">All Students</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="custom-tabs-for-not-submitted-tab" data-toggle="pill" href="#custom-tabs-for-not-submitted" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Identified</a>
+            <a class="nav-link" id="custom-tabs-for-not-submitted-tab" data-toggle="pill" href="#custom-tabs-for-not-submitted" role="tab" aria-controls="custom-tabs-four-profile" aria-selected="false">Not Submitted</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" id="custom-tabs-for-pending-tab" data-toggle="pill" href="#custom-tabs-for-pending" role="tab" aria-controls="custom-tabs-four-messages" aria-selected="false">Pending Approval</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="custom-tabs-for-approved-tab" data-toggle="pill" href="#custom-tabs-for-approved" role="tab" aria-controls="custom-tabs-four-settings" aria-selected="false">Linked</a>
+            <a class="nav-link" id="custom-tabs-for-approved-tab" data-toggle="pill" href="#custom-tabs-for-approved" role="tab" aria-controls="custom-tabs-four-settings" aria-selected="false">Completed/Approved</a>
           </li>
         </ul>
       </div>
@@ -109,7 +109,7 @@
             </table>
           </div>
           <div class="tab-pane fade" id="custom-tabs-for-not-submitted" data-category="cncp_status" data-status="0" role="tabpanel" aria-labelledby="custom-tabs-for-not-submitted-tab">
-            <form role="form" action="<?php echo site_url('animator/cactivities/submitForCncpSupportedApproval') ?>" method="post" class="">
+            <form role="form" action="<?php echo site_url('animator/cactivities/submitForSecondaryCounsellingApproval') ?>" method="post" class="">
               <!-- Display not submitted students here -->
               <table id="userTableNotSubmitted" class="datatable_new table table-bordered table-striped table-hovers">
                 <thead>
@@ -137,7 +137,7 @@
                   <?php if (!empty($all_students)) { ?>
                     <?php $sl = 1; ?>
                     <?php foreach ($all_students as $user) { ?>
-                      <?php if ($user->cncp_supported_status != 0) continue; ?>
+                      <?php if ($user->tertiary_counselling_status != 0) continue; ?>
                       <tr class="<?php echo ($sl & 1) ? "odd gradeX" : "even gradeC" ?>">
                         <td>
                           <div class="form-groupp d-flex justify-content-center align-items-center">
@@ -190,7 +190,7 @@
                 <?php if (!empty($all_students)) { ?>
                   <?php $sl = 1; ?>
                   <?php foreach ($all_students as $user) { ?>
-                    <?php if ($user->cncp_supported_status != 1) continue; ?>
+                    <?php if ($user->tertiary_counselling_status != 1) continue; ?>
                     <tr class="<?php echo ($sl & 1) ? "odd gradeX" : "even gradeC" ?>">
 
                       <td><?php echo $sl; ?></td>
@@ -240,7 +240,7 @@
                 <?php if (!empty($all_students)) { ?>
                   <?php $sl = 1; ?>
                   <?php foreach ($all_students as $user) { ?>
-                    <?php if ($user->cncp_supported_status != 2) continue; ?>
+                    <?php if ($user->tertiary_counselling_status != 2) continue; ?>
                     <tr class="<?php echo ($sl & 1) ? "odd gradeX" : "even gradeC" ?>">
                       <td><?php echo $sl; ?></td>
                       <td><?php echo ucfirst($user->firstname); ?></td>

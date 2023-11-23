@@ -45,8 +45,8 @@ class CStudent extends Coordinator
 
 		$this->data['district_list'] = getDistrictListAsArray();
 		$this->data['cluster_list'] = $this->clusterModel->read_as_list_by_org($this->getOrgId());
-		//$this->data['center_list'] = $this->centerModel->read_as_list1($this->getOrgId());
-
+		$this->data['child_category_list']  = getChildCategoryAsArray();
+		$this->data['social_party_list']    = $this->SocialParty->social_parity_as_list();
 		// Handle POST data
 		$postData = $this->preparePostData();
 		$this->data['student'] = (object) $postData;
@@ -79,6 +79,8 @@ class CStudent extends Coordinator
 			'password' => md5('password'/*$this->input->post('password')*/),
 			'district' => $this->input->post('district'),
 			'school_level' => $this->input->post('school_level'),
+			'socail_status' => $this->input->post('social_party'),
+			'child_category_id' => $this->input->post('child_category_id'),
 			'sex' => $this->input->post('sex'),
 			'age' => $this->input->post('age'),
 			'school_status' => $this->input->post('school_status'),
@@ -151,6 +153,8 @@ class CStudent extends Coordinator
 		$this->data['district_list'] = getDistrictListAsArray();
 		$this->data['cluster_list'] = $this->clusterModel->read_as_list_by_org($this->getOrgId());
 		$this->data['student'] = $this->userModel->read_by_id($std_id);
+		$this->data['child_category_list']  = getChildCategoryAsArray();
+		$this->data['social_party_list']    = $this->SocialParty->social_parity_as_list();
 		if(empty($this->data['student'])){
 			$this->session->set_flashdata('exception', display('no_record_found'));
 			redirect('coordinator/cstudent/index');

@@ -111,7 +111,10 @@
 											<input type="radio" name="age" value="12-18" <?php echo  set_radio('age', '12-18'); ?>>
 											12-18 Years
 										</label>
-
+                                        <label class="btn btn-secondary">
+                                            <input type="radio" name="age" value="parent" <?php echo ($student->age == 'parent')?'checked':''; ?>>
+                                            Parent
+                                        </label>
 									</div>
 								</div>
 							</div>
@@ -132,36 +135,54 @@
 								</div>
 							</div>
 
-							<!-- School Level -->
-							<div class="col-sm-6 col-md-6">
-								<div class="form-group ">
-									<label for="school_level"><?php echo display('school_level') ?></label>
-									<?php $school_level = array(
-										''   => display('select_option'),
-										'Primary' => 'Primary',
-										'Middle' => 'Middle',
-										'High School' => 'High School'
-
-									);
-									echo form_dropdown('school_level', $school_level, $student->school_level, 'class="form-control" id="school_level" ');
-									?>
-								</div>
-							</div>
-							<div class="col-sm-6 col-md-6">
+                            <!-- Father Name -->
+                            <div class="col-sm-6 col-md-6">
 								<div class="form-group">
 									<label for="father_name"><?php echo display('father_name') ?></label>
 									<input name="father_name" class="form-control" type="text" placeholder="<?php echo display('father_name') ?>" id="father_name" value="<?php echo $student->father_name ?>">
 								</div>
 							</div>
-
-							<!-- Mother Name -->
+                            
+                            <!-- Mother Name -->
 							<div class="col-sm-6 col-md-6">
 								<div class="form-group ">
 									<label for="mother_name"><?php echo display('mother_name') ?></label>
 									<input name="mother_name" class="form-control" type="text" placeholder="<?php echo display('mother_name') ?>" id="mother_name" value="<?php echo $student->mother_name ?>">
 								</div>
 							</div>
+                            
+                            <!-- School Level -->
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group ">
+                                    <label for="school_level"><?php echo display('school_level') ?></label>
+                                    <?php $school_level = array(
+                                        ''   => display('select_option'),
+                                        'Primary' => 'Primary',
+                                        'Middle' => 'Middle',
+                                        'High School' => 'High School'
+                                    
+                                    );
+                                        echo form_dropdown('school_level', $school_level, $student->school_level, 'class="form-control" id="school_level" ');
+                                    ?>
+                                </div>
+                            </div>
+                            
+                            <!-- Social Parity  -->
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group ">
+                                    <label for="social_party"><?php echo display('social_party') ?></label>
+                                    <?php echo form_dropdown('social_party', $social_party_list, $student->socail_status, 'class="form-control" id="social_party" '); ?>
+                                </div>
+                            </div>
 
+                            <!-- Child Category -->
+                            <div class="col-sm-6 col-md-6">
+                                <div class="form-group ">
+                                    <label for="child_category_id"><?php echo display('child_category') ?></label>
+                                    <?php echo form_dropdown('child_category_id', $child_category_list, $student->child_category_id, 'class="form-control" id="child_category_id" '); ?>
+                                </div>
+                            </div>
+                            
 							<!-- Enrollment Date -->
 							<div class="col-sm-6 col-md-6">
 								<div class="form-group ">

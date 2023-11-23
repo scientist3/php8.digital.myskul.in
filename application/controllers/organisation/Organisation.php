@@ -115,12 +115,12 @@ class Organisation extends CI_Controller
 
 	public function getOrgId()
 	{
-		return !empty($this->orgId) ? $this->orgId : redirect('login');;
+		return !empty($this->orgId) ? $this->orgId : redirect('login');
 	}
 
 	public function getClusterId()
 	{
-		return isset($this->data['cluster']->cluster_id) ? $this->data['cluster']->cluster_id : redirect('login');;
+		return isset($this->data['cluster']->cluster_id) ? $this->data['cluster']->cluster_id : redirect('login');
 	}
 
 	public function getObjUserService()
@@ -128,6 +128,7 @@ class Organisation extends CI_Controller
 		return $this->objUserService;
 	}
 }
+
 class Userrole1
 {
 	const ADMIN = 1;
@@ -135,6 +136,7 @@ class Userrole1
 	const CLUSTER_COORDINATOR = 3;
 	const ANIMATOR = 4;
 	const STUDENT = 5;
+	const STAKEHOLDER = 6;
 
 	public static function getRoleName($role)
 	{

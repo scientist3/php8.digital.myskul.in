@@ -28,17 +28,12 @@ class CCenter extends CenterController
 
 		$this->user_id                = $user_id = $this->session->userdata('user_id');
 		$this->organisation           = $this->organisation_model->read_orgheads_org($user_id);
-		//$this->data['user_role_list'] = $this->dashboard_model->get_user_roles();
 
 		$this->objCenterService 			= new $this->centerservice();
 		$this->data['center_type'] 		= $this->objCenterService->fetchCenterTypeAsList();
-		//print_r($this->organisation);
 	}
 	public function index()
 	{
-		// $this->data['centers']     = $this->objCenterService->fetchCentersByOrgId($this->organisation->org_id);
-		// $this->data['content']     = $this->load->view('organisation/center/list', $this->data, true);
-		// $this->load->view('organisation/starter/starter_layout', $this->data);
 		$this->create();
 	}
 
@@ -56,21 +51,23 @@ class CCenter extends CenterController
 		$this->data['animator_list']	= $this->objCenterService->fetchAnimatorListByOrgId($this->organisation->org_id);
 		$this->data['cluster_list']		= $this->objCenterService->fetchClusterListByOrgId($this->organisation->org_id);
 		$this->data['centers']				= $this->objCenterService->fetchCentersByOrgId($this->organisation->org_id);
-
-		$this->form_validation->set_rules('center_name', display('center_name'), 'required|max_length[150]|is_unique[center.center_name]');
+		if(null != $this->input->post('center_id')){
+			$this->form_validation->set_rules('center_name', display('center_name'), 'required|max_length[150]');
+		}else{
+			$this->form_validation->set_rules('center_name', display('center_name'), 'required|max_length[150]|is_unique[center.center_name]');
+		}
 		$this->form_validation->set_rules('center_cluster_id', display('cluster_name'), 'required');
 		$this->form_validation->set_rules('center_head_id', display('animator'), 'required');
 
 		#-------------------------------# create an Organisation
 		// center_id    center_name    center_head_id    center_cluster_id
-		//if ($org_id == null) {
 		$this->data['center'] = (object) $postData = [
 			'center_id'         => $this->input->post('center_id'),
 			'center_name'       => $this->input->post('center_name', true),
 			'center_head_id'    => $this->input->post('center_head_id'),
 			'center_cluster_id' => $this->input->post('center_cluster_id'),
 			'center_type_id' 		=> $this->input->post('center_type_id'),
-		]; // update patient
+		]; // update center
 
 		#-------------------------------#
 		if ($this->form_validation->run() === true) {
