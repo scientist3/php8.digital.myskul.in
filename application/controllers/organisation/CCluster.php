@@ -2,7 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require(APPPATH . 'controllers/ClusterController.php');
 
-class CCluster extends ClusterController
+class Ccluster extends ClusterController
 {
 	private $objCluster;
 	public function __construct()

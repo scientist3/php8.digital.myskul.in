@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 require(APPPATH . 'controllers/CenterController.php');
-class CCenter extends CenterController
+class Ccenter extends CenterController
 {
 	public $data;
 	public $objCenterService;

@@ -2,7 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require(APPPATH . 'controllers/coordinator/MaterialController.php');
 
-class CMaterial extends MaterialController
+class Cmaterial extends MaterialController
 {
 	private $organisation;
 	private $user_id;

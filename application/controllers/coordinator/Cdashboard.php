@@ -2,7 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require(APPPATH . 'controllers/coordinator/DashboardController.php');
 
-class CDashboard extends DashboardController
+class Cdashboard extends DashboardController
 {
 	public function __construct()
 	{

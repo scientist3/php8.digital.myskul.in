@@ -2,7 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require(APPPATH . 'controllers/UsersController.php');
 
-class CUser extends UsersController
+class Cuser extends UsersController
 {
 	private $user_id;
 

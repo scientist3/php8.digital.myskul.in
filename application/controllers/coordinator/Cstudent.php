@@ -2,7 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require(APPPATH . 'controllers/coordinator/Coordinator.php');
 
-class CStudent extends Coordinator
+class Cstudent extends Coordinator
 {
 	//private $organisation;
 	private $user_id;

@@ -2,7 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require(APPPATH . 'controllers/animator/Animator.php');
 
-class CStudent extends Animator
+class Cstudent extends Animator
 {
 	//private $organisation;
 	private $user_id;

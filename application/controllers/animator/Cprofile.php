@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-require(APPPATH . 'controllers/coordinator/Coordinator.php');
+require(APPPATH . 'controllers/animator/Animator.php');
 
-class CProfile extends Coordinator
+class Cprofile extends Animator
 {
 	public function __construct()
 	{
@@ -16,8 +16,8 @@ class CProfile extends Coordinator
 		$this->data['PageTitle'] = "User Profile";
 		$this->data['profile_active'] = 'active';
 
-		$this->data['user'] = $this->fetchLoggedInUserDetails();
-		$this->renderView('coordinator/profile/index', $this->data);
+		$this->data['user'] = $this->fetchLogedInUserDetails();
+		$this->renderView('animator/profile/index', $this->data);
 	}
 
 	public function saveProfile()
@@ -36,8 +36,8 @@ class CProfile extends Coordinator
 		}
 
 		// Load the view files
-		$this->data['user'] = $this->fetchLoggedInUserDetails();
-		$this->renderView('coordinator/profile/index', $this->data);
+		$this->data['user'] = $this->fetchLogedInUserDetails();
+		$this->renderView('animator/profile/index', $this->data);
 	}
 
 	private function getObjProfile()
@@ -103,7 +103,7 @@ class CProfile extends Coordinator
 				}
 
 				// Redirect to the profile page
-				redirect('coordinator/cprofile/');
+				redirect('animator/cprofile/');
 			} else {
 				// Set exception message
 				$this->session->set_flashdata('exception', display('please_try_again'));
@@ -111,7 +111,7 @@ class CProfile extends Coordinator
 		}
 	}
 
-	public function uploadPicture($path = "uploads/coordinator/profilepic/", $fieldname = 'picture'): ?string
+	public function uploadPicture($path = "uploads/animator/profilepic/", $fieldname = 'picture'): ?string
 	{
 		//picture upload
 		$picture = $this->fileupload->do_upload(

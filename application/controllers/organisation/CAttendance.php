@@ -2,7 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require(APPPATH . 'controllers/OrganisationController.php');
 
-class CAttendance extends OrganisationController
+class Cattendance extends OrganisationController
 {
 	private $user_id;
 	private $objAttendanceFilter;

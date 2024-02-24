@@ -2,7 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require(APPPATH . 'controllers/coordinator/CenterController.php');
 
-class CCenter extends CenterController
+class Ccenter extends CenterController
 {
 
 	public function __construct()

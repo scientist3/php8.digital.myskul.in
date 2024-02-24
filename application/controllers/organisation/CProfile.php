@@ -2,7 +2,7 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 require(APPPATH . 'controllers/OrganisationController.php');
 
-class CProfile extends OrganisationController
+class Cprofile extends OrganisationController
 {
 	public function __construct()
 	{
