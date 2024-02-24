@@ -24,7 +24,7 @@ class CenterController extends Coordinator
 		return $this->user_id;
 	}
 
-	public function getObjCenterService(): mixed
+	public function getObjCenterService()
 	{
 		return $this->objCenterService;
 	}

@@ -198,5 +198,12 @@
 				}
 			]
 		}).buttons().container().appendTo('.dataTables_wrapper .col-md-6:eq(0)');
+		// Function to handle the "Select All" checkbox
+		$('#selectAllCheckbox').on('change', function() {
+			var isChecked = $(this).prop('checked');
+			// Find all the checkboxes in the DataTable's body and set their checked status
+			$('.js-student-not-enrolled', ).prop('checked', isChecked);
+
+		});
 	});
 </script>

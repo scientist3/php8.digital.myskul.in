@@ -162,7 +162,7 @@ class Cactivities extends Coordinator
 	{
 		$_POST['category'] = $this->category = $category;
 		$_POST['status'] = $this->status = $status;
-		$this->data['title'] = "Student CNCP Supported Report";
+		$this->data['title'] = "Student Psycho Educated Report";
 		$this->data['PageTitle'] = display('list_student');
 		$this->data['mhpss_menu'] = 'menu-open';
 		$this->data['psycho_educated_option'] = 'active';
@@ -193,7 +193,7 @@ class Cactivities extends Coordinator
 
 		$data['update'] = [
 			'user_ids' => array_keys(rekeyArray('user_id', $data['students'])),
-			'set' => ['cncp_status' => 2]
+			'set' => ['psycho_educated_status' => 2]
 		];
 		$this->ActivitiesModel->updateByColumn($data['update']);
 		$this->session->set_flashdata('message', display('submitted_successfully'));

@@ -51,7 +51,7 @@
        <h3 class="card-title"><i class="fa fa-list"></i> <?php echo $title; ?></h3>
       </div>
       <div class="card-body">
-        <form role="form" action="<?php echo site_url('coordinator/cactivities/submitForCncpApprove') ?>" method="post" class="">
+        <form role="form" action="<?php echo site_url('coordinator/cactivities/submitForPsychoEducatedApprove') ?>" method="post" class="">
           <!-- Display not submitted students here -->
           <table id="userTableNotSubmitted" class="datatable_new table table-bordered table-striped table-hovers">
             <thead>
@@ -79,7 +79,7 @@
 			      <?php if (!empty($all_students)) { ?>
 				      <?php $sl = 1; ?>
 				      <?php foreach ($all_students as $user) { ?>
-					      <?php if ($user->cncp_status != 1) continue; ?>
+					      <?php if ($user->psycho_educated_status != 1) continue; ?>
                 <tr class="<?php echo ($sl & 1) ? "odd gradeX" : "even gradeC" ?>">
                   <td>
                     <div class="form-groupp d-flex justify-content-center align-items-center">
@@ -198,5 +198,13 @@
 				}
 			]
 		}).buttons().container().appendTo('.dataTables_wrapper .col-md-6:eq(0)');
+
+		// Function to handle the "Select All" checkbox
+		$('#selectAllCheckbox').on('change', function() {
+			var isChecked = $(this).prop('checked');
+			// Find all the checkboxes in the DataTable's body and set their checked status
+			$('.js-student-not-enrolled', ).prop('checked', isChecked);
+
+		});
 	});
 </script>
