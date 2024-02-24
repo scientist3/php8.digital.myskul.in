@@ -110,7 +110,7 @@ class Message extends Animator
 		} else {
 			$this->data['title'] = display('new_message');
 			$this->data['designation_list'] = UserRole1::getBasicRoleNamesAsArray();
-			$this->data['user_list'] = $this->userModel->user_by_role_as_list_for_animator_nojson(null, $this->getUserId(), $this->org_id, $this->cluster_id);
+			$this->data['user_list'] = $this->userModel->user_by_role_as_list_for_coordinator_nojson(null, $this->getUserId(), $this->org_id, $this->cluster_id);
 			$this->renderView('animator/messages/new_message', $this->data);
 		}
 	}
