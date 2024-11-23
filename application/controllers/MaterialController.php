@@ -82,7 +82,12 @@ class MaterialController extends CI_Controller
 	}
 	public function getOrgId()
 	{
-		return !empty($this->orgId)?$this->orgId:throw new Exception('Organisation id is missing.');
+		if (!empty($this->orgId)) {
+			return $this->orgId;
+		}
+
+		// Throw exception explicitly when orgId is missing
+		throw new Exception('Organisation id is missing.');
 	}
 	public function validateClusterForm()
 	{
