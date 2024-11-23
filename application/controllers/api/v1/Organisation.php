@@ -28,7 +28,7 @@ class Organisation extends CI_Controller
 
 		$this->user_id = $this->session->userdata('user_id');
 		$this->objUserService = new $this->userservice();
-//		var_dump($this->objUserService);
+		//		var_dump($this->objUserService);
 		$this->data['organisation']		= $this->getLoggedInUserOrganization();
 		$this->data['organisation'] = $this->getLoggedInUserOrganization();
 	}
@@ -51,7 +51,7 @@ class Organisation extends CI_Controller
 	}
 	private function extractPaginationParameters()
 	{
-		if($this->objUserService == null){
+		if($this->objUserService == null) {
 			$this->load->library('UserService');
 			$this->data['organisation'] = $this->getLoggedInUserOrganization();
 			$this->objUserService = new $this->userservice();
@@ -112,7 +112,7 @@ class Organisation extends CI_Controller
 			$sortOrder,
 			$searchValue,
 			$check
-			) = $this->extractPaginationParameters();
+		) = $this->extractPaginationParameters();
 
 
 		// Fetch users data with pagination and total count (you need to implement the method in UserService)
@@ -160,7 +160,7 @@ class Organisation extends CI_Controller
 			$sortOrder,
 			$searchValue,
 			$check
-			) = $this->extractPaginationParameters();
+		) = $this->extractPaginationParameters();
 
 
 		// Fetch users data with pagination and total count (you need to implement the method in UserService)
@@ -196,7 +196,12 @@ class Organisation extends CI_Controller
 
 	public function getOrgId()
 	{
-		return !empty($this->orgId) ? $this->orgId : throw new Exception('Organisation id is missing.');
+		if (!empty($this->orgId)) {
+			return $this->orgId;
+		}
+
+		// Throw exception explicitly when orgId is missing
+		throw new Exception('Organisation id is missing.');
 	}
 
 }
